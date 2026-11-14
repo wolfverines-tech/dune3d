@@ -13,7 +13,7 @@ PreferencesWindow::PreferencesWindow(Preferences &prefs) : Gtk::Window(), m_pref
     // set_type_hint();
     auto header = Gtk::make_managed<Gtk::HeaderBar>();
     header->set_show_title_buttons(true);
-    set_title("Preferences");
+    set_title("Préférences");
     set_titlebar(*header);
     // header->show();
 
@@ -28,21 +28,21 @@ PreferencesWindow::PreferencesWindow(Preferences &prefs) : Gtk::Window(), m_pref
 
     {
         auto ed = CanvasPreferencesEditor::create(m_preferences);
-        m_stack->add(*ed, "canvas", "Appearance");
+        m_stack->add(*ed, "canvas", "Apparence");
         ed->unreference();
     }
     {
         auto ed = Gtk::make_managed<MiscPreferencesEditor>(m_preferences);
-        m_stack->add(*ed, "editor", "Editor");
+        m_stack->add(*ed, "editor", "Éditeur");
     }
     {
         auto ed = KeySequencesPreferencesEditor::create(m_preferences);
-        m_stack->add(*ed, "keys", "Keys");
+        m_stack->add(*ed, "keys", "Touches");
         ed->unreference();
     }
     {
         auto ed = InToolKeySequencesPreferencesEditor::create(m_preferences);
-        m_stack->add(*ed, "in_tool_keys", "In-tool Keys");
+        m_stack->add(*ed, "in_tool_keys", "Touches dans les outils");
         ed->unreference();
     }
 

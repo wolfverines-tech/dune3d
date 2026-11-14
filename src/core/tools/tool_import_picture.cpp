@@ -44,7 +44,7 @@ ToolResponse ToolImportPicture::begin(const ToolArgs &args)
 
         auto filter_any = Gtk::FileFilter::create();
         filter_any->add_pixbuf_formats();
-        filter_any->set_name("Pictures");
+        filter_any->set_name("Images");
         filters->append(filter_any);
 
         dialog->set_filters(filters);
@@ -68,7 +68,7 @@ ToolResponse ToolImportPicture::begin(const ToolArgs &args)
     }
     else {
         auto clipboard = Gdk::Display::get_default()->get_clipboard();
-        m_intf.tool_bar_set_tool_tip("waiting for paste data");
+        m_intf.tool_bar_set_tool_tip("en attente des données à coller");
         clipboard->read_texture_async([this, clipboard](const Glib::RefPtr<Gio::AsyncResult> &result) {
             try {
                 m_intf.tool_update_data(std::make_unique<ToolDataTexture>(clipboard->read_texture_finish(result)));
@@ -127,7 +127,7 @@ ToolResponse ToolImportPicture::update(const ToolArgs &args)
                 add_picture(pic_data);
             }
             else {
-                m_intf.tool_bar_flash("no picture in clipboard");
+                m_intf.tool_bar_flash("aucune image dans le presse-papiers");
                 return ToolResponse::end();
             }
         }
@@ -165,13 +165,13 @@ void ToolImportPicture::update_tip()
 {
     std::vector<ActionLabelInfo> actions;
 
-    actions.emplace_back(InToolActionID::LMB, "place");
-    actions.emplace_back(InToolActionID::RMB, "cancel");
+    actions.emplace_back(InToolActionID::LMB, "placer");
+    actions.emplace_back(InToolActionID::RMB, "annuler");
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la contrainte");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la contrainte");
 
 
     std::vector<ConstraintType> constraint_icons;

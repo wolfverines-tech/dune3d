@@ -101,11 +101,11 @@ void ToolDrawCircle2D::update_tip()
     std::vector<ActionLabelInfo> actions;
 
     if (m_temp_circle)
-        actions.emplace_back(InToolActionID::LMB, "place radius");
+        actions.emplace_back(InToolActionID::LMB, "placer le rayon");
     else
-        actions.emplace_back(InToolActionID::LMB, "place center");
+        actions.emplace_back(InToolActionID::LMB, "placer le centre");
 
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
     if (m_temp_circle) {
         if (m_temp_circle->m_construction)
@@ -115,9 +115,9 @@ void ToolDrawCircle2D::update_tip()
     }
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la contrainte");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la contrainte");
 
 
     std::vector<ConstraintType> constraint_icons;
@@ -136,7 +136,7 @@ void ToolDrawCircle2D::update_tip()
                     const auto r = get_cursor_pos_in_plane() - m_temp_circle->m_center;
                     v = m_wrkpl->transform_relative({-r.y, r.x});
                     constraint_icons.push_back(Constraint::Type::POINT_ON_CIRCLE);
-                    m_intf.tool_bar_set_tool_tip("constrain radius on point");
+                    m_intf.tool_bar_set_tool_tip("contraindre le rayon sur le point");
                 }
             }
         }

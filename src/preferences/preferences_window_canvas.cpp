@@ -14,23 +14,23 @@ namespace dune3d {
 
 
 static const std::map<ColorP, std::string> color_names = {
-        {ColorP::ENTITY, "Entity"},
-        {ColorP::CONSTRAINT, "Constraint"},
-        {ColorP::BACKGROUND_BOTTOM, "Background bottom"},
-        {ColorP::BACKGROUND_TOP, "Background top"},
+        {ColorP::ENTITY, "Entité"},
+        {ColorP::CONSTRAINT, "Contrainte"},
+        {ColorP::BACKGROUND_BOTTOM, "Fond (bas)"},
+        {ColorP::BACKGROUND_TOP, "Fond (haut)"},
         {ColorP::POINT, "Point"},
-        {ColorP::CONSTRUCTION_POINT, "Construction point"},
-        {ColorP::SOLID_MODEL, "Solid model"},
-        {ColorP::OTHER_BODY_SOLID_MODEL, "Solid model (other body)"},
-        {ColorP::CONSTRUCTION_ENTITY, "Construction entity"},
-        {ColorP::INACTIVE_ENTITY, "Inactive entity"},
-        {ColorP::INACTIVE_POINT, "Inactive point"},
-        {ColorP::HOVER, "Hover"},
-        {ColorP::SELECTED, "Selected"},
-        {ColorP::SELECTED_HOVER, "Selected hover"},
-        {ColorP::HIGHLIGHT, "Highlight"},
-        {ColorP::SELECTION_BOX, "Selection box"},
-        {ColorP::ERROR_OVERLAY, "Error overlay"},
+        {ColorP::CONSTRUCTION_POINT, "Point de construction"},
+        {ColorP::SOLID_MODEL, "Modèle solide"},
+        {ColorP::OTHER_BODY_SOLID_MODEL, "Modèle solide (autre corps)"},
+        {ColorP::CONSTRUCTION_ENTITY, "Entité de construction"},
+        {ColorP::INACTIVE_ENTITY, "Entité inactive"},
+        {ColorP::INACTIVE_POINT, "Point inactif"},
+        {ColorP::HOVER, "Survol"},
+        {ColorP::SELECTED, "Sélectionné"},
+        {ColorP::SELECTED_HOVER, "Survol sélectionné"},
+        {ColorP::HIGHLIGHT, "Surbrillance"},
+        {ColorP::SELECTION_BOX, "Rectangle de sélection"},
+        {ColorP::ERROR_OVERLAY, "Calque d'erreur"},
 };
 
 class ColorEditorPalette : public Gtk::Box {
@@ -137,11 +137,11 @@ CanvasPreferencesEditor::CanvasPreferencesEditor(BaseObjectType *cobject, const 
         auto items = Gtk::StringList::create();
 
         for (const auto &[theme_name, theme] : color_themes) {
-            items->append(theme_name);
+            items->append(theme_name == "Default" ? "Par défaut" : theme_name);
             m_themes.push_back(theme_name);
         }
 
-        items->append("Custom");
+        items->append("Personnalisé");
         m_themes.push_back("Custom");
         m_theme_dropdown->set_model(items);
         {

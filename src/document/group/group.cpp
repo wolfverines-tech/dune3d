@@ -96,39 +96,39 @@ std::string Group::get_type_name(Type type)
 {
     switch (type) {
     case Type::SKETCH:
-        return "Sketch";
+        return "Esquisse";
     case Type::CHAMFER:
-        return "Chamfer";
+        return "Chanfrein";
     case Type::EXTRUDE:
-        return "Extrude";
+        return "Extrusion";
     case Type::FILLET:
-        return "Fillet";
+        return "Congé";
     case Type::LATHE:
-        return "Lathe";
+        return "Tournage";
     case Type::REVOLVE:
-        return "Revolve";
+        return "Révolution";
     case Type::LINEAR_ARRAY:
-        return "Linear array";
+        return "Réseau linéaire";
     case Type::POLAR_ARRAY:
-        return "Polar array";
+        return "Réseau circulaire";
     case Type::REFERENCE:
-        return "Reference";
+        return "Référence";
     case Type::LOFT:
-        return "Loft";
+        return "Lissage";
     case Type::EXPLODED_CLUSTER:
-        return "Exploded cluster";
+        return "Bloc éclaté";
     case Type::MIRROR_HORIZONTAL:
-        return "Mirror horizontally";
+        return "Symétrie horizontale";
     case Type::MIRROR_VERTICAL:
-        return "Mirror vertically";
+        return "Symétrie verticale";
     case Type::SOLID_MODEL_OPERATION:
-        return "Solid model operation";
+        return "Opération sur solides";
     case Type::CLONE:
         return "Clone";
     case Type::PIPE:
-        return "Pipe";
+        return "Balayage";
     default:
-        return "Group";
+        return "Groupe";
     }
 }
 

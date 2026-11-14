@@ -197,15 +197,15 @@ void ToolDrawRectangle::update_tip()
 
     std::string what;
     if (m_lines.front())
-        what = "corner";
+        what = "coin";
     else if (m_mode == Mode::CORNER)
-        what = "corner";
+        what = "coin";
     else
-        what = "center";
+        what = "centre";
 
-    actions.emplace_back(InToolActionID::LMB, "place " + what);
+    actions.emplace_back(InToolActionID::LMB, "placer : " + what);
 
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
     if (m_lines.front()) {
         if (m_lines.front()->m_construction)
@@ -215,15 +215,15 @@ void ToolDrawRectangle::update_tip()
     }
 
     if (m_mode == Mode::CENTER)
-        actions.emplace_back(InToolActionID::TOGGLE_RECTANGLE_MODE, "from corner");
+        actions.emplace_back(InToolActionID::TOGGLE_RECTANGLE_MODE, "depuis un coin");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_RECTANGLE_MODE, "from center");
+        actions.emplace_back(InToolActionID::TOGGLE_RECTANGLE_MODE, "depuis le centre");
 
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la contrainte");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la contrainte");
 
 
     m_intf.tool_bar_set_tool_tip("");

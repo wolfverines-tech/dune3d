@@ -21,7 +21,7 @@ bool Editor::force_end_tool()
         if (!m_core.tool_is_active())
             return true;
     }
-    Logger::get().log_critical("Tool didn't end", Logger::Domain::EDITOR, "end the tool and repeat the last action");
+    Logger::get().log_critical("L'outil ne s'est pas terminé", Logger::Domain::EDITOR, "terminez l'outil puis répétez la dernière action");
     return false;
 }
 

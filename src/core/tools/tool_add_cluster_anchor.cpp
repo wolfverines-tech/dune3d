@@ -34,9 +34,9 @@ ToolResponse ToolAddClusterAnchor::begin(const ToolArgs &args)
 
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "add point");
-        actions.emplace_back(InToolActionID::RMB, "finish");
-        actions.emplace_back(InToolActionID::CANCEL, "cancel");
+        actions.emplace_back(InToolActionID::LMB, "ajouter un point");
+        actions.emplace_back(InToolActionID::RMB, "terminer");
+        actions.emplace_back(InToolActionID::CANCEL, "annuler");
         m_intf.tool_bar_set_actions(actions);
     }
 

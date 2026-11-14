@@ -40,9 +40,9 @@ ToolResponse ToolMoveAnchor::begin(const ToolArgs &args)
 
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "select point");
-        actions.emplace_back(InToolActionID::RMB, "cancel");
-        actions.emplace_back(InToolActionID::CANCEL, "cancel");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner le point");
+        actions.emplace_back(InToolActionID::RMB, "annuler");
+        actions.emplace_back(InToolActionID::CANCEL, "annuler");
         m_intf.tool_bar_set_actions(actions);
     }
 

@@ -44,7 +44,7 @@ GroupEditor::GroupEditor(Core &core, const UUID &group_uu) : m_core(core), m_gro
     m_name_entry = Gtk::make_managed<Gtk::Entry>();
     m_name_entry->set_hexpand(true);
     m_name_entry->set_text(group.m_name);
-    grid_attach_label_and_widget(*this, "Name", *m_name_entry, m_top);
+    grid_attach_label_and_widget(*this, "Nom", *m_name_entry, m_top);
     connect_entry(*m_name_entry, sigc::mem_fun(*this, &GroupEditor::update_name));
 
     m_body_entry = Gtk::make_managed<Gtk::Entry>();
@@ -81,7 +81,7 @@ GroupEditor::GroupEditor(Core &core, const UUID &group_uu) : m_core(core), m_gro
         box->append(*m_body_entry);
         box->append(*m_body_color_cb);
         box->append(*m_body_color_button);
-        grid_attach_label_and_widget(*this, "Body", *box, m_top);
+        grid_attach_label_and_widget(*this, "Corps", *box, m_top);
     }
 
     connect_entry(*m_body_entry, sigc::mem_fun(*this, &GroupEditor::update_body_name));

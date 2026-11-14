@@ -24,10 +24,10 @@ static void exception_handler(void)
     }
 
 
-    auto dialog = Gtk::AlertDialog::create("Exception in signal handler");
+    auto dialog = Gtk::AlertDialog::create("Exception dans le gestionnaire de signal");
     dialog->set_detail(ex_type + ": " + ex
-                       + "\nLooks like this is a bug. Please report this and describe what you did previously.");
-    dialog->set_buttons({"Exit", "Ignore"});
+                       + "\nIl semble qu'il s'agisse d'un bogue. Merci de le signaler en décrivant ce que vous faisiez.");
+    dialog->set_buttons({"Quitter", "Ignorer"});
     dialog->set_cancel_button(1);
     dialog->set_default_button(1);
     dialog->choose([dialog](Glib::RefPtr<Gio::AsyncResult> &result) {

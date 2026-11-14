@@ -249,7 +249,7 @@ std::string Core::DocumentInfo::get_name() const
     if (bn.size())
         return bn;
     else
-        return "New Document";
+        return "Nouveau document";
 }
 
 std::string Core::DocumentInfo::get_stem() const
@@ -258,7 +258,7 @@ std::string Core::DocumentInfo::get_stem() const
     if (stem.size())
         return stem;
     else
-        return "New Document";
+        return "Nouveau document";
 }
 
 std::filesystem::path Core::DocumentInfo::get_dirname() const

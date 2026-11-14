@@ -40,8 +40,8 @@ ToolResponse ToolConstrainSymmetricLine::begin(const ToolArgs &args)
 
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "select line");
-        actions.emplace_back(InToolActionID::RMB, "end tool");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner la ligne");
+        actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
         m_intf.tool_bar_set_actions(actions);
     }
     m_intf.enable_hover_selection();
@@ -64,17 +64,17 @@ ToolResponse ToolConstrainSymmetricLine::update(const ToolArgs &args)
                 return ToolResponse();
 
             if (hsel->point != 0) {
-                m_intf.tool_bar_flash("please click on a line");
+                m_intf.tool_bar_flash("cliquez sur une ligne");
                 return ToolResponse();
             }
 
             auto &entity = get_entity(hsel->item);
             if (entity.get_type() != Entity::Type::LINE_2D && entity.get_type() != Entity::Type::LINE_3D) {
-                m_intf.tool_bar_flash("please click on a line");
+                m_intf.tool_bar_flash("cliquez sur une ligne");
                 return ToolResponse();
             }
             if (any_of(entity.m_uuid, m_points.point1.entity, m_points.point2.entity)) {
-                m_intf.tool_bar_flash("please click on a different line");
+                m_intf.tool_bar_flash("cliquez sur une autre ligne");
                 return ToolResponse();
             }
 

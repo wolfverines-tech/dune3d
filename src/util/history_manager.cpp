@@ -76,7 +76,7 @@ const std::string &HistoryManager::get_redo_comment() const
 const HistoryManager::HistoryItem &HistoryManager::undo()
 {
     if (!can_undo())
-        throw std::runtime_error("can't undo");
+        throw std::runtime_error("impossible d'annuler");
     redo_stack.push_back(history_current);
     history_current = undo_stack.back();
     undo_stack.pop_back();
@@ -87,7 +87,7 @@ const HistoryManager::HistoryItem &HistoryManager::undo()
 const HistoryManager::HistoryItem &HistoryManager::redo()
 {
     if (!can_redo())
-        throw std::runtime_error("can't redo");
+        throw std::runtime_error("impossible de rétablir");
     undo_stack.push_back(history_current);
     history_current = redo_stack.back();
     redo_stack.pop_back();

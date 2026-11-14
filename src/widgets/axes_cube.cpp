@@ -126,7 +126,7 @@ static Model generate_model()
         double sx = (i & 1) ? 1.0 : -1.0;
         double sy = (i & 2) ? 1.0 : -1.0;
         double sz = (i & 4) ? 1.0 : -1.0;
-        std::string sname = "Corner " + std::string(sx > 0 ? "+X" : "-X") + std::string(sy > 0 ? "+Y" : "-Y")
+        std::string sname = "Coin " + std::string(sx > 0 ? "+X" : "-X") + std::string(sy > 0 ? "+Y" : "-Y")
                             + std::string(sz > 0 ? "+Z" : "-Z");
 
         // isometric views looking toward the corner
@@ -144,33 +144,33 @@ static Model generate_model()
     }
 
     // X-axis edges
-    add_face({6 * 3 + 1, 7 * 3 + 1, 7 * 3 + 2, 6 * 3 + 2}, "Edge −Y−Z", col_gray, "",
+    add_face({6 * 3 + 1, 7 * 3 + 1, 7 * 3 + 2, 6 * 3 + 2}, "Arête −Y−Z", col_gray, "",
              glm::quat(glm::vec3(glm::pi<float>() / 4, glm::pi<float>() / 1, 0)));
-    add_face({2 * 3 + 2, 3 * 3 + 2, 3 * 3 + 1, 2 * 3 + 1}, "Edge −Y+Z", col_gray, "",
+    add_face({2 * 3 + 2, 3 * 3 + 2, 3 * 3 + 1, 2 * 3 + 1}, "Arête −Y+Z", col_gray, "",
              glm::quat(glm::vec3(glm::pi<float>() / 4, 0, 0)));
-    add_face({4 * 3 + 2, 5 * 3 + 2, 5 * 3 + 1, 4 * 3 + 1}, "Edge +Y−Z", col_gray, "",
+    add_face({4 * 3 + 2, 5 * 3 + 2, 5 * 3 + 1, 4 * 3 + 1}, "Arête +Y−Z", col_gray, "",
              glm::quat(glm::vec3(-glm::pi<float>() / 4, glm::pi<float>() / 1, 0)));
-    add_face({0 * 3 + 1, 1 * 3 + 1, 1 * 3 + 2, 0 * 3 + 2}, "Edge +Y+Z", col_gray, "",
+    add_face({0 * 3 + 1, 1 * 3 + 1, 1 * 3 + 2, 0 * 3 + 2}, "Arête +Y+Z", col_gray, "",
              glm::quat(glm::vec3(-glm::pi<float>() / 4, 0, 0)));
 
     // Y-axis edges
-    add_face({5 * 3 + 2, 7 * 3 + 2, 7 * 3 + 0, 5 * 3 + 0}, "Edge −X−Z", col_gray, "",
+    add_face({5 * 3 + 2, 7 * 3 + 2, 7 * 3 + 0, 5 * 3 + 0}, "Arête −X−Z", col_gray, "",
              glm::quat(glm::vec3(0, -glm::pi<float>() * 3 / 4, 0)));
-    add_face({1 * 3 + 0, 3 * 3 + 0, 3 * 3 + 2, 1 * 3 + 2}, "Edge −X+Z", col_gray, "",
+    add_face({1 * 3 + 0, 3 * 3 + 0, 3 * 3 + 2, 1 * 3 + 2}, "Arête −X+Z", col_gray, "",
              glm::quat(glm::vec3(0, -glm::pi<float>() / 4, 0)));
-    add_face({4 * 3 + 0, 6 * 3 + 0, 6 * 3 + 2, 4 * 3 + 2}, "Edge +X−Z", col_gray, "",
+    add_face({4 * 3 + 0, 6 * 3 + 0, 6 * 3 + 2, 4 * 3 + 2}, "Arête +X−Z", col_gray, "",
              glm::quat(glm::vec3(0, glm::pi<float>() * 3 / 4, 0)));
-    add_face({0 * 3 + 2, 2 * 3 + 2, 2 * 3 + 0, 0 * 3 + 0}, "Edge +X+Z", col_gray, "",
+    add_face({0 * 3 + 2, 2 * 3 + 2, 2 * 3 + 0, 0 * 3 + 0}, "Arête +X+Z", col_gray, "",
              glm::quat(glm::vec3(0, glm::pi<float>() / 4, 0)));
 
     // Z-axis edges
-    add_face({3 * 3 + 0, 7 * 3 + 0, 7 * 3 + 1, 3 * 3 + 1}, "Edge −X−Y", col_gray, "",
+    add_face({3 * 3 + 0, 7 * 3 + 0, 7 * 3 + 1, 3 * 3 + 1}, "Arête −X−Y", col_gray, "",
              glm::quat(glm::vec3(glm::pi<float>() / 4, -glm::pi<float>() / 2, 0)));
-    add_face({1 * 3 + 1, 5 * 3 + 1, 5 * 3 + 0, 1 * 3 + 0}, "Edge −X+Y", col_gray, "",
+    add_face({1 * 3 + 1, 5 * 3 + 1, 5 * 3 + 0, 1 * 3 + 0}, "Arête −X+Y", col_gray, "",
              glm::quat(glm::vec3(-glm::pi<float>() / 4, -glm::pi<float>() / 2, 0)));
-    add_face({2 * 3 + 1, 6 * 3 + 1, 6 * 3 + 0, 2 * 3 + 0}, "Edge +X−Y", col_gray, "",
+    add_face({2 * 3 + 1, 6 * 3 + 1, 6 * 3 + 0, 2 * 3 + 0}, "Arête +X−Y", col_gray, "",
              glm::quat(glm::vec3(0, glm::pi<float>() / 2, -glm::pi<float>() / 4)));
-    add_face({0 * 3 + 0, 4 * 3 + 0, 4 * 3 + 1, 0 * 3 + 1}, "Edge +X+Y", col_gray, "",
+    add_face({0 * 3 + 0, 4 * 3 + 0, 4 * 3 + 1, 0 * 3 + 1}, "Arête +X+Y", col_gray, "",
              glm::quat(glm::vec3(0, glm::pi<float>() / 2, glm::pi<float>() / 4)));
 
     // Axis vertices (+X+Y+Z corner only)

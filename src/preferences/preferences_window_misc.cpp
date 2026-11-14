@@ -15,65 +15,65 @@ MiscPreferencesEditor::MiscPreferencesEditor(Preferences &prefs) : m_preferences
     set_child(*box);
 
     {
-        auto gr = Gtk::make_managed<PreferencesGroup>("Canvas");
+        auto gr = Gtk::make_managed<PreferencesGroup>("Vue 3D");
         box->append(*gr);
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Enable animations",
-                    "Use mass spring damper model to smooth zooming and other transitions such as rotation",
+                    "Activer les animations",
+                    "Utiliser un modèle masse-ressort-amortisseur pour adoucir le zoom et les autres transitions comme la rotation",
                     m_preferences, m_preferences.canvas.enable_animations);
             gr->add_row(*r);
         }
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Let selected items glow", "Render a halo around selected items to make them easier to see",
+                    "Faire briller les éléments sélectionnés", "Afficher un halo autour des éléments sélectionnés pour mieux les voir",
                     m_preferences, m_preferences.canvas.appearance.selection_glow);
             gr->add_row(*r);
         }
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Enable error overlay",
-                    "Turn canvas red if there are redundant constraints or the sketch is overconstrained",
+                    "Activer le calque d'erreur",
+                    "Teinter la vue en rouge s'il y a des contraintes redondantes ou si l'esquisse est surcontrainte",
                     m_preferences, m_preferences.canvas.error_overlay);
             gr->add_row(*r);
         }
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Connect curvature comb", "Draw a connecting line between adjacent curvature comb lines",
+                    "Relier le peigne de courbure", "Tracer une ligne reliant les dents voisines du peigne de courbure",
                     m_preferences, m_preferences.canvas.connect_curvature_combs);
             gr->add_row(*r);
         }
         {
-            auto r = Gtk::make_managed<PreferencesRowBoolButton>("Zoom center", "Where to zoom with mouse or touchpad",
-                                                                 "Cursor", "Screen center", m_preferences,
+            auto r = Gtk::make_managed<PreferencesRowBoolButton>("Centre du zoom", "Où zoomer avec la souris ou le pavé tactile",
+                                                                 "Curseur", "Centre de l'écran", m_preferences,
                                                                  m_preferences.canvas.zoom_to_cursor);
             gr->add_row(*r);
         }
         {
             static const std::vector<std::pair<RotationScheme, std::string>> rotation_schemes = {
-                    {RotationScheme::DEFAULT, "Tumbler"},
-                    {RotationScheme::LEGACY, "Turntable"},
-                    {RotationScheme::ARCBALL, "Trackball"},
+                    {RotationScheme::DEFAULT, "Culbuteur"},
+                    {RotationScheme::LEGACY, "Plateau tournant"},
+                    {RotationScheme::ARCBALL, "Boule de commande"},
             };
             auto r = Gtk::make_managed<PreferencesRowEnum<RotationScheme>>(
-                    "Rotation scheme", "How to translate mouse movement to rotation", m_preferences,
+                    "Mode de rotation", "Comment convertir le mouvement de la souris en rotation", m_preferences,
                     m_preferences.canvas.rotation_scheme, rotation_schemes);
             r->bind();
             gr->add_row(*r);
         }
     }
     {
-        auto gr = Gtk::make_managed<PreferencesGroup>("Editor");
+        auto gr = Gtk::make_managed<PreferencesGroup>("Éditeur");
         box->append(*gr);
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Preview constraints", "Hover over constraints in the context menu to preview their result",
+                    "Aperçu des contraintes", "Survoler les contraintes dans le menu contextuel pour prévisualiser leur effet",
                     m_preferences, m_preferences.editor.preview_constraints);
             gr->add_row(*r);
         }
         {
             auto r = Gtk::make_managed<PreferencesRowNumeric<int>>(
-                    "Constraint display rounding", "Maximum number of decimal places to show in constraint values",
+                    "Arrondi d'affichage des contraintes", "Nombre maximal de décimales affichées dans les valeurs de contrainte",
                     m_preferences, m_preferences.editor.constraint_value_rounding);
             r->get_spinbutton().set_range(0, 5);
             r->get_spinbutton().set_increments(1, 1);
@@ -83,54 +83,54 @@ MiscPreferencesEditor::MiscPreferencesEditor(Preferences &prefs) : m_preferences
         }
         {
             auto r = Gtk::make_managed<PreferencesRowEnum<EditorPreferences::TrailingZeros>>(
-                    "Trailing zeros", "Control how trailing zeros are displayed in constraint values", m_preferences,
+                    "Zéros de fin", "Gérer l'affichage des zéros de fin dans les valeurs de contrainte", m_preferences,
                     m_preferences.editor.constraint_trailing_zeros,
                     std::vector<std::pair<EditorPreferences::TrailingZeros, std::string>>{
-                            {EditorPreferences::TrailingZeros::OFF, "Off"},
-                            {EditorPreferences::TrailingZeros::ONE_DECIMAL, "Keep 1 decimal"},
-                            {EditorPreferences::TrailingZeros::ON, "On"},
+                            {EditorPreferences::TrailingZeros::OFF, "Désactivé"},
+                            {EditorPreferences::TrailingZeros::ONE_DECIMAL, "Garder 1 décimale"},
+                            {EditorPreferences::TrailingZeros::ON, "Activé"},
                     });
             r->bind();
             gr->add_row(*r);
         }
     }
     {
-        auto gr = Gtk::make_managed<PreferencesGroup>("Action Bar");
+        auto gr = Gtk::make_managed<PreferencesGroup>("Barre d'actions");
         box->append(*gr);
         gr->show();
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Use action bar", "Show action bar in editors to quickly access commonly-used tools", m_preferences,
+                    "Utiliser la barre d'actions", "Afficher la barre d'actions pour accéder rapidement aux outils courants", m_preferences,
                     m_preferences.action_bar.enable);
             gr->add_row(*r);
         }
         /* {
-             auto r = Gtk::manage(new PreferencesRowBool("Remember last action",
-                                                         "Show last-used action in button instead of the default one",
+             auto r = Gtk::manage(new PreferencesRowBool("Mémoriser la dernière action",
+                                                         "Afficher dans le bouton la dernière action utilisée plutôt que celle par défaut",
                                                          preferences, preferences.action_bar.remember));
              gr->add_row(*r);
          }*/
         {
-            auto r = Gtk::make_managed<PreferencesRowBool>("Always show", "Also show action bar if a tool is active",
+            auto r = Gtk::make_managed<PreferencesRowBool>("Toujours afficher", "Afficher aussi la barre d'actions quand un outil est actif",
                                                            m_preferences, m_preferences.action_bar.show_in_tool);
             gr->add_row(*r);
         }
     }
     {
-        auto gr = Gtk::make_managed<PreferencesGroup>("Tool Bar");
+        auto gr = Gtk::make_managed<PreferencesGroup>("Barre d'outils");
         box->append(*gr);
         {
             auto r = Gtk::make_managed<PreferencesRowBool>(
-                    "Vertical layout", "Show tool tip in a separate row rather than right to the action keys",
+                    "Disposition verticale", "Afficher l'aide sur une ligne séparée plutôt qu'à droite des touches d'action",
                     m_preferences, m_preferences.tool_bar.vertical_layout);
             gr->add_row(*r);
         }
     }
     {
-        auto gr = Gtk::make_managed<PreferencesGroup>("Appearance");
+        auto gr = Gtk::make_managed<PreferencesGroup>("Apparence");
         box->append(*gr);
         {
-            auto r = Gtk::make_managed<PreferencesRowBool>("Dark theme", "Use dark theme variant if available",
+            auto r = Gtk::make_managed<PreferencesRowBool>("Thème sombre", "Utiliser la variante sombre du thème si disponible",
                                                            m_preferences, m_preferences.canvas.dark_theme);
             gr->add_row(*r);
         }

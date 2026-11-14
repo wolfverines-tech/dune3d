@@ -54,7 +54,7 @@ ToolResponse ToolCommonConstrainDatum::update(const ToolArgs &args)
                 return commit();
 
             double def = m_constraint_datum->get_datum();
-            auto win = m_intf.get_dialogs().show_enter_datum_window("Enter " + m_constraint_datum->get_datum_name(),
+            auto win = m_intf.get_dialogs().show_enter_datum_window("Saisir : " + m_constraint_datum->get_datum_name(),
                                                                     m_constraint_datum->get_datum_unit(), def);
 
             auto rng = m_constraint_datum->get_datum_range();

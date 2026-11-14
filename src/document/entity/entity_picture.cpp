@@ -97,19 +97,19 @@ std::string EntityPicture::get_point_name(unsigned int point) const
 {
     switch (point) {
     case 1:
-        return "origin";
+        return "origine";
     case 10:
-        return "top left";
+        return "haut gauche";
     case 11:
-        return "bottm left";
+        return "bas gauche";
     case 12:
-        return "top right";
+        return "haut droite";
     case 13:
-        return "bottom right";
+        return "bas droite";
     default:
         if (m_anchors.contains(point)) {
             auto a = m_anchors.at(point);
-            return std::format("anchor {} at {:.0f}, {:.0f}", point, a.x, a.y);
+            return std::format("ancre {} en {:.0f}, {:.0f}", point, a.x, a.y);
         }
         else {
             return "";

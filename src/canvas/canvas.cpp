@@ -60,11 +60,11 @@ Canvas::Canvas()
         if (auto fd = spnav_fd(); fd != -1) {
             have_spnav = true;
             auto chan = Glib::IOChannel::create_from_fd(fd);
-            Logger::log_info("Connected to spacenavd", Logger::Domain::CANVAS);
+            Logger::log_info("Connecté à spacenavd", Logger::Domain::CANVAS);
             spnav_connection = Glib::signal_io().connect(
                     [this](Glib::IOCondition cond) {
                         if ((cond & Glib::IOCondition::IO_HUP) == Glib::IOCondition::IO_HUP) {
-                            Logger::log_warning("disconnected from spacenavd", Logger::Domain::CANVAS);
+                            Logger::log_warning("déconnecté de spacenavd", Logger::Domain::CANVAS);
                             return false;
                         }
                         handle_spnav();

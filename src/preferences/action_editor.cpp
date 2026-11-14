@@ -34,7 +34,7 @@ ActionEditorBase::ActionEditorBase(const std::string &title, Preferences &prefs)
         auto placeholder_label = Gtk::manage(new Gtk::Label());
         placeholder_label->set_margin(10);
         placeholder_label->add_css_class("dim-label");
-        placeholder_label->set_text("no keys defined");
+        placeholder_label->set_text("aucune touche définie");
         m_lb->set_placeholder(*placeholder_label);
     }
 
@@ -94,7 +94,7 @@ void ActionEditorBase::update()
         }
     }
     {
-        auto la = Gtk::make_managed<Gtk::Label>("Add key sequence…");
+        auto la = Gtk::make_managed<Gtk::Label>("Ajouter un raccourci…");
         la->set_margin(10);
         m_lb->append(*la);
     }

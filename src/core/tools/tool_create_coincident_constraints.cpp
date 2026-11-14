@@ -213,24 +213,24 @@ void ToolCreateCoincidentConstraints::apply()
 void ToolCreateCoincidentConstraints::update_tip()
 {
     std::string tip =
-            std::format("Created {} Constraint{}", m_constraints.size(), m_constraints.size() != 1 ? "s" : "");
+            std::format("{} contrainte{} créée(s)", m_constraints.size(), m_constraints.size() != 1 ? "s" : "");
     if (m_entities_delete.size()) {
-        tip += std::format(", will delete {} zero-sized {}", m_entities_delete.size(),
+        tip += std::format(", {1} de taille nulle à supprimer : {0}", m_entities_delete.size(),
                            Entity::get_type_name_for_n(EntityType::INVALID, m_entities_delete.size()));
     }
 
     m_intf.tool_bar_set_tool_tip(tip);
 
-    std::string tol = "tolerance: ";
+    std::string tol = "tolérance : ";
     if (m_tolerance >= 0.1)
         tol += std::format("{:.3g}mm", m_tolerance);
     else
-        tol += std::format("{:.3g}um", m_tolerance * 1e3);
+        tol += std::format("{:.3g}µm", m_tolerance * 1e3);
 
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::RMB, "finish");
-        actions.emplace_back(InToolActionID::CANCEL, "cancel");
+        actions.emplace_back(InToolActionID::RMB, "terminer");
+        actions.emplace_back(InToolActionID::CANCEL, "annuler");
         actions.emplace_back(InToolActionID::ENTER_TOLERANCE);
 
         if (!m_win)
@@ -290,7 +290,7 @@ ToolResponse ToolCreateCoincidentConstraints::update(const ToolArgs &args)
 
         case InToolActionID::ENTER_TOLERANCE:
             m_last_tolerance = m_tolerance;
-            m_win = m_intf.get_dialogs().show_enter_datum_window("Enter sides", DatumUnit::MM, m_tolerance);
+            m_win = m_intf.get_dialogs().show_enter_datum_window("Saisir la tolérance", DatumUnit::MM, m_tolerance);
             m_win->set_range(0, 1000);
             m_win->set_step_size(1e-3);
             break;

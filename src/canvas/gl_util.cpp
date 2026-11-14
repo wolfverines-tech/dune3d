@@ -142,7 +142,7 @@ out:
 void gl_show_error(const std::string &s)
 {
 #ifdef G_OS_WIN32
-    MessageBox(NULL, (s + "\nProgram will abort").c_str(), "OpenGL Error", MB_ICONERROR);
+    MessageBox(NULL, (s + "\nLe programme va s'arrêter").c_str(), "Erreur OpenGL", MB_ICONERROR);
 #else
     std::cout << s << std::endl;
 #endif

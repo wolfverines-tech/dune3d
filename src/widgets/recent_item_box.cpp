@@ -32,13 +32,13 @@ RecentItemBox::RecentItemBox(const std::string &aname, const std::filesystem::pa
     }
 
     /*{
-        auto item = Gtk::manage(new Gtk::MenuItem("Remove from this list"));
+        auto item = Gtk::manage(new Gtk::MenuItem("Retirer de cette liste"));
         item->signal_activate().connect([this] { s_signal_remove.emit(); });
         item->show();
         menu.append(*item);
     }
     {
-        auto item = Gtk::manage(new Gtk::MenuItem("Open in file browser"));
+        auto item = Gtk::manage(new Gtk::MenuItem("Ouvrir dans l'explorateur de fichiers"));
         item->signal_activate().connect([this] {
             auto top = dynamic_cast<Gtk::Window *>(get_ancestor(GTK_TYPE_WINDOW));
             open_directory(*top, path);
@@ -69,27 +69,25 @@ void RecentItemBox::update_time()
     auto one_minute = (60);
     int n = 0;
     std::string unit;
-    bool is_hour = false;
     if (delta_sec >= one_year) {
         n = delta_sec / one_year;
-        unit = "year";
+        unit = "an";
     }
     else if (delta_sec >= one_month) {
         n = delta_sec / one_month;
-        unit = "month";
+        unit = "mois";
     }
     else if (delta_sec >= one_week) {
         n = delta_sec / one_week;
-        unit = "week";
+        unit = "semaine";
     }
     else if (delta_sec >= one_day) {
         n = delta_sec / one_day;
-        unit = "day";
+        unit = "jour";
     }
     else if (delta_sec >= one_hour) {
         n = delta_sec / one_hour;
-        unit = "hour";
-        is_hour = true;
+        unit = "heure";
     }
     else if (delta_sec >= one_minute) {
         n = delta_sec / one_minute;
@@ -98,22 +96,12 @@ void RecentItemBox::update_time()
 
     std::string s;
     if (n == 0) {
-        s = "just now";
+        s = "à l'instant";
     }
     else {
-        if (is_hour && n == 1) {
-            s = "an";
-        }
-        else if (n == 1) {
-            s = "a";
-        }
-        else {
-            s = std::to_string(n);
-        }
-        s += " " + unit;
-        if (n > 1)
+        s = "il y a " + std::to_string(n) + " " + unit;
+        if (n > 1 && unit != "mois")
             s += "s";
-        s += " ago";
     }
 
     m_time_label->set_text(s);

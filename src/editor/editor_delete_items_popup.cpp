@@ -13,32 +13,32 @@ static std::string make_summary(const ItemsToDelete &items, const Document &doc,
 {
     std::string ex;
     if (items.entities.size() == 1) {
-        ex += prefix + "one " + doc.get_entity(*items.entities.begin()).get_type_name() + " Entity";
+        ex += prefix + "1 entité (" + doc.get_entity(*items.entities.begin()).get_type_name() + ")";
     }
     else if (items.entities.size() > 1) {
-        ex += std::format("{}{} Entities", prefix, items.entities.size());
+        ex += std::format("{}{} entités", prefix, items.entities.size());
     }
 
     if (items.constraints.size() == 1) {
         if (ex.size())
             ex += sep;
-        ex += prefix + "one " + doc.get_constraint(*items.constraints.begin()).get_type_name() + " Constraint";
+        ex += prefix + "1 contrainte (" + doc.get_constraint(*items.constraints.begin()).get_type_name() + ")";
     }
     else if (items.constraints.size() > 1) {
         if (ex.size())
             ex += sep;
-        ex += std::format("{}{} Constraints", prefix, items.constraints.size());
+        ex += std::format("{}{} contraintes", prefix, items.constraints.size());
     }
 
     if (items.groups.size() == 1) {
         if (ex.size())
             ex += sep;
-        ex += prefix + "one " + doc.get_group(*items.groups.begin()).get_type_name() + " Group";
+        ex += prefix + "1 groupe (" + doc.get_group(*items.groups.begin()).get_type_name() + ")";
     }
     else if (items.groups.size() > 1) {
         if (ex.size())
             ex += sep;
-        ex += std::format("{}{} Groups", prefix, items.groups.size());
+        ex += std::format("{}{} groupes", prefix, items.groups.size());
     }
     return ex;
 }
@@ -94,17 +94,17 @@ void Editor::show_delete_items_popup(const ItemsToDelete &items_selected, const 
             if (detail.size())
                 detail += "\n";
             if (group->m_uuid == current_group)
-                detail += "• Deleted current group";
+                detail += "• Groupe courant supprimé";
             else
-                detail += "• Deleted group " + group->m_name;
+                detail += "• Groupe supprimé : " + group->m_name;
         }
         else if (items_extra_by_group.contains(group->m_uuid)) {
             if (detail.size())
                 detail += "\n";
             if (group->m_uuid == current_group)
-                detail += "• In current group";
+                detail += "• Dans le groupe courant";
             else
-                detail += "• In group " + group->m_name;
+                detail += "• Dans le groupe " + group->m_name;
 
             const auto &group_items = items_extra_by_group.at(group->m_uuid);
             std::map<Entity::Type, unsigned int> entities;
@@ -117,24 +117,24 @@ void Editor::show_delete_items_popup(const ItemsToDelete &items_selected, const 
             }
             for (const auto &[type, count] : entities) {
                 if (count == 1) {
-                    detail += std::format("\n  • One {} Entity", Entity::get_type_name(type));
+                    detail += std::format("\n  • 1 entité ({})", Entity::get_type_name(type));
                 }
                 else {
-                    detail += std::format("\n  • {} {} Entities", count, Entity::get_type_name(type));
+                    detail += std::format("\n  • {} entités ({})", count, Entity::get_type_name(type));
                 }
             }
             for (const auto &[type, count] : constraints) {
                 if (count == 1) {
-                    detail += std::format("\n  • One {} Constraint", Constraint::get_type_name(type));
+                    detail += std::format("\n  • 1 contrainte ({})", Constraint::get_type_name(type));
                 }
                 else {
-                    detail += std::format("\n  • {} {} Constraints", count, Constraint::get_type_name(type));
+                    detail += std::format("\n  • {} contraintes ({})", count, Constraint::get_type_name(type));
                 }
             }
         }
     }
 
-    m_win.show_delete_items_popup("Deleting " + ex + " also deleted", make_summary(items_extra, doc, "\n", "• "),
+    m_win.show_delete_items_popup("La suppression de " + ex + " a aussi supprimé", make_summary(items_extra, doc, "\n", "• "),
                                   detail);
 }
 

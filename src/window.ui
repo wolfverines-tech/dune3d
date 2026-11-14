@@ -32,7 +32,7 @@ dim-label</property>
             <property name="css-classes">linked</property>
             <child>
               <object class="GtkButton" id="open_button">
-                <property name="label">Open</property>
+                <property name="label">Ouvrir</property>
               </object>
             </child>
             <child>
@@ -75,7 +75,7 @@ dim-label</property>
         <child type="start">
           <object class="GtkButton" id="new_button">
             <property name="icon-name">document-new-symbolic</property>
-            <property name="tooltip-text">Create new document</property>
+            <property name="tooltip-text">Créer un nouveau document</property>
           </object>
         </child>
         <child>
@@ -89,13 +89,13 @@ dim-label</property>
             <property name="css-classes">linked</property>
             <child>
               <object class="GtkButton" id="save_button">
-                <property name="label">Save</property>
+                <property name="label">Enregistrer</property>
               </object>
             </child>
             <child>
               <object class="GtkButton" id="save_as_button">
                 <property name="icon-name">document-save-as-symbolic</property>
-                <property name="tooltip-text">Save As</property>
+                <property name="tooltip-text">Enregistrer sous</property>
               </object>
             </child>
           </object>
@@ -171,7 +171,7 @@ welcome-box</property>
                                 <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkLabel" id="welcome_recent_label">
-                                    <property name="label">&lt;b&gt;Open recent&lt;/b&gt;</property>
+                                    <property name="label">&lt;b&gt;Ouvrir un fichier récent&lt;/b&gt;</property>
                                     <property name="margin-bottom">10</property>
                                     <property name="use-markup">True</property>
                                     <property name="xalign">0.0</property>
@@ -221,7 +221,7 @@ welcome-box</property>
                                             <property name="vexpand-set">True</property>
                                             <child>
                                               <object class="GtkLabel">
-                                                <property name="label">&lt;b&gt;Create a new document&lt;/b&gt;</property>
+                                                <property name="label">&lt;b&gt;Créer un nouveau document&lt;/b&gt;</property>
                                                 <property name="use-markup">True</property>
                                                 <property name="vexpand">True</property>
                                                 <property name="xalign">0.0</property>
@@ -251,7 +251,7 @@ welcome-box</property>
                                             <property name="vexpand-set">True</property>
                                             <child>
                                               <object class="GtkLabel">
-                                                <property name="label">&lt;b&gt;Open existing document&lt;/b&gt;</property>
+                                                <property name="label">&lt;b&gt;Ouvrir un document existant&lt;/b&gt;</property>
                                                 <property name="use-markup">True</property>
                                                 <property name="vexpand">True</property>
                                                 <property name="xalign">0.0</property>
@@ -277,7 +277,7 @@ welcome-box</property>
                                     <child>
                                       <object class="GtkLabel">
                                         <property name="hexpand">True</property>
-                                        <property name="label">New here? Check out the &lt;a href="https://docs.dune3d.org/"&gt;documentation&lt;/a&gt; and the &lt;a href="https://docs.dune3d.org/en/latest/simple-part.html"&gt;tutorial&lt;/a&gt;.</property>
+                                        <property name="label">Nouveau ? Consultez la &lt;a href="https://docs.dune3d.org/"&gt;documentation&lt;/a&gt; et le &lt;a href="https://docs.dune3d.org/en/latest/simple-part.html"&gt;tutoriel&lt;/a&gt; (en anglais).</property>
                                         <property name="max-width-chars">0</property>
                                         <property name="natural-wrap-mode">word</property>
                                         <property name="use-markup">True</property>
@@ -302,7 +302,7 @@ welcome-box</property>
                                         <property name="halign">start</property>
                                         <property name="hexpand">True</property>
                                         <property name="justify">fill</property>
-                                        <property name="label">Press space anywhere in the 3D viewport to open the searchable global menu.</property>
+                                        <property name="label">Appuyez sur Espace n'importe où dans la vue 3D pour ouvrir le menu général avec recherche.</property>
                                         <property name="max-width-chars">0</property>
                                         <property name="natural-wrap-mode">word</property>
                                         <property name="wrap">True</property>
@@ -376,7 +376,7 @@ blah</property>
                                   <object class="GtkButton" id="delete_undo_button">
                                     <property name="child">
                                       <object class="GtkLabel">
-                                        <property name="label">Undo</property>
+                                        <property name="label">Annuler</property>
                                         <property name="width-chars">7</property>
                                         <property name="xalign">0.0</property>
                                       </object>
@@ -389,7 +389,7 @@ blah</property>
                                     <property name="child">
                                       <object class="GtkLabel" id="delete_close_label">
                                         <property name="css-classes">tnum</property>
-                                        <property name="label">Close</property>
+                                        <property name="label">Fermer</property>
                                         <property name="width-chars">7</property>
                                         <property name="xalign">0.0</property>
                                       </object>
@@ -512,7 +512,7 @@ blah</property>
                     <property name="xalign">0.0</property>
                   </object>
                 </property>
-                <property name="tooltip-text">Use workplane</property>
+                <property name="tooltip-text">Utiliser le plan de travail</property>
               </object>
             </child>
             <child>
@@ -527,7 +527,7 @@ blah</property>
                     </child>
                     <child>
                       <object class="GtkLabel" id="view_hints_label">
-                        <property name="label">View</property>
+                        <property name="label">Vue</property>
                       </object>
                     </child>
                   </object>

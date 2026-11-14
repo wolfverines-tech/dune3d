@@ -16,7 +16,7 @@ SelectionFilterWindow::SelectionFilterWindow(ICore &core) : m_core(core)
     {
         auto reset_button = Gtk::make_managed<Gtk::Button>();
         reset_button->set_image_from_icon_name("object-select-symbolic");
-        reset_button->set_tooltip_text("Reset");
+        reset_button->set_tooltip_text("Réinitialiser");
         reset_button->signal_clicked().connect([this] {
             m_current_group_only_cb->set_active(false);
             m_entities_cb->set_active(true);
@@ -26,22 +26,22 @@ SelectionFilterWindow::SelectionFilterWindow(ICore &core) : m_core(core)
     }
 
     set_titlebar(*hb);
-    set_title("Selection filter");
+    set_title("Filtre de sélection");
 
     auto lb = Gtk::make_managed<Gtk::ListBox>();
     lb->set_selection_mode(Gtk::SelectionMode::NONE);
     lb->set_header_func(&header_func_separator);
 
-    m_current_group_only_cb = Gtk::make_managed<Gtk::CheckButton>("Current group only");
+    m_current_group_only_cb = Gtk::make_managed<Gtk::CheckButton>("Groupe courant uniquement");
     m_current_group_only_cb->signal_toggled().connect([this] { m_signal_changed.emit(); });
     lb->append(*m_current_group_only_cb);
 
-    m_entities_cb = Gtk::make_managed<Gtk::CheckButton>("Entities");
+    m_entities_cb = Gtk::make_managed<Gtk::CheckButton>("Entités");
     m_entities_cb->set_active(true);
     m_entities_cb->signal_toggled().connect([this] { m_signal_changed.emit(); });
     lb->append(*m_entities_cb);
 
-    m_constraints_cb = Gtk::make_managed<Gtk::CheckButton>("Constraints");
+    m_constraints_cb = Gtk::make_managed<Gtk::CheckButton>("Contraintes");
     m_constraints_cb->set_active(true);
     m_constraints_cb->signal_toggled().connect([this] { m_signal_changed.emit(); });
     lb->append(*m_constraints_cb);

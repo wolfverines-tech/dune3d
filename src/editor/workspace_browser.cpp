@@ -160,7 +160,7 @@ void WorkspaceBrowser::update_documents(const std::map<UUID, DocumentView> &doc_
         mi->m_close_sensitive = doci->can_close();
         Glib::RefPtr<BodyItem> body_item = BodyItem::create();
         body_item->m_doc = mi->m_uuid;
-        body_item->m_name = "Missing";
+        body_item->m_name = "Manquant";
         for (auto gr : doci->get_document().get_groups_sorted()) {
             if (gr->m_body.has_value()) {
                 body_item = BodyItem::create();
@@ -240,7 +240,7 @@ static std::string icon_name_from_status(GroupStatusMessage::Status st)
 void WorkspaceBrowser::update_name(DocumentItem &it_doc, IDocumentInfo &doci)
 {
     if (doci.get_path().empty())
-        it_doc.m_tooltip = "Not saved yet";
+        it_doc.m_tooltip = "Pas encore enregistré";
     else
         it_doc.m_tooltip = path_to_string(doci.get_path());
 
@@ -446,7 +446,7 @@ public:
         m_source_group_image->set_hexpand(true);
         m_source_group_image->set_from_icon_name("action-link-symbolic");
         m_source_group_image->set_halign(Gtk::Align::START);
-        m_source_group_image->set_tooltip_text("Source of current group");
+        m_source_group_image->set_tooltip_text("Source du groupe courant");
 
         m_status_button = Gtk::make_managed<Gtk::MenuButton>();
         m_status_button->set_icon_name("dialog-information-symbolic");
@@ -884,63 +884,63 @@ WorkspaceBrowser::WorkspaceBrowser(Core &core) : Gtk::Box(Gtk::Orientation::VERT
                 actions->add_action("solid_model_operation",
                                     [this] { emit_add_group(Group::Type::SOLID_MODEL_OPERATION); });
                 actions->add_action("pipe", [this] { emit_add_group(Group::Type::PIPE); });
-                top->append_item(Gio::MenuItem::create("Sketch", "groups.sketch"));
-                top->append_item(Gio::MenuItem::create("Sketch in new Body", "groups.sketch_in_new_body"));
-                top->append_item(Gio::MenuItem::create("Extrude", "groups.extrude"));
-                top->append_item(Gio::MenuItem::create("Lathe", "groups.lathe"));
-                top->append_item(Gio::MenuItem::create("Revolve", "groups.revolve"));
-                top->append_item(Gio::MenuItem::create("Loft", "groups.loft"));
-                top->append_item(Gio::MenuItem::create("Linear array", "groups.linear_array"));
-                top->append_item(Gio::MenuItem::create("Polar array", "groups.polar_array"));
-                top->append_item(Gio::MenuItem::create("Fillet", "groups.fillet"));
-                top->append_item(Gio::MenuItem::create("Chamfer", "groups.chamfer"));
-                top->append_item(Gio::MenuItem::create("Mirror horizontally", "groups.mirror_horizontal"));
-                top->append_item(Gio::MenuItem::create("Mirror vertically", "groups.mirror_vertical"));
+                top->append_item(Gio::MenuItem::create("Esquisse", "groups.sketch"));
+                top->append_item(Gio::MenuItem::create("Esquisse dans un nouveau corps", "groups.sketch_in_new_body"));
+                top->append_item(Gio::MenuItem::create("Extrusion", "groups.extrude"));
+                top->append_item(Gio::MenuItem::create("Tournage", "groups.lathe"));
+                top->append_item(Gio::MenuItem::create("Révolution", "groups.revolve"));
+                top->append_item(Gio::MenuItem::create("Lissage", "groups.loft"));
+                top->append_item(Gio::MenuItem::create("Réseau linéaire", "groups.linear_array"));
+                top->append_item(Gio::MenuItem::create("Réseau circulaire", "groups.polar_array"));
+                top->append_item(Gio::MenuItem::create("Congé", "groups.fillet"));
+                top->append_item(Gio::MenuItem::create("Chanfrein", "groups.chamfer"));
+                top->append_item(Gio::MenuItem::create("Symétrie horizontale", "groups.mirror_horizontal"));
+                top->append_item(Gio::MenuItem::create("Symétrie verticale", "groups.mirror_vertical"));
                 top->append_item(Gio::MenuItem::create("Clone", "groups.clone"));
-                top->append_item(Gio::MenuItem::create("Solid model operation", "groups.solid_model_operation"));
-                top->append_item(Gio::MenuItem::create("Pipe", "groups.pipe"));
+                top->append_item(Gio::MenuItem::create("Opération sur solides", "groups.solid_model_operation"));
+                top->append_item(Gio::MenuItem::create("Balayage", "groups.pipe"));
 
 
                 insert_action_group("groups", actions);
                 button->set_menu_model(top);
             }
             button->set_icon_name("list-add-symbolic");
-            button->set_tooltip_text("Add new group");
+            button->set_tooltip_text("Ajouter un groupe");
             button->set_direction(Gtk::ArrowType::UP);
             box->append(*button);
         }
         {
             auto button = Gtk::make_managed<Gtk::Button>();
             button->set_icon_name("list-remove-symbolic");
-            button->set_tooltip_text("Delete current group");
+            button->set_tooltip_text("Supprimer le groupe courant");
             button->signal_clicked().connect([this] { m_signal_delete_current_group.emit(); });
             box->append(*button);
         }
         {
             auto button = Gtk::make_managed<Gtk::Button>();
             button->set_icon_name("go-up-symbolic");
-            button->set_tooltip_text("Move group up");
+            button->set_tooltip_text("Monter le groupe");
             button->signal_clicked().connect([this] { m_signal_move_group.emit(Document::MoveGroup::UP); });
             box->append(*button);
         }
         {
             auto button = Gtk::make_managed<Gtk::Button>();
             button->set_icon_name("go-down-symbolic");
-            button->set_tooltip_text("Move group down");
+            button->set_tooltip_text("Descendre le groupe");
             button->signal_clicked().connect([this] { m_signal_move_group.emit(Document::MoveGroup::DOWN); });
             box->append(*button);
         }
         {
             auto button = Gtk::make_managed<Gtk::Button>();
             button->set_icon_name("action-move-group-down2-symbolic");
-            button->set_tooltip_text("Move group to end of body / next body");
+            button->set_tooltip_text("Déplacer le groupe à la fin du corps / au corps suivant");
             button->signal_clicked().connect([this] { m_signal_move_group.emit(Document::MoveGroup::END_OF_BODY); });
             box->append(*button);
         }
         {
             auto button = Gtk::make_managed<Gtk::Button>();
             button->set_icon_name("action-move-group-down3-symbolic");
-            button->set_tooltip_text("Move group to end of document");
+            button->set_tooltip_text("Déplacer le groupe à la fin du document");
             button->signal_clicked().connect(
                     [this] { m_signal_move_group.emit(Document::MoveGroup::END_OF_DOCUMENT); });
             box->append(*button);
@@ -955,9 +955,9 @@ WorkspaceBrowser::WorkspaceBrowser(Core &core) : Gtk::Box(Gtk::Orientation::VERT
     actions->add_action("rename", [this] { signal_rename_body().emit(m_body_menu_document, m_body_menu_body); });
     actions->add_action("set_color", [this] { signal_set_body_color().emit(m_body_menu_document, m_body_menu_body); });
     insert_action_group("body", actions);
-    m_body_menu->append("Set color", "body.set_color");
-    m_body_menu->append("Reset color", "body.reset_color");
-    m_body_menu->append("Rename", "body.rename");
+    m_body_menu->append("Choisir la couleur", "body.set_color");
+    m_body_menu->append("Réinitialiser la couleur", "body.reset_color");
+    m_body_menu->append("Renommer", "body.rename");
 
 
     m_body_popover = Gtk::make_managed<Gtk::PopoverMenu>();

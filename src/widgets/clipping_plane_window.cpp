@@ -52,7 +52,7 @@ ClippingPlaneWindow::ClippingPlaneWindow()
 {
     auto hb = Gtk::make_managed<Gtk::HeaderBar>();
     set_titlebar(*hb);
-    set_title("Clipping planes");
+    set_title("Plans de coupe");
 
     m_global_sw = Gtk::make_managed<Gtk::Switch>();
     m_global_sw->set_active(true);

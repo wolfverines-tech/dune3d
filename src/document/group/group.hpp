@@ -19,7 +19,7 @@ public:
     explicit Body(const json &j);
     Body();
 
-    std::string m_name = "Body";
+    std::string m_name = "Corps";
     std::optional<Color> m_color;
 
     json serialize() const;

@@ -52,7 +52,7 @@ std::string EntityCircle3D::get_point_name(unsigned int point) const
 {
     switch (point) {
     case 1:
-        return "center";
+        return "centre";
     default:
         return "";
     }

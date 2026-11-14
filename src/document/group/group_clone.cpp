@@ -37,7 +37,7 @@ void GroupClone::generate(Document &doc)
 {
     m_clone_messages.clear();
     if (!m_active_wrkpl) {
-        m_clone_messages.emplace_back(GroupStatusMessage::Status::ERR, "Group needs workplane");
+        m_clone_messages.emplace_back(GroupStatusMessage::Status::ERR, "Le groupe nécessite un plan de travail");
         return;
     }
 

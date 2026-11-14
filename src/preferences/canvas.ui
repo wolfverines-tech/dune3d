@@ -19,7 +19,7 @@
               <object class="GtkLabel">
                 <property name="css-classes">dim-label</property>
                 <property name="halign">end</property>
-                <property name="label">Line Width</property>
+                <property name="label">Épaisseur des lignes</property>
                 <layout>
                   <property name="column">0</property>
                   <property name="column-span">1</property>
@@ -54,7 +54,7 @@
               <object class="GtkLabel">
                 <property name="css-classes">dim-label</property>
                 <property name="halign">end</property>
-                <property name="label">Antialiasing</property>
+                <property name="label">Anticrénelage</property>
                 <layout>
                   <property name="column">0</property>
                   <property name="column-span">1</property>
@@ -84,7 +84,7 @@
                 <child>
                   <object class="GtkButton" id="theme_customize_button">
                     <property name="icon-name">document-edit-symbolic</property>
-                    <property name="tooltip-text">Customize</property>
+                    <property name="tooltip-text">Personnaliser</property>
                   </object>
                 </child>
                 <layout>
@@ -108,14 +108,14 @@
                   <object class="GtkToggleButton" id="theme_variant_light_button">
                     <property name="group">theme_variant_auto_button</property>
                     <property name="hexpand">True</property>
-                    <property name="label">Light</property>
+                    <property name="label">Clair</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkToggleButton" id="theme_variant_dark_button">
                     <property name="group">theme_variant_auto_button</property>
                     <property name="hexpand">True</property>
-                    <property name="label">Dark</property>
+                    <property name="label">Sombre</property>
                   </object>
                 </child>
                 <layout>
@@ -130,7 +130,7 @@
               <object class="GtkLabel">
                 <property name="css-classes">dim-label</property>
                 <property name="halign">end</property>
-                <property name="label">Color Theme</property>
+                <property name="label">Thème de couleurs</property>
                 <layout>
                   <property name="column">0</property>
                   <property name="row">2</property>
@@ -141,7 +141,7 @@
               <object class="GtkLabel">
                 <property name="css-classes">dim-label</property>
                 <property name="halign">end</property>
-                <property name="label">Variant</property>
+                <property name="label">Variante</property>
                 <layout>
                   <property name="column">0</property>
                   <property name="row">3</property>
@@ -175,12 +175,12 @@
                     <property name="spacing">10</property>
                     <child>
                       <object class="GtkButton" id="import_button">
-                        <property name="label">Import…</property>
+                        <property name="label">Importer…</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkButton" id="export_button">
-                        <property name="label">Export…</property>
+                        <property name="label">Exporter…</property>
                       </object>
                     </child>
                   </object>

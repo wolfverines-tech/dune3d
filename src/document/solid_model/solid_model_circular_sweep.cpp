@@ -22,7 +22,7 @@ static std::shared_ptr<const SolidModel> create_circular_sweep(const Document &d
                 FaceBuilder::from_document(doc, group.m_wrkpl, group.m_source_group, transform, transform_normal);
 
         if (face_builder.get_n_faces() == 0) {
-            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "no faces");
+            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune face");
             return nullptr;
         }
 
@@ -33,7 +33,7 @@ static std::shared_ptr<const SolidModel> create_circular_sweep(const Document &d
             dir = *odir;
         }
         else {
-            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "no axis");
+            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas d'axe");
             return nullptr;
         }
 
@@ -60,12 +60,12 @@ static std::shared_ptr<const SolidModel> create_circular_sweep(const Document &d
         group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "unknown exception");
     }
     if (mod->m_shape.IsNull()) {
-        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
 
     if (!mod->update_acc_finish(doc, group)) {
-        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
     return mod;

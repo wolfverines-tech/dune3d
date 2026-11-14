@@ -12,11 +12,11 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupS
     auto &groups = doc.get_groups();
     group.m_solid_model_messages.clear();
     if (!groups.contains(group.m_source_group_argument)) {
-        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "no argument source group");
+        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de groupe source argument");
         return nullptr;
     }
     if (!groups.contains(group.m_source_group_tool)) {
-        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "no tool source group");
+        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de groupe source outil");
         return nullptr;
     }
 
@@ -24,14 +24,14 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupS
             dynamic_cast<const IGroupSolidModel *>(groups.at(group.m_source_group_argument).get());
     if (!source_group_argument || !source_group_argument->get_solid_model()) {
         group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR,
-                                                  "argument source group has no solid model");
+                                                  "le groupe source argument n'a pas de modèle solide");
         return nullptr;
     }
 
     const auto source_group_tool = dynamic_cast<const IGroupSolidModel *>(groups.at(group.m_source_group_tool).get());
     if (!source_group_tool || !source_group_tool->get_solid_model()) {
         group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR,
-                                                  "tool source group has no solid model");
+                                                  "le groupe source outil n'a pas de modèle solide");
         return nullptr;
     }
 
@@ -39,11 +39,11 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupS
     auto &solid_model_tool = dynamic_cast<const SolidModelOcc &>(*source_group_tool->get_solid_model());
     if (solid_model_argument.m_shape_acc.IsNull()) {
         group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR,
-                                                  "argument source group has no shape");
+                                                  "le groupe source argument n'a pas de forme");
         return nullptr;
     }
     if (solid_model_tool.m_shape_acc.IsNull()) {
-        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "tool source group has no shape");
+        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "le groupe source outil n'a pas de forme");
         return nullptr;
     }
 
@@ -53,7 +53,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupS
             SolidModelOcc::calc(group.m_operation, solid_model_argument.m_shape_acc, solid_model_tool.m_shape_acc);
 
     if (mod->m_shape_acc.IsNull()) {
-        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_solid_model_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
 

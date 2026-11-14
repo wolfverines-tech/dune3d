@@ -26,7 +26,7 @@ ToolResponse ToolEnterText::begin(const ToolArgs &args)
         return ToolResponse::end();
 
     m_entity = &get_entity<EntityText>(enp->entity);
-    m_intf.get_dialogs().show_enter_text_window("Enter text", m_entity->m_text);
+    m_intf.get_dialogs().show_enter_text_window("Saisir le texte", m_entity->m_text);
 
     return ToolResponse();
 }

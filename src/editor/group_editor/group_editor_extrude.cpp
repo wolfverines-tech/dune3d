@@ -12,7 +12,7 @@ GroupEditorExtrude::GroupEditorExtrude(Core &core, const UUID &group_uu) : Group
     m_normal_switch->set_halign(Gtk::Align::START);
     auto &group = get_group();
     m_normal_switch->set_active(group.m_direction == GroupExtrude::Direction::NORMAL);
-    grid_attach_label_and_widget(*this, "Along normal", *m_normal_switch, m_top);
+    grid_attach_label_and_widget(*this, "Selon la normale", *m_normal_switch, m_top);
     m_normal_switch->property_active().signal_changed().connect([this] {
         if (is_reloading())
             return;
@@ -27,9 +27,9 @@ GroupEditorExtrude::GroupEditorExtrude(Core &core, const UUID &group_uu) : Group
     add_operation_combo();
     {
         auto items = Gtk::StringList::create();
-        items->append("Single");
-        items->append("Offset");
-        items->append("Offset symmetric");
+        items->append("Simple");
+        items->append("Décalage");
+        items->append("Décalage symétrique");
 
         m_mode_combo = Gtk::make_managed<Gtk::DropDown>(items);
         m_mode_combo->set_selected(static_cast<guint>(group.m_mode));

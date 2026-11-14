@@ -16,7 +16,7 @@ GroupEditorLoft::GroupEditorLoft(Core &core, const UUID &group_uu) : GroupEditor
     m_ruled_switch->set_halign(Gtk::Align::START);
     auto &group = get_group();
     m_ruled_switch->set_active(group.m_ruled);
-    grid_attach_label_and_widget(*this, "Ruled", *m_ruled_switch, m_top);
+    grid_attach_label_and_widget(*this, "Réglé", *m_ruled_switch, m_top);
     m_ruled_switch->property_active().signal_changed().connect([this] {
         if (is_reloading())
             return;
@@ -32,7 +32,7 @@ GroupEditorLoft::GroupEditorLoft(Core &core, const UUID &group_uu) : GroupEditor
     m_source_groups_button_label->set_ellipsize(Pango::EllipsizeMode::END);
     m_source_groups_button_label->set_xalign(0);
     m_source_groups_button->set_child(*m_source_groups_button_label);
-    grid_attach_label_and_widget(*this, "Source groups", *m_source_groups_button, m_top);
+    grid_attach_label_and_widget(*this, "Groupes sources", *m_source_groups_button, m_top);
     update_source_groups_label(group);
 }
 

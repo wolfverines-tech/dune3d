@@ -44,7 +44,7 @@ std::vector<SelectableCheckButton *> SelectionMenuCreator::create(Gtk::Popover &
         auto more_link = Gtk::make_managed<Gtk::Label>();
         more_link->set_margin_start(4);
         more_link->set_xalign(0);
-        more_link->set_markup("<a href=\"\">Show more…</a>");
+        more_link->set_markup("<a href=\"\">Afficher plus…</a>");
         box->append(*more_link);
         box->append(*more_box);
         more_box->hide();

@@ -6,7 +6,7 @@ LogWindow::LogWindow() : Gtk::Window()
 {
     auto hb = Gtk::manage(new Gtk::HeaderBar());
     hb->set_show_title_buttons(true);
-    set_title("Logs");
+    set_title("Journaux");
 
     set_default_size(800, 300);
     set_titlebar(*hb);

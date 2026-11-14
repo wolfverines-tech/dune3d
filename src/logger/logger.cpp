@@ -19,7 +19,7 @@ void Logger::log(Logger::Level l, const std::string &m, Logger::Domain d, const 
         handler(Item(seq++, l, m, d, detail));
     }
     else {
-        buffer.emplace_back(seq++, l, m, d, detail + " (startup)");
+        buffer.emplace_back(seq++, l, m, d, detail + " (démarrage)");
     }
 }
 
@@ -58,25 +58,25 @@ std::string Logger::domain_to_string(Logger::Domain dom)
 {
     switch (dom) {
     case Logger::Domain::TOOL:
-        return "Tool";
+        return "Outil";
     case Logger::Domain::CORE:
-        return "Core";
+        return "Noyau";
     case Logger::Domain::RENDERER:
-        return "Renderer";
+        return "Rendu";
     case Logger::Domain::CANVAS:
-        return "Canvas";
+        return "Vue 3D";
     case Logger::Domain::IMPORT:
         return "Import";
     case Logger::Domain::VERSION:
         return "Version";
     case Logger::Domain::EDITOR:
-        return "Editor";
+        return "Éditeur";
     case Logger::Domain::DOCUMENT:
         return "Document";
     case Logger::Domain::PICTURE:
-        return "Picture";
+        return "Image";
     default:
-        return "Unspecified";
+        return "Non précisé";
     }
 }
 
@@ -84,15 +84,15 @@ std::string Logger::level_to_string(Logger::Level lev)
 {
     switch (lev) {
     case Logger::Level::CRITICAL:
-        return "Critical";
+        return "Critique";
     case Logger::Level::DEBUG:
-        return "Debug";
+        return "Débogage";
     case Logger::Level::INFO:
         return "Info";
     case Logger::Level::WARNING:
-        return "Warning";
+        return "Avertissement";
     default:
-        return "Unknown";
+        return "Inconnu";
     }
 }
 } // namespace dune3d

@@ -24,7 +24,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupL
             if (face_builder.has_hole()) {
                 auto &group_name = doc.get_group(src.group).m_name;
                 group.m_loft_messages.emplace_back(GroupStatusMessage::Status::ERR,
-                                                   std::format("Source group {} has holes", group_name));
+                                                   std::format("Le groupe source {} contient des trous", group_name));
                 return nullptr;
             }
             if (wires.size() == 1) {
@@ -34,7 +34,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupL
                 auto &group_name = doc.get_group(src.group).m_name;
                 group.m_loft_messages.emplace_back(
                         GroupStatusMessage::Status::ERR,
-                        std::format("Source group {} has {} paths, need 1", group_name, wires.size()));
+                        std::format("Le groupe source {} a {} tracés, il en faut 1", group_name, wires.size()));
                 return nullptr;
             }
         }
@@ -53,12 +53,12 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupL
         group.m_loft_messages.emplace_back(GroupStatusMessage::Status::ERR, "unknown exception");
     }
     if (mod->m_shape.IsNull()) {
-        group.m_loft_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_loft_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
 
     if (!mod->update_acc_finish(doc, group)) {
-        group.m_loft_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_loft_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
     return mod;

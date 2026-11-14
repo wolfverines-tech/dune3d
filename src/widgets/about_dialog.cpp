@@ -18,7 +18,7 @@ AboutDialog::AboutDialog() : Gtk::AboutDialog()
     set_copyright("Copyright © 2024 Lukas K., et al.");
     set_website("https://dune3d.org/");
     set_website_label("dune3d.org");
-    set_comments("a parametric 3D CAD");
+    set_comments("une CAO 3D paramétrique");
 
     set_logo_icon_name("dune3d");
 }

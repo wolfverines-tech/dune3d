@@ -118,15 +118,15 @@ std::string ToolHelperConstrain::get_constrain_tip(const std::string &what)
         return "";
     switch (*ct) {
     case Constraint::Type::POINTS_COINCIDENT:
-        return "constrain " + what + " on point";
+        return "contraindre " + what + " sur le point";
     case Constraint::Type::POINT_ON_LINE:
-        return "constrain " + what + " on line";
+        return "contraindre " + what + " sur la ligne";
     case Constraint::Type::POINT_ON_BEZIER:
-        return "constrain " + what + " on bezier";
+        return "contraindre " + what + " sur la courbe de Bézier";
     case Constraint::Type::MIDPOINT:
-        return "constrain " + what + " on midpoint";
+        return "contraindre " + what + " sur le milieu";
     case Constraint::Type::POINT_ON_CIRCLE:
-        return "constrain " + what + " on circle";
+        return "contraindre " + what + " sur le cercle";
     default:
         return "";
     }

@@ -1,3 +1,4 @@
+#include <map>
 #include "action.hpp"
 #include "action_id.hpp"
 #include "util/str_util.hpp"
@@ -29,14 +30,25 @@ static std::string keyval_to_string(unsigned int kv)
         return ">";
     case GDK_KEY_BackSpace:
 #ifdef __APPLE__
-        return "Delete";
+        return "Suppr";
     case GDK_KEY_Delete:
 #endif
         return "⌫";
     case GDK_KEY_Escape:
-        return "Esc";
-    default:
-        return gdk_keyval_name(kv);
+        return "Échap";
+    default: {
+        const std::string name = gdk_keyval_name(kv) ? gdk_keyval_name(kv) : "";
+        static const std::map<std::string, std::string> fr = {
+                {"Delete", "Suppr"},  {"Return", "Entrée"}, {"space", "Espace"}, {"Home", "Début"},
+                {"End", "Fin"},       {"Page_Up", "Pg↑"},   {"Page_Down", "Pg↓"}, {"Insert", "Inser"},
+                {"Up", "↑"},          {"Down", "↓"},        {"Left", "←"},       {"Right", "→"},
+                {"Tab", "Tab"},       {"equal", "="},       {"minus", "-"},      {"plus", "+"},
+                {"comma", ","},       {"period", "."},
+        };
+        if (fr.contains(name))
+            return fr.at(name);
+        return name;
+    }
     }
 }
 
@@ -52,7 +64,7 @@ std::string key_sequence_item_to_string(const KeySequenceItem &it)
 #endif
     }
     if ((int)(it.mod & Gdk::ModifierType::SHIFT_MASK)) {
-        txt += "Shift+";
+        txt += "Maj+";
     }
     if ((int)(it.mod & Gdk::ModifierType::ALT_MASK)) {
 #ifdef __APPLE__

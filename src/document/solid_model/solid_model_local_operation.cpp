@@ -16,7 +16,7 @@ std::shared_ptr<const SolidModel> create_local_operation(const Document &doc, Gr
 {
     group.m_local_operation_messages.clear();
     if (group.m_edges.size() == 0) {
-        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "no edges");
+        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune arête");
         return nullptr;
     }
 
@@ -24,13 +24,13 @@ std::shared_ptr<const SolidModel> create_local_operation(const Document &doc, Gr
 
     const auto last_solid_model_group = SolidModel::get_last_solid_model_group(doc, group);
     if (!last_solid_model_group) {
-        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "no solid model group");
+        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de groupe de modèle solide");
         return nullptr;
     }
     group.m_operation = last_solid_model_group->get_operation();
     const auto last_solid_model = dynamic_cast<const SolidModelOcc *>(last_solid_model_group->get_solid_model());
     if (!last_solid_model) {
-        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "no solid model");
+        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de modèle solide");
         return nullptr;
     }
 
@@ -55,7 +55,7 @@ std::shared_ptr<const SolidModel> create_local_operation(const Document &doc, Gr
 
         mf.Build();
         if (!mf.IsDone()) {
-            group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "not done");
+            group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "non effectué");
             return nullptr;
         }
 
@@ -74,7 +74,7 @@ std::shared_ptr<const SolidModel> create_local_operation(const Document &doc, Gr
         group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "unknown exception");
     }
     if (mod->m_shape_acc.IsNull()) {
-        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_local_operation_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
 

@@ -62,8 +62,8 @@ ToolResponse ToolConstrainDistanceAligned::begin(const ToolArgs &args)
     m_intf.enable_hover_selection();
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "select direction");
-        actions.emplace_back(InToolActionID::RMB, "end tool");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner la direction");
+        actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
         m_intf.tool_bar_set_actions(actions);
     }
 
@@ -90,9 +90,9 @@ ToolResponse ToolConstrainDistanceAligned::update(const ToolArgs &args)
             if (hsel->type != SelectableRef::Type::ENTITY)
                 return ToolResponse();
 
-            std::string msg = "please click on a line";
+            std::string msg = "cliquez sur une ligne";
             if (!get_workplane_uuid())
-                msg += "or workplane";
+                msg += " ou un plan de travail";
 
             if (hsel->point != 0) {
                 m_intf.tool_bar_flash(msg);

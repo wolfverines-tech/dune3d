@@ -31,7 +31,7 @@ UUID Editor::duplicate_workspace_view(const UUID &wv_uu)
     auto uu = UUID::random();
     auto &wv = m_workspace_views.emplace(uu, m_workspace_views.at(wv_uu)).first->second;
     if (wv.m_name.size())
-        wv.m_name += " (Copy)";
+        wv.m_name += " (copie)";
     append_workspace_view_page(wv.m_name, uu);
     return uu;
 }
@@ -103,7 +103,7 @@ void Editor::rename_workspace_view(const UUID &uu)
     if (!m_workspace_views.contains(uu))
         return;
 
-    auto win = new RenameWindow("Rename workspace view");
+    auto win = new RenameWindow("Renommer la vue de l'espace de travail");
     win->set_text(m_workspace_views.at(uu).m_name);
     win->set_transient_for(m_win);
     win->set_modal(true);

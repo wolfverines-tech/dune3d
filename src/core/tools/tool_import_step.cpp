@@ -65,7 +65,7 @@ ToolResponse ToolImportSTEP::begin(const ToolArgs &args)
 
 void ToolImportSTEP::update_tip()
 {
-    std::string tip = "Orientation: " + quat_to_string(m_step->m_normal);
+    std::string tip = "Orientation : " + quat_to_string(m_step->m_normal);
 
     std::vector<ConstraintType> constraint_icons;
 
@@ -74,16 +74,16 @@ void ToolImportSTEP::update_tip()
 
     std::vector<ActionLabelInfo> actions;
     actions.reserve(9);
-    actions.emplace_back(InToolActionID::LMB, "place");
+    actions.emplace_back(InToolActionID::LMB, "placer");
 
-    actions.emplace_back(InToolActionID::RMB, "cancel");
+    actions.emplace_back(InToolActionID::RMB, "annuler");
 
     if (m_lock_rotation)
-        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "unlock rotation");
+        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "déverrouiller la rotation");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "lock rotation");
+        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "verrouiller la rotation");
 
-    actions.emplace_back(InToolActionID::ROTATE_X, InToolActionID::ROTATE_Y, InToolActionID::ROTATE_Z, "rotate");
+    actions.emplace_back(InToolActionID::ROTATE_X, InToolActionID::ROTATE_Y, InToolActionID::ROTATE_Z, "pivoter");
 
     m_intf.set_constraint_icons(m_intf.get_cursor_pos(), {NAN, NAN, NAN}, constraint_icons);
 

@@ -10,12 +10,12 @@ CaptureDialog::CaptureDialog(Gtk::Window *parent)
     auto hb = Gtk::make_managed<Gtk::HeaderBar>();
     hb->set_show_title_buttons(false);
     set_titlebar(*hb);
-    set_title("Capture key sequence");
+    set_title("Saisir un raccourci clavier");
     set_modal(true);
 
     auto sg = Gtk::SizeGroup::create(Gtk::SizeGroup::Mode::HORIZONTAL);
 
-    auto cancel_button = Gtk::make_managed<Gtk::Button>("Cancel");
+    auto cancel_button = Gtk::make_managed<Gtk::Button>("Annuler");
     hb->pack_start(*cancel_button);
     cancel_button->signal_clicked().connect([this] { close(); });
     sg->add_widget(*cancel_button);
@@ -32,7 +32,7 @@ CaptureDialog::CaptureDialog(Gtk::Window *parent)
 
     m_capture_label = Gtk::make_managed<Gtk::Entry>();
     m_capture_label->set_editable(false);
-    m_capture_label->set_placeholder_text("type here");
+    m_capture_label->set_placeholder_text("tapez ici");
 
     {
         auto controller = Gtk::EventControllerKey::create();
@@ -60,7 +60,7 @@ CaptureDialog::CaptureDialog(Gtk::Window *parent)
     box->set_margin(10);
     box->append(*m_capture_label);
 
-    auto reset_button = Gtk::make_managed<Gtk::Button>("Start over");
+    auto reset_button = Gtk::make_managed<Gtk::Button>("Recommencer");
     box->append(*reset_button);
     reset_button->signal_clicked().connect([this] {
         m_keys.clear();

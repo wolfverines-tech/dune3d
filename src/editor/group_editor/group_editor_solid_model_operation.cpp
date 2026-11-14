@@ -16,7 +16,7 @@ GroupEditorSolidModelOperation::GroupEditorSolidModelOperation(Core &core, const
     m_tool_button = Gtk::make_managed<GroupButton>(m_core.get_current_document(), group_uu, GroupsFilter::SOLID_MODEL);
 
     grid_attach_label_and_widget(*this, "Argument", *m_argument_button, m_top);
-    grid_attach_label_and_widget(*this, "Tool", *m_tool_button, m_top);
+    grid_attach_label_and_widget(*this, "Outil", *m_tool_button, m_top);
 
     auto &group = get_group();
 
@@ -26,7 +26,7 @@ GroupEditorSolidModelOperation::GroupEditorSolidModelOperation(Core &core, const
     m_argument_button->signal_changed().connect(sigc::mem_fun(*this, &GroupEditorSolidModelOperation::changed));
     m_tool_button->signal_changed().connect(sigc::mem_fun(*this, &GroupEditorSolidModelOperation::changed));
 
-    auto swap_button = Gtk::make_managed<Gtk::Button>("Swap Argument & Tool");
+    auto swap_button = Gtk::make_managed<Gtk::Button>("Permuter argument et outil");
     attach(*swap_button, 1, m_top++, 1, 1);
     swap_button->signal_clicked().connect([this] {
         auto &group = get_group();

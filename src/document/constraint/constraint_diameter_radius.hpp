@@ -110,7 +110,7 @@ public:
 
     std::string get_datum_name() const override
     {
-        return "Diameter";
+        return "Diamètre";
     }
 
     double measure_distance(const Document &doc) const override;
@@ -134,7 +134,7 @@ public:
 
     std::string get_datum_name() const override
     {
-        return "Radius";
+        return "Rayon";
     }
 
     double measure_distance(const Document &doc) const override;

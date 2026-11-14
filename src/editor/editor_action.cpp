@@ -763,7 +763,7 @@ bool Editor::handle_action_key(Glib::RefPtr<Gtk::EventControllerKey> controller,
         }
 
         if (connections_matched.size() == 1 && in_tool_actions_matched.size() == 1) {
-            m_win.set_key_hint_label_text("Ambiguous");
+            m_win.set_key_hint_label_text("Ambigu");
             m_keys_current.clear();
         }
         else if (connections_matched.size() == 1) {
@@ -805,10 +805,10 @@ bool Editor::handle_action_key(Glib::RefPtr<Gtk::EventControllerKey> controller,
                  if (res == KeyMatchResult::COMPLETE) {
                      have_conflict = true;
                  }
-                 conflicts.emplace_back(in_tool_action_catalog.at(act).name + " (in-tool action)", seq);
+                 conflicts.emplace_back(in_tool_action_catalog.at(act).name + " (action dans l'outil)", seq);
              }
              if (have_conflict) {
-                 m_win.set_key_hint_label_text("Key sequences conflict");
+                 m_win.set_key_hint_label_text("Conflit de raccourcis clavier");
                  keys_current.clear();
                  KeyConflictDialog dia(main_window, conflicts);
                  if (dia.run() == KeyConflictDialog::RESPONSE_PREFS) {
@@ -843,13 +843,13 @@ bool Editor::handle_action_key(Glib::RefPtr<Gtk::EventControllerKey> controller,
             return true;
         }
         else if (connections_matched.size() == 0 || in_tool_actions_matched.size() == 0) {
-            m_win.set_key_hint_label_text("Unknown key sequence");
+            m_win.set_key_hint_label_text("Raccourci clavier inconnu");
             m_keys_current.clear();
             // main_window->key_hint_set_visible(false);
             return false;
         }
         else {
-            Logger::log_warning("Key sequence??", Logger::Domain::EDITOR,
+            Logger::log_warning("Raccourci ??", Logger::Domain::EDITOR,
                                 std::to_string(connections_matched.size()) + " "
                                         + std::to_string(in_tool_actions_matched.size()));
             return false;
@@ -962,7 +962,7 @@ void Editor::on_unexplode_cluster(const ActionConnection &conn)
     doc.delete_items(items_to_delete);
 
     m_core.set_needs_save();
-    m_core.rebuild("unexplode cluster");
+    m_core.rebuild("annulation de l'éclatement du bloc");
     m_workspace_browser->update_documents(get_current_document_views());
     m_workspace_browser->select_group(cluster.m_group);
 }

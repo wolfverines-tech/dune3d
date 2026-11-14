@@ -277,13 +277,13 @@ static std::string get_workplane_description(const Document &doc, const UUID &wr
     std::string label;
     auto &wrkpl = doc.get_entity(wrkpl_uu);
     auto &wrkpl_group = doc.get_group(wrkpl.m_group);
-    label += " in workplane";
+    label += " dans le plan de travail";
     if (wrkpl.has_name() && wrkpl.m_name.size())
         label += " " + wrkpl.m_name;
     if (wrkpl_group.m_uuid == current_group)
-        label += " from current group";
+        label += " du groupe courant";
     else
-        label += " from group " + wrkpl_group.m_name;
+        label += " du groupe " + wrkpl_group.m_name;
     return label;
 }
 
@@ -297,7 +297,7 @@ std::string get_selectable_ref_description(IDocumentProvider &prv, const UUID &c
     case SelectableRef::Type::ENTITY: {
         auto entity = doc.get_entity_ptr(sr.item);
         if (!entity)
-            return "not found";
+            return "introuvable";
         auto &group = doc.get_group(entity->m_group);
         if (entity->m_construction)
             label = "Construction ";
@@ -307,7 +307,7 @@ std::string get_selectable_ref_description(IDocumentProvider &prv, const UUID &c
                 label += get_workplane_description(doc, en_wrkpl->get_workplane(), current_group);
             }
             else {
-                label += " in workplane";
+                label += " dans le plan de travail";
             }
         }
         else {
@@ -318,15 +318,15 @@ std::string get_selectable_ref_description(IDocumentProvider &prv, const UUID &c
         if (auto point_name = entity->get_point_name(sr.point); point_name.size())
             label += " (" + point_name + ")";
         if (group.m_uuid == current_group)
-            label += " in current group";
+            label += " dans le groupe courant";
         else
-            label += " in group " + group.m_name;
+            label += " dans le groupe " + group.m_name;
     } break;
 
     case SelectableRef::Type::CONSTRAINT: {
         auto constraint = doc.get_constraint_ptr(sr.item);
         if (!constraint)
-            return "not found";
+            return "introuvable";
 
         std::string name = "constraint";
         std::string suffix;
@@ -355,7 +355,7 @@ std::string get_selectable_ref_description(IDocumentProvider &prv, const UUID &c
     } break;
 
     case SelectableRef::Type::SOLID_MODEL_EDGE: {
-        label = "Solid model edge";
+        label = "Arête du modèle solide";
     } break;
     }
     return label;

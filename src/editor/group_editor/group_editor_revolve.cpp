@@ -11,9 +11,9 @@ GroupEditorRevolve::GroupEditorRevolve(Core &core, const UUID &group_uu) : Group
     add_operation_combo();
     {
         auto items = Gtk::StringList::create();
-        items->append("Single");
-        items->append("Offset");
-        items->append("Offset symmetric");
+        items->append("Simple");
+        items->append("Décalage");
+        items->append("Décalage symétrique");
 
         m_mode_combo = Gtk::make_managed<Gtk::DropDown>(items);
         m_mode_combo->set_selected(static_cast<guint>(group.m_mode));

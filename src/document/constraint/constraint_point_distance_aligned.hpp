@@ -23,7 +23,7 @@ public:
     glm::dvec3 get_align_vector(const Document &doc) const;
     std::string get_datum_name() const override
     {
-        return "Aligned distance";
+        return "Distance alignée";
     }
 
     std::pair<double, double> get_datum_range() const override

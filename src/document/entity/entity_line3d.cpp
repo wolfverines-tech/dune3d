@@ -47,9 +47,9 @@ std::string EntityLine3D::get_point_name(unsigned int point) const
 {
     switch (point) {
     case 1:
-        return "from";
+        return "début";
     case 2:
-        return "to";
+        return "fin";
     default:
         return "";
     }

@@ -92,25 +92,25 @@ std::string EntityText::get_point_name(unsigned int point) const
 {
     switch (point) {
     case 1:
-        return "origin";
+        return "origine";
     case get_anchor_index(AnchorX::LEFT, AnchorY::ASCEND):
-        return "Left ascend";
+        return "Gauche ascendante";
     case get_anchor_index(AnchorX::LEFT, AnchorY::DESCEND):
-        return "Left descend";
+        return "Gauche descendante";
     case get_anchor_index(AnchorX::LEFT, AnchorY::BOTTOM):
-        return "Left bottom";
+        return "Gauche bas";
     case get_anchor_index(AnchorX::LEFT, AnchorY::TOP):
-        return "Left top";
+        return "Gauche haut";
     case get_anchor_index(AnchorX::RIGHT, AnchorY::ASCEND):
-        return "Right ascend";
+        return "Droite ascendante";
     case get_anchor_index(AnchorX::RIGHT, AnchorY::DESCEND):
-        return "Right descend";
+        return "Droite descendante";
     case get_anchor_index(AnchorX::RIGHT, AnchorY::BOTTOM):
-        return "Right bottom";
+        return "Droite bas";
     case get_anchor_index(AnchorX::RIGHT, AnchorY::TOP):
-        return "Right top";
+        return "Droite haut";
     case get_anchor_index(AnchorX::RIGHT, AnchorY::BASE):
-        return "Right base";
+        return "Droite ligne de base";
     default:
         return "";
     }

@@ -25,7 +25,7 @@ LogView::LogView() : Gtk::Box(Gtk::Orientation::VERTICAL, 0)
     bbox->set_margin_start(8);
     bbox->set_margin_end(8);
 
-    auto clear_button = Gtk::make_managed<Gtk::Button>("Clear");
+    auto clear_button = Gtk::make_managed<Gtk::Button>("Effacer");
     clear_button->signal_clicked().connect(sigc::mem_fun(*this, &LogView::clear));
     bbox->append(*clear_button);
 
@@ -61,7 +61,7 @@ LogView::LogView() : Gtk::Box(Gtk::Orientation::VERTICAL, 0)
         bbox->append(*lbox);
     }
 
-    auto follow_cb = Gtk::make_managed<Gtk::CheckButton>("Follow");
+    auto follow_cb = Gtk::make_managed<Gtk::CheckButton>("Suivre");
     follow_cb->set_active(true);
     follow_cb->signal_toggled().connect([this, follow_cb] {
         follow = follow_cb->get_active();
@@ -78,7 +78,7 @@ LogView::LogView() : Gtk::Box(Gtk::Orientation::VERTICAL, 0)
     auto copy_button = Gtk::make_managed<Gtk::Button>();
     copy_button->set_halign(Gtk::Align::END);
     copy_button->set_hexpand(true);
-    copy_button->set_tooltip_text("Copy to clipboard");
+    copy_button->set_tooltip_text("Copier dans le presse-papiers");
     copy_button->set_image_from_icon_name("edit-copy-symbolic");
     copy_button->signal_clicked().connect(sigc::mem_fun(*this, &LogView::copy_to_clipboard));
     bbox->append(*copy_button);
@@ -104,11 +104,11 @@ LogView::LogView() : Gtk::Box(Gtk::Orientation::VERTICAL, 0)
 
 
     tree_view = Gtk::manage(new Gtk::TreeView(store_filtered));
-    tree_view->append_column("Seq", list_columns.seq);
+    tree_view->append_column("N°", list_columns.seq);
 
     {
         auto cr = Gtk::manage(new Gtk::CellRendererText());
-        auto tvc = Gtk::manage(new Gtk::TreeViewColumn("Level", *cr));
+        auto tvc = Gtk::manage(new Gtk::TreeViewColumn("Niveau", *cr));
         tvc->set_cell_data_func(*cr, [this](Gtk::CellRenderer *tcr, const Gtk::TreeModel::const_iterator &it) {
             Gtk::TreeModel::ConstRow row = *it;
             auto mcr = dynamic_cast<Gtk::CellRendererText *>(tcr);
@@ -118,7 +118,7 @@ LogView::LogView() : Gtk::Box(Gtk::Orientation::VERTICAL, 0)
     }
     {
         auto cr = Gtk::manage(new Gtk::CellRendererText());
-        auto tvc = Gtk::manage(new Gtk::TreeViewColumn("Domain", *cr));
+        auto tvc = Gtk::manage(new Gtk::TreeViewColumn("Domaine", *cr));
         tvc->set_cell_data_func(*cr, [this](Gtk::CellRenderer *tcr, const Gtk::TreeModel::const_iterator &it) {
             Gtk::TreeModel::ConstRow row = *it;
             auto mcr = dynamic_cast<Gtk::CellRendererText *>(tcr);
@@ -127,7 +127,7 @@ LogView::LogView() : Gtk::Box(Gtk::Orientation::VERTICAL, 0)
         tree_view->append_column(*tvc);
     }
     tree_view->append_column("Message", list_columns.message);
-    tree_view_append_column_ellipsis(tree_view, "Detail", list_columns.detail, Pango::EllipsizeMode::END);
+    tree_view_append_column_ellipsis(tree_view, "Détail", list_columns.detail, Pango::EllipsizeMode::END);
 
     sc->set_child(*tree_view);
     append(*sc);
@@ -156,11 +156,11 @@ void LogView::copy_to_clipboard()
     static constexpr auto w_level = 8;
     static constexpr auto w_domain = 24;
     oss << std::left;
-    oss << std::setw(w_seq) << "Seq"
+    oss << std::setw(w_seq) << "N°"
         << "| ";
-    oss << std::setw(w_level) << "Level"
+    oss << std::setw(w_level) << "Niveau"
         << "| ";
-    oss << std::setw(w_domain) << "Domain"
+    oss << std::setw(w_domain) << "Domaine"
         << "| Message; Detail";
     oss << std::endl;
     for (const auto &row : store_filtered->children()) {

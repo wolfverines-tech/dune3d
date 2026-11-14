@@ -62,12 +62,12 @@ unsigned int Document::get_app_version()
 Document::Document() : m_version(app_version)
 {
     auto &grp = add_group<GroupReference>(UUID::random());
-    grp.m_name = "Reference";
+    grp.m_name = "Référence";
     grp.m_body.emplace();
 
     auto &sketch = add_group<GroupSketch>(UUID::random());
     sketch.set_index({}, 1);
-    sketch.m_name = "Sketch 1";
+    sketch.m_name = "Esquisse 1";
     sketch.m_active_wrkpl = grp.get_workplane_xy_uuid();
 
     set_group_generate_pending(grp.m_uuid);
@@ -93,13 +93,13 @@ template <typename T, typename... Args> void load_and_log(std::map<UUID, T> &map
 Document::Document(const json &j, const std::filesystem::path &containing_dir) : m_version(app_version, j)
 {
     for (const auto &[uu, it] : j.at("entities").items()) {
-        load_and_log(m_entities, "Entity", uu, it, containing_dir);
+        load_and_log(m_entities, "Entité", uu, it, containing_dir);
     }
     for (const auto &[uu, it] : j.at("constraints").items()) {
-        load_and_log(m_constraints, "Constraint", uu, it);
+        load_and_log(m_constraints, "Contrainte", uu, it);
     }
     for (const auto &[uu, it] : j.at("groups").items()) {
-        load_and_log(m_groups, "Group", uu, it);
+        load_and_log(m_groups, "Groupe", uu, it);
     }
     update_groups_sorted();
 
@@ -313,14 +313,14 @@ void Document::solve_group(Group &group, const std::vector<EntityAndPoint> &drag
     switch (res.result) {
     case SolveResult::DIDNT_CONVERGE:
         group.m_solve_messages.emplace_back(GroupStatusMessage::Status::ERR,
-                                            "Solver did not converge " + make_json_link("Undo", j_undo));
+                                            "Le solveur n'a pas convergé " + make_json_link("Annuler", j_undo));
         break;
 
     case SolveResult::REDUNDANT_DIDNT_CONVERGE:
         group.m_solve_messages.emplace_back(GroupStatusMessage::Status::ERR,
-                                            "Solver did not converge, redundant constraints "
-                                                    + make_json_link("Find them", j_find) + " "
-                                                    + make_json_link("Undo", j_undo));
+                                            "Le solveur n'a pas convergé, contraintes redondantes "
+                                                    + make_json_link("Les trouver", j_find) + " "
+                                                    + make_json_link("Annuler", j_undo));
         break;
 
     case SolveResult::OKAY:
@@ -328,12 +328,12 @@ void Document::solve_group(Group &group, const std::vector<EntityAndPoint> &drag
 
     case SolveResult::REDUNDANT_OKAY:
         group.m_solve_messages.emplace_back(GroupStatusMessage::Status::WARN,
-                                            "Redundant constraints " + make_json_link("Find them", j_find) + " "
-                                                    + make_json_link("Undo", j_undo));
+                                            "Contraintes redondantes " + make_json_link("Les trouver", j_find) + " "
+                                                    + make_json_link("Annuler", j_undo));
         break;
 
     case SolveResult::TOO_MANY_UNKNOWNS:
-        group.m_solve_messages.emplace_back(GroupStatusMessage::Status::ERR, "Too many unknowns");
+        group.m_solve_messages.emplace_back(GroupStatusMessage::Status::ERR, "Trop d'inconnues");
         break;
     }
     group.m_bad_constraints.reset();

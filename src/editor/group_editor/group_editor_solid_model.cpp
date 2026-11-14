@@ -11,7 +11,7 @@ void GroupEditorSolidModel::add_operation_combo()
     auto &group = get_group();
     auto items = Gtk::StringList::create();
     items->append("Union");
-    items->append("Difference");
+    items->append("Différence");
     items->append("Intersection");
 
     m_operation_combo = Gtk::make_managed<Gtk::DropDown>(items);
@@ -24,7 +24,7 @@ void GroupEditorSolidModel::add_operation_combo()
         m_core.get_current_document().set_group_update_solid_model_pending(m_group_uu);
         m_signal_changed.emit(CommitMode::IMMEDIATE);
     });
-    grid_attach_label_and_widget(*this, "Operation", *m_operation_combo, m_top);
+    grid_attach_label_and_widget(*this, "Opération", *m_operation_combo, m_top);
 }
 
 void GroupEditorSolidModel::do_reload()

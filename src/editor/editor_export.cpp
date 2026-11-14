@@ -182,10 +182,10 @@ void Editor::on_export_solid_model(const ActionConnection &conn)
         }
         catch (const Gtk::DialogError &err) {
             // Can be thrown by dialog->open_finish(result).
-            std::cout << "No file selected. " << err.what() << std::endl;
+            std::cout << "Aucun fichier sélectionné. " << err.what() << std::endl;
         }
         catch (const Glib::Error &err) {
-            std::cout << "Unexpected exception. " << err.what() << std::endl;
+            std::cout << "Exception inattendue. " << err.what() << std::endl;
         }
     };
     dialog->save(m_win, handle_response);
@@ -253,10 +253,10 @@ void Editor::on_export_paths(const ActionConnection &conn)
         }
         catch (const Gtk::DialogError &err) {
             // Can be thrown by dialog->open_finish(result).
-            std::cout << "No file selected. " << err.what() << std::endl;
+            std::cout << "Aucun fichier sélectionné. " << err.what() << std::endl;
         }
         catch (const Glib::Error &err) {
-            std::cout << "Unexpected exception. " << err.what() << std::endl;
+            std::cout << "Exception inattendue. " << err.what() << std::endl;
         }
     });
 }
@@ -351,10 +351,10 @@ void Editor::on_export_projection(const ActionConnection &conn)
         }
         catch (const Gtk::DialogError &err) {
             // Can be thrown by dialog->open_finish(result).
-            std::cout << "No file selected. " << err.what() << std::endl;
+            std::cout << "Aucun fichier sélectionné. " << err.what() << std::endl;
         }
         catch (const Glib::Error &err) {
-            std::cout << "Unexpected exception. " << err.what() << std::endl;
+            std::cout << "Exception inattendue. " << err.what() << std::endl;
         }
     });
 }

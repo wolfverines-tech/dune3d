@@ -44,7 +44,7 @@ static std::shared_ptr<const SolidModel> create_replicate(const Document &doc, G
             shape = source_solid_model->m_shape_acc;
 
         if (shape.IsNull()) {
-            group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "no shape");
+            group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de forme");
             return nullptr;
         }
     }
@@ -66,7 +66,7 @@ static std::shared_ptr<const SolidModel> create_replicate(const Document &doc, G
     }
 
     if (shape.IsNull()) {
-        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "no shape");
+        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de forme");
         return nullptr;
     }
 
@@ -81,7 +81,7 @@ static std::shared_ptr<const SolidModel> create_replicate(const Document &doc, G
     }
 
     if (!mod->update_acc_finish(doc, group)) {
-        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
     return mod;
@@ -103,7 +103,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupP
 {
     group.m_array_messages.clear();
     if (!group.m_active_wrkpl) {
-        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "no workplane");
+        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de plan de travail");
         return nullptr;
     }
 
@@ -125,7 +125,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupM
 {
     group.m_array_messages.clear();
     if (!group.m_active_wrkpl) {
-        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "no workplane");
+        group.m_array_messages.emplace_back(GroupStatusMessage::Status::ERR, "pas de plan de travail");
         return nullptr;
     }
 

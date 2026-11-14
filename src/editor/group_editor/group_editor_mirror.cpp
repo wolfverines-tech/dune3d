@@ -13,7 +13,7 @@ GroupEditorMirror::GroupEditorMirror(Core &core, const UUID &group_uu) : GroupEd
     m_include_source_switch->set_halign(Gtk::Align::START);
     auto &group = get_group();
     m_include_source_switch->set_active(group.m_include_source);
-    grid_attach_label_and_widget(*this, "Include source", *m_include_source_switch, m_top);
+    grid_attach_label_and_widget(*this, "Inclure la source", *m_include_source_switch, m_top);
     m_include_source_switch->property_active().signal_changed().connect([this] {
         if (is_reloading())
             return;

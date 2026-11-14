@@ -52,11 +52,11 @@ void ToolConstrainWorkplaneNormal::update_tip()
     std::vector<ActionLabelInfo> actions;
 
     if (m_line1)
-        actions.emplace_back(InToolActionID::LMB, "select other vector");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner l'autre vecteur");
     else
-        actions.emplace_back(InToolActionID::LMB, "select u vector");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner le vecteur u");
 
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
     m_intf.tool_bar_set_actions(actions);
 }
@@ -75,18 +75,18 @@ ToolResponse ToolConstrainWorkplaneNormal::update(const ToolArgs &args)
                 return ToolResponse();
 
             if (hsel->point != 0) {
-                m_intf.tool_bar_flash("please click on a line");
+                m_intf.tool_bar_flash("cliquez sur une ligne");
                 return ToolResponse();
             }
 
             auto &entity = get_entity(hsel->item);
             if (entity.get_type() != Entity::Type::LINE_2D && entity.get_type() != Entity::Type::LINE_3D) {
-                m_intf.tool_bar_flash("please click on a line");
+                m_intf.tool_bar_flash("cliquez sur une ligne");
                 return ToolResponse();
             }
 
             if (entity.m_group == m_core.get_current_group()) {
-                m_intf.tool_bar_flash("please click on a line from a previous group");
+                m_intf.tool_bar_flash("cliquez sur une ligne d'un groupe précédent");
                 return ToolResponse();
             }
 
@@ -99,7 +99,7 @@ ToolResponse ToolConstrainWorkplaneNormal::update(const ToolArgs &args)
                 m_constraint->m_line2 = entity.m_uuid;
                 auto uvn = m_constraint->get_uvn(get_doc());
                 if (!uvn.has_value()) {
-                    m_intf.tool_bar_flash("line has no coincident point with first line");
+                    m_intf.tool_bar_flash("la ligne n'a pas de point commun avec la première");
                     return ToolResponse();
                 }
 
@@ -107,7 +107,7 @@ ToolResponse ToolConstrainWorkplaneNormal::update(const ToolArgs &args)
                     auto q = quat_from_uv(uvn->u, uvn->v);
                     auto nan = glm::isnan(q);
                     if (nan.x || nan.y || nan.z || nan.w) {
-                        m_intf.tool_bar_flash("line must not be parallel to first line");
+                        m_intf.tool_bar_flash("la ligne ne doit pas être parallèle à la première");
                         return ToolResponse();
                     }
                 }

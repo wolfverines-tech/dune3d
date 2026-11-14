@@ -61,7 +61,7 @@ InToolKeySequencesPreferencesEditor::InToolKeySequencesPreferencesEditor(BaseObj
     for (const auto tool_id : tools) {
         auto mi = ActionItemKeys::create();
         if (tool_id == ToolID::NONE)
-            mi->m_name = "Common";
+            mi->m_name = "Commun";
         else
             mi->m_name = action_catalog.at(tool_id).name.full;
         mi->m_id = InToolActionID::NONE;

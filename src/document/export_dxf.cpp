@@ -54,7 +54,7 @@ void export_dxf(const std::filesystem::path &filename, const Document &doc, cons
 {
     auto &group = doc.get_group(group_uu);
     if (!group.m_active_wrkpl)
-        throw std::runtime_error("needs workplane");
+        throw std::runtime_error("nécessite un plan de travail");
 
     const auto paths = paths::Paths::from_document(doc, group.m_active_wrkpl, group.m_uuid);
     if (paths.paths.size() == 0)

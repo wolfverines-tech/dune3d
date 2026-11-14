@@ -15,7 +15,7 @@ ToolWindow::ToolWindow(Gtk::Window &parent, EditorInterface &intf) : m_interface
 
     auto sg = Gtk::SizeGroup::create(Gtk::SizeGroup::Mode::HORIZONTAL);
 
-    m_cancel_button = Gtk::make_managed<Gtk::Button>("Cancel");
+    m_cancel_button = Gtk::make_managed<Gtk::Button>("Annuler");
     m_headerbar->pack_start(*m_cancel_button);
     m_cancel_button->signal_clicked().connect([this] { close(); });
     sg->add_widget(*m_cancel_button);

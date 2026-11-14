@@ -214,7 +214,7 @@ ToolPopover::ToolPopover() : Gtk::Popover()
     {
         auto mi = GroupItem::create();
         mi->m_group = ActionGroup::ALL;
-        mi->m_name = "All";
+        mi->m_name = "Tout";
         m_group_store->append(mi);
     }
     for (const auto &[group, name] : action_group_catalog) {
@@ -289,7 +289,7 @@ ToolPopover::ToolPopover() : Gtk::Popover()
             keys_expr->bind(label->property_label(), li);
         });
 
-        auto col = Gtk::ColumnViewColumn::create("Keys", factory);
+        auto col = Gtk::ColumnViewColumn::create("Touches", factory);
         m_view->append_column(col);
     }
 
@@ -309,7 +309,7 @@ ToolPopover::ToolPopover() : Gtk::Popover()
                 return;
             label->set_text(col->m_name);
         });
-        auto col = Gtk::ColumnViewColumn::create("Group", factory);
+        auto col = Gtk::ColumnViewColumn::create("Groupe", factory);
         col->set_expand(true);
         m_group_view->append_column(col);
     }

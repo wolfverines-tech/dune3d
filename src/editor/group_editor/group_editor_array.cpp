@@ -13,15 +13,15 @@ GroupEditorArray::GroupEditorArray(Core &core, const UUID &group_uu) : GroupEdit
     m_sp_count = Gtk::make_managed<Gtk::SpinButton>();
     m_sp_count->set_range(1, 100);
     m_sp_count->set_increments(1, 10);
-    grid_attach_label_and_widget(*this, "Count", *m_sp_count, m_top);
+    grid_attach_label_and_widget(*this, "Nombre", *m_sp_count, m_top);
     m_sp_count->set_value(group.m_count);
     connect_spinbutton(*m_sp_count, sigc::mem_fun(*this, &GroupEditorArray::update_count));
 
 
     auto items = Gtk::StringList::create();
     items->append("Original");
-    items->append("First copy");
-    items->append("Arbitrary");
+    items->append("Première copie");
+    items->append("Libre");
 
     m_offset_combo = Gtk::make_managed<Gtk::DropDown>(items);
     m_offset_combo->set_selected(static_cast<guint>(group.m_offset));
@@ -33,7 +33,7 @@ GroupEditorArray::GroupEditorArray(Core &core, const UUID &group_uu) : GroupEdit
         m_core.get_current_document().set_group_generate_pending(group.m_uuid);
         m_signal_changed.emit(CommitMode::IMMEDIATE);
     });
-    grid_attach_label_and_widget(*this, "Offset", *m_offset_combo, m_top);
+    grid_attach_label_and_widget(*this, "Décalage", *m_offset_combo, m_top);
 
     add_source_widgets();
 }

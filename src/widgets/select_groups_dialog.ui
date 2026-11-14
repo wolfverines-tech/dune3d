@@ -3,13 +3,13 @@
 <interface>
   <requires lib="gtk" version="4.12"/>
   <object class="GtkWindow" id="window">
-    <property name="title">Select groups</property>
+    <property name="title">Sélectionner des groupes</property>
     <property name="titlebar">
       <object class="GtkHeaderBar">
         <property name="show-title-buttons">False</property>
         <child type="start">
           <object class="GtkButton" id="cancel_button">
-            <property name="label">Cancel</property>
+            <property name="label">Annuler</property>
           </object>
         </child>
         <child type="end">
@@ -32,7 +32,7 @@
         <property name="row-spacing">5</property>
         <child>
           <object class="GtkLabel">
-            <property name="label">Available groups</property>
+            <property name="label">Groupes disponibles</property>
             <property name="xalign">0.0</property>
             <layout>
               <property name="column">0</property>
@@ -59,7 +59,7 @@
         </child>
         <child>
           <object class="GtkLabel">
-            <property name="label">Source groups</property>
+            <property name="label">Groupes sources</property>
             <property name="xalign">0.0</property>
             <layout>
               <property name="column">2</property>

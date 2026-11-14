@@ -11,7 +11,7 @@ EnterDatumWindow::EnterDatumWindow(Gtk::Window &parent, EditorInterface &intf, c
                                    double def)
     : ToolWindow(parent, intf)
 {
-    set_title("Enter datum");
+    set_title("Saisir la cote");
 
     auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL, 4);
     box->set_margin(6);

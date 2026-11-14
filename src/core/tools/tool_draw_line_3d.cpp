@@ -24,8 +24,8 @@ void ToolDrawLine3D::update_tip()
 {
     std::vector<ActionLabelInfo> actions;
     actions.reserve(9);
-    actions.emplace_back(InToolActionID::LMB, "place point");
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::LMB, "placer le point");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
     if (m_temp_line) {
         if (m_temp_line->m_construction)
@@ -35,16 +35,16 @@ void ToolDrawLine3D::update_tip()
     }
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "coincident constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la coïncidence");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "coincident constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la coïncidence");
 
     m_intf.tool_bar_set_actions(actions);
 
     std::vector<ConstraintType> constraint_icons;
 
     if (m_constrain) {
-        std::string what = m_temp_line ? "to" : "from";
+        std::string what = m_temp_line ? "fin" : "début";
         set_constrain_tip(what);
         update_constraint_icons(constraint_icons);
     }

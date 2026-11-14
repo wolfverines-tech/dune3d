@@ -18,77 +18,77 @@ std::string Constraint::get_type_name(Type type)
 {
     switch (type) {
     case Type::EQUAL_LENGTH:
-        return "Equal length";
+        return "Longueurs égales";
     case Type::EQUAL_RADIUS:
-        return "Equal radius";
+        return "Rayons égaux";
     case Type::PARALLEL:
-        return "Parallel";
+        return "Parallèle";
     case Type::POINTS_COINCIDENT:
-        return "Points coincident";
+        return "Points coïncidents";
     case Type::POINT_ON_LINE:
-        return "Point on line";
+        return "Point sur ligne";
     case Type::POINT_ON_CIRCLE:
-        return "Point on circle";
+        return "Point sur cercle";
     case Type::SAME_ORIENTATION:
-        return "Same orientation";
+        return "Même orientation";
     case Type::HORIZONTAL:
-        return "Horizontal";
+        return "Horizontale";
     case Type::VERTICAL:
-        return "Vertical";
+        return "Verticale";
     case Type::POINT_DISTANCE:
         return "Distance";
     case Type::POINT_DISTANCE_ALIGNED:
-        return "Aligned distance";
+        return "Distance alignée";
     case Type::WORKPLANE_NORMAL:
-        return "Workplane normal";
+        return "Normale du plan de travail";
     case Type::POINT_DISTANCE_HORIZONTAL:
-        return "Horizontal distance";
+        return "Distance horizontale";
     case Type::POINT_DISTANCE_VERTICAL:
-        return "Vertical distance";
+        return "Distance verticale";
     case Type::MIDPOINT:
-        return "Midpoint";
+        return "Milieu";
     case Type::DIAMETER:
-        return "Diameter";
+        return "Diamètre";
     case Type::RADIUS:
-        return "Radius";
+        return "Rayon";
     case Type::ARC_LINE_TANGENT:
-        return "Arc/Line tangent";
+        return "Tangence arc/ligne";
     case Type::ARC_ARC_TANGENT:
-        return "Curve/Curve tangent";
+        return "Tangence courbe/courbe";
     case Type::LINE_POINTS_PERPENDICULAR:
-        return "Line/points perpendicular";
+        return "Perpendicularité ligne/points";
     case Type::LINES_PERPENDICULAR:
-        return "Perpendicular";
+        return "Perpendiculaire";
     case Type::LINES_ANGLE:
         return "Angle";
     case Type::POINT_IN_PLANE:
-        return "Point in plane";
+        return "Point dans le plan";
     case Type::POINT_LINE_DISTANCE:
-        return "Point/line distance";
+        return "Distance point/ligne";
     case Type::POINT_PLANE_DISTANCE:
-        return "Point/plane distance";
+        return "Distance point/plan";
     case Type::LOCK_ROTATION:
-        return "Lock rotation";
+        return "Verrouiller la rotation";
     case Type::POINT_IN_WORKPLANE:
-        return "Point in workplane";
+        return "Point dans le plan de travail";
     case Type::SYMMETRIC_HORIZONTAL:
-        return "Symmetric horizontally";
+        return "Symétrie horizontale";
     case Type::SYMMETRIC_VERTICAL:
-        return "Symmetric vertically";
+        return "Symétrie verticale";
     case Type::SYMMETRIC_LINE:
-        return "Symmetric about line";
+        return "Symétrie par rapport à une ligne";
     case Type::BEZIER_LINE_TANGENT:
-        return "Bezier/Line tangent";
+        return "Tangence Bézier/ligne";
     case Type::BEZIER_BEZIER_TANGENT_SYMMETRIC:
-        return "Bezier/Bezier tangent symmetric";
+        return "Tangence symétrique Bézier/Bézier";
     case Type::POINT_ON_BEZIER:
-        return "Point on bezier";
+        return "Point sur Bézier";
     case Type::BEZIER_BEZIER_SAME_CURVATURE:
-        return "Bezier/Bezier same curvature";
+        return "Même courbure Bézier/Bézier";
     case Type::BEZIER_ARC_SAME_CURVATURE:
-        return "Bezier/Arc same curvature";
+        return "Même courbure Bézier/arc";
     default:
-        return "Constraint";
+        return "Contrainte";
     }
 }
 

@@ -29,9 +29,9 @@ ToolResponse ToolSelectEdges::begin(const ToolArgs &args)
     m_intf.enable_hover_selection();
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "select/deselect edge");
-        actions.emplace_back(InToolActionID::RMB, "finish");
-        actions.emplace_back(InToolActionID::CANCEL, "cancel");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner/désélectionner l'arête");
+        actions.emplace_back(InToolActionID::RMB, "terminer");
+        actions.emplace_back(InToolActionID::CANCEL, "annuler");
         actions.emplace_back(InToolActionID::CLEAR_EDGES);
         m_intf.tool_bar_set_actions(actions);
     }
@@ -46,7 +46,7 @@ ToolResponse ToolSelectEdges::update(const ToolArgs &args)
 {
     if (args.type == ToolEventType::MOVE) {
         if (m_intf.get_hover_selection())
-            m_intf.tool_bar_set_tool_tip("edge " + std::to_string(m_intf.get_hover_selection()->point));
+            m_intf.tool_bar_set_tool_tip("arête " + std::to_string(m_intf.get_hover_selection()->point));
         else
             m_intf.tool_bar_set_tool_tip("");
     }

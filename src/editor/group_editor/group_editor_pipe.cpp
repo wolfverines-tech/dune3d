@@ -11,12 +11,12 @@ namespace dune3d {
 GroupEditorPipe::GroupEditorPipe(Core &core, const UUID &group_uu) : GroupEditorSweep(core, group_uu)
 {
     add_operation_combo();
-    m_spine_label = Gtk::make_managed<Gtk::Label>("No entities");
+    m_spine_label = Gtk::make_managed<Gtk::Label>("Aucune entité");
     m_spine_label->set_xalign(0);
     auto button = Gtk::make_managed<Gtk::Button>();
     button->set_child(*m_spine_label);
     button->signal_clicked().connect([this] { m_signal_trigger_action.emit(ToolID::SELECT_SPINE_ENTITIES); });
-    grid_attach_label_and_widget(*this, "Spine", *button, m_top);
+    grid_attach_label_and_widget(*this, "Trajectoire", *button, m_top);
     update_label();
 }
 
@@ -32,7 +32,7 @@ void GroupEditorPipe::update_label()
     auto sz = group.m_spine_entities.size();
     std::string label;
     if (sz == 0)
-        label = "No entities";
+        label = "Aucune entité";
     else
         label = std::format("{} {}", sz, Entity::get_type_name_for_n(EntityType::INVALID, sz));
     m_spine_label->set_label(label);

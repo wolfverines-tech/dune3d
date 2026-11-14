@@ -79,7 +79,7 @@ std::string EntityWorkplane::get_point_name(unsigned int point) const
 {
     switch (point) {
     case 1:
-        return "origin";
+        return "origine";
     default:
         return "";
     }

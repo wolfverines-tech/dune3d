@@ -109,7 +109,7 @@ KeySequencesPreferencesEditorBase::KeySequencesPreferencesEditorBase(BaseObjectT
             keys_expr->bind(label->property_label(), li);
         });
 
-        auto col = Gtk::ColumnViewColumn::create("Keys", factory);
+        auto col = Gtk::ColumnViewColumn::create("Touches", factory);
         m_view->append_column(col);
     }
 

@@ -379,7 +379,7 @@ void Dune3DAppWindow::set_view_hints_label(const std::vector<std::string> &s)
         m_view_hints_label->set_tooltip_text(tooltip_text);
     }
     else {
-        m_view_hints_label->set_text("View");
+        m_view_hints_label->set_text("Vue");
         m_view_hints_label->set_has_tooltip(false);
     }
 }
@@ -391,7 +391,7 @@ void Dune3DAppWindow::set_workplane_label(const std::string &s)
 
 void Dune3DAppWindow::update_delete_close_button_label()
 {
-    std::string label = "Close";
+    std::string label = "Fermer";
     if (m_delete_timeout_connection.connected())
         label += std::format(" ({})", m_delete_countdown);
     m_delete_close_label->set_text(label);
@@ -476,9 +476,9 @@ Dune3DAppWindow::WorkspaceTabLabel::WorkspaceTabLabel(const std::string &label) 
     actions->add_action("rename", [this] { m_signal_rename.emit(); });
     actions->add_action("duplicate", [this] { m_signal_duplicate.emit(); });
     insert_action_group("view", actions);
-    menu->append("Duplicate", "view.duplicate");
-    menu->append("Close", "view.close");
-    menu->append("Rename", "view.rename");
+    menu->append("Dupliquer", "view.duplicate");
+    menu->append("Fermer", "view.close");
+    menu->append("Renommer", "view.rename");
 
     popover->set_menu_model(menu);
     popover->set_parent(*this);

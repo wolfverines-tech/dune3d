@@ -15,10 +15,10 @@ GroupEditorFillet::GroupEditorFillet(Core &core, const UUID &group_uu) : GroupEd
     m_radius_sp->set_value(group.m_radius);
     connect_spinbutton(*m_radius_sp, sigc::mem_fun(*this, &GroupEditorFillet::update_radius));
 
-    grid_attach_label_and_widget(*this, "Radius", *m_radius_sp, m_top);
+    grid_attach_label_and_widget(*this, "Rayon", *m_radius_sp, m_top);
 
     {
-        auto button = Gtk::make_managed<Gtk::Button>("Select edges…");
+        auto button = Gtk::make_managed<Gtk::Button>("Sélectionner des arêtes…");
         button->signal_clicked().connect([this] { m_signal_trigger_action.emit(ToolID::SELECT_EDGES); });
         attach(*button, 0, m_top++, 2, 1);
     }

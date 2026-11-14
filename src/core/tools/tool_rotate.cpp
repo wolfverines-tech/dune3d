@@ -37,7 +37,7 @@ ToolResponse ToolRotate::begin(const ToolArgs &args)
     if (!m_entity_normal)
         return ToolResponse::end();
 
-    m_intf.get_dialogs().show_rotate_window("Enter angle", m_entity_normal->get_normal());
+    m_intf.get_dialogs().show_rotate_window("Saisir l'angle", m_entity_normal->get_normal());
 
     return ToolResponse();
 }

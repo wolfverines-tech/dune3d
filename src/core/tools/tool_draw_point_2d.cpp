@@ -79,9 +79,9 @@ void ToolDrawPoint2D::update_tip()
 {
     std::vector<ActionLabelInfo> actions;
 
-    actions.emplace_back(InToolActionID::LMB, "place point");
+    actions.emplace_back(InToolActionID::LMB, "placer le point");
 
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
     if (m_temp_point->m_construction)
         actions.emplace_back(InToolActionID::TOGGLE_CONSTRUCTION, "normal");
@@ -89,9 +89,9 @@ void ToolDrawPoint2D::update_tip()
         actions.emplace_back(InToolActionID::TOGGLE_CONSTRUCTION, "construction");
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la contrainte");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la contrainte");
 
     m_intf.tool_bar_set_tool_tip("");
     std::vector<ConstraintType> constraint_icons;

@@ -56,7 +56,7 @@ ToolResponse ToolEnterDatum::begin(const ToolArgs &args)
 
     double def = m_constraint->get_datum();
 
-    auto win = m_intf.get_dialogs().show_enter_datum_window("Enter " + m_constraint->get_datum_name(),
+    auto win = m_intf.get_dialogs().show_enter_datum_window("Saisir : " + m_constraint->get_datum_name(),
                                                             m_constraint->get_datum_unit(), def);
 
 

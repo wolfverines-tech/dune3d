@@ -31,7 +31,7 @@ void GroupButton::update_label()
     if (m_group)
         m_label->set_text(m_doc.get_group(m_group).m_name);
     else
-        m_label->set_text("(None)");
+        m_label->set_text("(Aucun)");
 }
 
 void GroupButton::select_group()

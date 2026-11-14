@@ -31,9 +31,9 @@ ToolResponse ToolAddPictureAnchor::begin(const ToolArgs &args)
 
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "add point");
-        actions.emplace_back(InToolActionID::RMB, "finish");
-        actions.emplace_back(InToolActionID::CANCEL, "cancel");
+        actions.emplace_back(InToolActionID::LMB, "ajouter un point");
+        actions.emplace_back(InToolActionID::RMB, "terminer");
+        actions.emplace_back(InToolActionID::CANCEL, "annuler");
         m_intf.tool_bar_set_actions(actions);
     }
 
@@ -45,7 +45,7 @@ ToolResponse ToolAddPictureAnchor::update(const ToolArgs &args)
 {
     if (args.type == ToolEventType::MOVE) {
         auto p = m_picture->untransform(get_cursor_pos_for_workplane(*m_wrkpl));
-        m_intf.tool_bar_set_tool_tip(std::format("Position: {:.0f}, {:.0f}", p.x, p.y));
+        m_intf.tool_bar_set_tool_tip(std::format("Position : {:.0f}, {:.0f}", p.x, p.y));
     }
     if (args.type == ToolEventType::ACTION) {
         switch (args.action) {

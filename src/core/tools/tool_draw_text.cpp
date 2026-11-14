@@ -22,7 +22,7 @@ ToolBase::CanBegin ToolDrawText::can_begin()
 
 ToolResponse ToolDrawText::begin(const ToolArgs &args)
 {
-    m_win = m_intf.get_dialogs().show_enter_text_window("Enter text", "text");
+    m_win = m_intf.get_dialogs().show_enter_text_window("Saisir le texte", "text");
     m_wrkpl = get_workplane();
 
     return ToolResponse{};
@@ -97,14 +97,14 @@ void ToolDrawText::update_tip()
     if (!m_entity)
         return;
 
-    actions.emplace_back(InToolActionID::LMB, "place text");
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::LMB, "placer le texte");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la contrainte");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la contrainte");
 
 
     std::vector<ConstraintType> constraint_icons;

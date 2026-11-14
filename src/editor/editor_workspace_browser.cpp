@@ -93,14 +93,14 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
     auto &doc = m_core.get_current_document();
     auto &current_group = doc.get_group(m_core.get_current_group());
     Group *new_group = nullptr;
-    static const std::string toast_prefix = "Couldn't create group\n";
+    static const std::string toast_prefix = "Impossible de créer le groupe\n";
     if (group_type == Group::Type::SKETCH) {
         auto &group = doc.insert_group<GroupSketch>(UUID::random(), current_group.m_uuid);
         new_group = &group;
     }
     else if (group_type == Group::Type::EXTRUDE) {
         if (!current_group.m_active_wrkpl) {
-            m_workspace_browser->show_toast(toast_prefix + "Current group needs an active workplane");
+            m_workspace_browser->show_toast(toast_prefix + "Le groupe courant nécessite un plan de travail actif");
             return;
         }
         auto &group = doc.insert_group<GroupExtrude>(UUID::random(), current_group.m_uuid);
@@ -111,23 +111,23 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
     }
     else if (any_of(group_type, Group::Type::LATHE, Group::Type::REVOLVE)) {
         if (!current_group.m_active_wrkpl) {
-            m_workspace_browser->show_toast(toast_prefix + "Current group needs an active workplane");
+            m_workspace_browser->show_toast(toast_prefix + "Le groupe courant nécessite un plan de travail actif");
             return;
         }
         auto sel = get_canvas().get_selection();
         auto axis_enp = point_from_selection(doc, sel);
         if (!axis_enp) {
-            m_workspace_browser->show_toast(toast_prefix + "Select an axis entity (workplane or line)");
+            m_workspace_browser->show_toast(toast_prefix + "Sélectionnez une entité axe (plan de travail ou ligne)");
             return;
         }
 
         if (axis_enp->point != 0) {
-            m_workspace_browser->show_toast(toast_prefix + "Select the body of the axis entity");
+            m_workspace_browser->show_toast(toast_prefix + "Sélectionnez le corps de l'entité axe");
             return;
         }
         const auto &axis = doc.get_entity(axis_enp->entity);
         if (!axis.of_type(Entity::Type::WORKPLANE, Entity::Type::LINE_2D, Entity::Type::LINE_3D)) {
-            m_workspace_browser->show_toast(toast_prefix + "Axis entity must be a line or a workplane");
+            m_workspace_browser->show_toast(toast_prefix + "L'entité axe doit être une ligne ou un plan de travail");
             return;
         }
 
@@ -151,7 +151,7 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
     else if (any_of(group_type, Group::Type::FILLET, Group::Type::CHAMFER)) {
         auto solid_model = SolidModel::get_last_solid_model(doc, current_group, SolidModel::IncludeGroup::YES);
         if (!solid_model) {
-            m_workspace_browser->show_toast(toast_prefix + "Body has no solid model");
+            m_workspace_browser->show_toast(toast_prefix + "Le corps n'a pas de modèle solide");
             return;
         }
         if (group_type == Group::Type::FILLET) {
@@ -182,7 +182,7 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
                 wrkpl = owrkpl->entity;
         }
         if (!wrkpl) {
-            m_workspace_browser->show_toast(toast_prefix + "Current group needs an active workplane or select one");
+            m_workspace_browser->show_toast(toast_prefix + "Le groupe courant nécessite un plan de travail actif, ou sélectionnez-en un");
             return;
         }
         GroupReplicate *group = nullptr;
@@ -203,7 +203,7 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
         dia->signal_changed().connect([this, dia, &current_group, &doc] {
             auto groups = dia->get_selected_groups();
             if (groups.size() < 2) {
-                m_workspace_browser->show_toast(toast_prefix + "Select at least two groups");
+                m_workspace_browser->show_toast(toast_prefix + "Sélectionnez au moins deux groupes");
                 return;
             }
             auto &group = doc.insert_group<GroupLoft>(UUID::random(), current_group.m_uuid);
@@ -220,7 +220,7 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
     }
     else if (group_type == Group::Type::CLONE) {
         if (!current_group.m_active_wrkpl) {
-            m_workspace_browser->show_toast(toast_prefix + "Current group needs an active workplane");
+            m_workspace_browser->show_toast(toast_prefix + "Le groupe courant nécessite un plan de travail actif");
             return;
         }
         GroupClone &group = doc.insert_group<GroupClone>(UUID::random(), current_group.m_uuid);
@@ -230,7 +230,7 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
     }
     else if (group_type == Group::Type::PIPE) {
         if (!current_group.m_active_wrkpl) {
-            m_workspace_browser->show_toast(toast_prefix + "Current group needs an active workplane");
+            m_workspace_browser->show_toast(toast_prefix + "Le groupe courant nécessite un plan de travail actif");
             return;
         }
         auto &group = doc.insert_group<GroupPipe>(UUID::random(), current_group.m_uuid);
@@ -253,7 +253,7 @@ void Editor::finish_add_group(Group *new_group)
     new_group->m_name = doc.find_next_group_name(group_type);
     doc.set_group_generate_pending(new_group->m_uuid);
     m_core.set_needs_save();
-    m_core.rebuild("add group");
+    m_core.rebuild("ajout d'un groupe");
     m_workspace_browser->update_documents(get_current_document_views());
     m_workspace_browser->select_group(new_group->m_uuid);
     if (any_of(group_type, Group::Type::FILLET, Group::Type::CHAMFER)) {
@@ -300,7 +300,7 @@ void Editor::on_delete_current_group()
     set_current_group(previous_group);
 
     m_core.set_needs_save();
-    m_core.rebuild("delete group");
+    m_core.rebuild("suppression du groupe");
 }
 
 void Editor::on_move_group(Document::MoveGroup op)
@@ -313,16 +313,16 @@ void Editor::on_move_group(Document::MoveGroup op)
 
     UUID group_after = doc.get_group_after(group, op);
     if (!group_after) {
-        m_workspace_browser->show_toast("Couldn't move group");
+        m_workspace_browser->show_toast("Impossible de déplacer le groupe");
         return;
     }
 
     if (!doc.reorder_group(group, group_after)) {
-        m_workspace_browser->show_toast("Couldn't move group");
+        m_workspace_browser->show_toast("Impossible de déplacer le groupe");
         return;
     }
     m_core.set_needs_save();
-    m_core.rebuild("reorder_group");
+    m_core.rebuild("réorganisation des groupes");
     m_workspace_browser->update_documents(get_current_document_views());
 }
 
@@ -374,7 +374,7 @@ void Editor::on_workspace_browser_rename_body(const UUID &uu_doc, const UUID &uu
     auto &doc = m_core.get_idocument_info(uu_doc).get_document();
     auto &body = doc.get_group(uu_group).m_body.value();
 
-    auto win = new RenameWindow("Rename body");
+    auto win = new RenameWindow("Renommer le corps");
     win->set_text(body.m_name);
     win->set_transient_for(m_win);
     win->set_modal(true);
@@ -384,7 +384,7 @@ void Editor::on_workspace_browser_rename_body(const UUID &uu_doc, const UUID &uu
         body.m_name = txt;
 
         doc.set_group_update_solid_model_pending(uu_group);
-        m_core.rebuild("rename body");
+        m_core.rebuild("renommage du corps");
         canvas_update_keep_selection();
     });
 }
@@ -408,7 +408,7 @@ void Editor::on_workspace_browser_set_body_color(const UUID &uu_doc, const UUID 
                              body.m_color = color_from_rgba(rgba);
 
                              doc.set_group_update_solid_model_pending(uu_group);
-                             m_core.rebuild("set body color");
+                             m_core.rebuild("couleur du corps");
                              canvas_update_keep_selection();
                          }
                          catch (const Gtk::DialogError &err) {
@@ -422,7 +422,7 @@ void Editor::on_workspace_browser_reset_body_color(const UUID &uu_doc, const UUI
     auto &doc = m_core.get_idocument_info(uu_doc).get_document();
     doc.get_group(uu_group).m_body.value().m_color.reset();
     doc.set_group_update_solid_model_pending(uu_group);
-    m_core.rebuild("reset body color");
+    m_core.rebuild("couleur du corps réinitialisée");
     canvas_update_keep_selection();
 }
 

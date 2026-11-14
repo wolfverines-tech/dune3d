@@ -17,7 +17,7 @@ void export_paths(const std::filesystem::path &filename, const Document &doc, co
 {
     auto &cur_group = doc.get_group(group_uu);
     if (!cur_group.m_active_wrkpl)
-        throw std::runtime_error("needs workplane");
+        throw std::runtime_error("nécessite un plan de travail");
     auto &ref_wrkpl = doc.get_entity<EntityWorkplane>(cur_group.m_active_wrkpl);
 
 

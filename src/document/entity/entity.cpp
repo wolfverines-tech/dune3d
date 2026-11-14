@@ -18,46 +18,46 @@ std::string Entity::get_type_name(Type type, TypeNameStyle style)
     switch (type) {
     case Type::LINE_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
-            return "Line";
-        return "Line in workplane";
+            return "Ligne";
+        return "Ligne dans le plan de travail";
     case Type::LINE_3D:
-        return "Line in 3D";
+        return "Ligne en 3D";
     case Type::ARC_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
             return "Arc";
-        return "Arc in workplane";
+        return "Arc dans le plan de travail";
     case Type::ARC_3D:
-        return "Arc in 3D";
+        return "Arc en 3D";
     case Type::CIRCLE_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
-            return "Circle";
-        return "Circle in workplane";
+            return "Cercle";
+        return "Cercle dans le plan de travail";
     case Type::CIRCLE_3D:
-        return "Circle in 3D";
+        return "Cercle en 3D";
     case Type::STEP:
-        return "STEP model";
+        return "Modèle STEP";
     case Type::WORKPLANE:
-        return "Workplane";
+        return "Plan de travail";
     case Type::POINT_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
             return "Point";
-        return "Point in workplane";
+        return "Point dans le plan de travail";
     case Type::DOCUMENT:
         return "Document";
     case Type::BEZIER_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
-            return "Bezier curve";
-        return "Bezier curve in workplane";
+            return "Courbe de Bézier";
+        return "Courbe de Bézier dans le plan de travail";
     case Type::BEZIER_3D:
-        return "Bezier curve in 3D";
+        return "Courbe de Bézier en 3D";
     case Type::CLUSTER:
-        return "Cluster";
+        return "Bloc";
     case Type::TEXT:
-        return "Text";
+        return "Texte";
     case Type::PICTURE:
-        return "Picture";
+        return "Image";
     default:
-        return "Entity";
+        return "Entité";
     }
 }
 
@@ -71,46 +71,46 @@ std::string Entity::get_type_name_plural(Type type, TypeNameStyle style)
     switch (type) {
     case Type::LINE_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
-            return "Lines";
-        return "Lines in workplane";
+            return "Lignes";
+        return "Lignes dans le plan de travail";
     case Type::LINE_3D:
-        return "Lines in 3D";
+        return "Lignes en 3D";
     case Type::ARC_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
             return "Arcs";
-        return "Arcs in workplane";
+        return "Arcs dans le plan de travail";
     case Type::ARC_3D:
-        return "Arcs in 3D";
+        return "Arcs en 3D";
     case Type::CIRCLE_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
-            return "Circles";
-        return "Circles in workplane";
+            return "Cercles";
+        return "Cercles dans le plan de travail";
     case Type::CIRCLE_3D:
-        return "Circles in 3D";
+        return "Cercles en 3D";
     case Type::STEP:
-        return "STEP models";
+        return "Modèles STEP";
     case Type::WORKPLANE:
-        return "Workplanes";
+        return "Plans de travail";
     case Type::POINT_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
             return "Points";
-        return "Points in workplane";
+        return "Points dans le plan de travail";
     case Type::DOCUMENT:
         return "Documents";
     case Type::BEZIER_2D:
         if (style == TypeNameStyle::WITHOUT_WORKPLANE)
-            return "Bezier curves";
-        return "Bezier curves in workplane";
+            return "Courbes de Bézier";
+        return "Courbes de Bézier dans le plan de travail";
     case Type::BEZIER_3D:
-        return "Bezier curves in 3D";
+        return "Courbes de Bézier en 3D";
     case Type::CLUSTER:
-        return "Clusters";
+        return "Blocs";
     case Type::TEXT:
-        return "Texts";
+        return "Textes";
     case Type::PICTURE:
-        return "Pictures";
+        return "Images";
     default:
-        return "Entities";
+        return "Entités";
     }
 }
 

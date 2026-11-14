@@ -18,7 +18,7 @@ RotateWindow::RotateWindow(Gtk::Window &parent, EditorInterface &intf, const std
                            const glm::dquat &initial)
     : ToolWindow(parent, intf), m_initial(initial), m_normal(initial)
 {
-    set_title("Rotate");
+    set_title("Pivoter");
 
     auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL, 4);
     box->set_margin(6);
@@ -38,11 +38,11 @@ RotateWindow::RotateWindow(Gtk::Window &parent, EditorInterface &intf, const std
         box2->set_hexpand(true);
         box2->add_css_class("linked");
 
-        m_button_rel = Gtk::make_managed<Gtk::ToggleButton>("Relative");
+        m_button_rel = Gtk::make_managed<Gtk::ToggleButton>("Relatif");
         m_button_rel->set_hexpand(true);
         box2->append(*m_button_rel);
 
-        m_button_abs = Gtk::make_managed<Gtk::ToggleButton>("Absolute");
+        m_button_abs = Gtk::make_managed<Gtk::ToggleButton>("Absolu");
         m_button_abs->set_hexpand(true);
         m_button_abs->set_active(true);
 

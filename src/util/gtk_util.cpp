@@ -90,7 +90,7 @@ RenameWindow::RenameWindow(const std::string &caption)
     set_titlebar(*hb);
     auto sg = Gtk::SizeGroup::create(Gtk::SizeGroup::Mode::HORIZONTAL);
     {
-        auto cancel_button = Gtk::make_managed<Gtk::Button>("Cancel");
+        auto cancel_button = Gtk::make_managed<Gtk::Button>("Annuler");
         cancel_button->signal_clicked().connect([this] { close(); });
         hb->pack_start(*cancel_button);
         sg->add_widget(*cancel_button);

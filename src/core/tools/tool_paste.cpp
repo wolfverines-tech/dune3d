@@ -46,7 +46,7 @@ ToolResponse ToolPaste::begin(const ToolArgs &args)
                 auto &en_wrkpl = dynamic_cast<EntityWorkplane &>(*new_entity);
                 en_wrkpl.m_origin = m_intf.get_cursor_pos();
                 if (en_wrkpl.has_name())
-                    en_wrkpl.m_name = en_wrkpl.m_name + " (Copy)";
+                    en_wrkpl.m_name = en_wrkpl.m_name + " (copie)";
 
                 entity_xlat.emplace(uu, new_entity->m_uuid);
                 m_selection.emplace(SelectableRef::Type::ENTITY, new_entity->m_uuid, new_entity->get_point_for_move());

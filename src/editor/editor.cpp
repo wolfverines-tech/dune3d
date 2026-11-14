@@ -225,11 +225,11 @@ void Editor::init_view_options()
     add_tool_action(ActionID::CLIPPING_PLANE_WINDOW, "clipping_planes");
     add_tool_action(ActionID::SELECTION_FILTER, "selection_filter");
 
-    m_view_options_menu->append("Selection filter", "win.selection_filter");
-    m_view_options_menu->append("Clipping planes", "win.clipping_planes");
-    m_view_options_menu->append("Previous construction entities", "win.previous_construction");
-    m_view_options_menu->append("Hide irrelevant workplanes", "win.irrelevant_workplanes");
-    m_view_options_menu->append("Perspective projection", "win.perspective");
+    m_view_options_menu->append("Filtre de sélection", "win.selection_filter");
+    m_view_options_menu->append("Plans de coupe", "win.clipping_planes");
+    m_view_options_menu->append("Entités de construction précédentes", "win.previous_construction");
+    m_view_options_menu->append("Masquer les plans de travail non pertinents", "win.irrelevant_workplanes");
+    m_view_options_menu->append("Projection en perspective", "win.perspective");
     {
         auto it = Gio::MenuItem::create("scale", "scale");
         it->set_attribute_value("custom", Glib::Variant<Glib::ustring>::create("scale"));
@@ -242,7 +242,7 @@ void Editor::init_view_options()
     {
         auto adj = Gtk::Adjustment::create(-1, -1, 5, .01, .1);
         m_curvature_comb_scale = Gtk::make_managed<Gtk::Scale>(adj);
-        m_curvature_comb_scale->add_mark(adj->get_lower(), Gtk::PositionType::BOTTOM, "Off");
+        m_curvature_comb_scale->add_mark(adj->get_lower(), Gtk::PositionType::BOTTOM, "Désactivé");
 
         adj->signal_value_changed().connect([this, adj] {
             if (!m_core.has_documents())
@@ -260,7 +260,7 @@ void Editor::init_view_options()
         auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
         box->set_margin_start(32);
         box->set_margin_top(6);
-        auto label = Gtk::make_managed<Gtk::Label>("Curvature comb scale");
+        auto label = Gtk::make_managed<Gtk::Label>("Échelle du peigne de courbure");
         label->set_xalign(0);
         box->append(*label);
         box->append(*m_curvature_comb_scale);
@@ -460,7 +460,7 @@ void Editor::init_canvas()
                 doc.m_constraints.erase(uu);
                 doc.set_group_solve_pending(m_core.get_current_group());
                 m_core.set_needs_save();
-                m_core.rebuild("remove constraint");
+                m_core.rebuild("suppression de la contrainte");
                 canvas_update_keep_selection();
             });
     m_context_menu->insert_action_group("menu", actions);
@@ -536,10 +536,10 @@ void Editor::update_selection_mode_label()
     std::string label;
     switch (mode) {
     case SelectionMode::HOVER:
-        m_win.set_selection_mode_label_text("Hover select");
+        m_win.set_selection_mode_label_text("Sélection au survol");
         break;
     case SelectionMode::NORMAL:
-        m_win.set_selection_mode_label_text("Click select");
+        m_win.set_selection_mode_label_text("Sélection au clic");
         break;
     default:;
     }
@@ -647,7 +647,7 @@ void Editor::open_context_menu(ContextMenuMode mode)
         return;
     }
     else if (mode == ContextMenuMode::CONSTRAIN && ids.size() == 0) {
-        auto item = Gio::MenuItem::create("No applicable constraints", "menu.invalid");
+        auto item = Gio::MenuItem::create("Aucune contrainte applicable", "menu.invalid");
         menu->append_item(item);
     }
     if (meas_items.size() > 1) {
@@ -655,7 +655,7 @@ void Editor::open_context_menu(ContextMenuMode mode)
         for (auto it : meas_items) {
             measurement_submenu->append_item(it);
         }
-        auto item = Gio::MenuItem::create("Measure", measurement_submenu);
+        auto item = Gio::MenuItem::create("Mesurer", measurement_submenu);
         menu->append_item(item);
     }
     else if (meas_items.size() == 1) {
@@ -681,7 +681,7 @@ void Editor::open_context_menu(ContextMenuMode mode)
                                                 Glib::Variant<std::string>::create(constraint->m_uuid));
                     submenu->append_item(item);
                 }
-                auto item = Gio::MenuItem::create("Remove constraint", submenu);
+                auto item = Gio::MenuItem::create("Supprimer la contrainte", submenu);
                 menu->append_item(item);
             }
         }
@@ -713,7 +713,7 @@ void Editor::open_context_menu(ContextMenuMode mode)
             box->append(*label);
             if (constraint_is_in_workplane) {
                 auto icon = Gtk::make_managed<Gtk::Image>();
-                icon->set_tooltip_text("Constraint applies in workplane");
+                icon->set_tooltip_text("La contrainte s'applique dans le plan de travail");
                 icon->set_from_icon_name("action-constrain-in-workplane-symbolic");
                 box->append(*icon);
                 icon->set_hexpand(true);
@@ -729,7 +729,7 @@ void Editor::open_context_menu(ContextMenuMode mode)
             auto box2 = Gtk::make_managed<Gtk::Box>();
             box2->append(*button);
             if (force_unset_workplane_tool != ToolID::NONE) {
-                auto button2 = Gtk::make_managed<Gtk::Button>("in 3D");
+                auto button2 = Gtk::make_managed<Gtk::Button>("en 3D");
                 button2->add_css_class("context-menu-button");
                 button2->add_css_class("context-menu-button-3d");
                 button2->set_has_frame(false);
@@ -771,13 +771,13 @@ void Editor::init_properties_notebook()
         m_group_editor_box = Gtk::make_managed<Gtk::Box>();
         m_group_editor_box->set_vexpand(true);
         box->append(*m_group_editor_box);
-        auto label = Gtk::make_managed<Gtk::Label>("Commit pending");
+        auto label = Gtk::make_managed<Gtk::Label>("Valider les modifications en attente");
         label->set_margin(3);
         m_group_commit_pending_revealer = Gtk::make_managed<Gtk::Revealer>();
         m_group_commit_pending_revealer->set_transition_type(Gtk::RevealerTransitionType::CROSSFADE);
         m_group_commit_pending_revealer->set_child(*label);
         box->append(*m_group_commit_pending_revealer);
-        m_properties_notebook->append_page(*box, "Group");
+        m_properties_notebook->append_page(*box, "Groupe");
     }
     m_core.signal_rebuilt().connect([this] {
         if (m_group_editor) {
@@ -790,7 +790,7 @@ void Editor::init_properties_notebook()
 
 
     m_constraints_box = Gtk::make_managed<ConstraintsBox>(m_core);
-    m_properties_notebook->append_page(*m_constraints_box, "Constraints");
+    m_properties_notebook->append_page(*m_constraints_box, "Contraintes");
     m_core.signal_rebuilt().connect(
             [this] { Glib::signal_idle().connect_once([this] { m_constraints_box->update(); }); });
     m_core.signal_documents_changed().connect([this] { m_constraints_box->update(); });
@@ -809,13 +809,13 @@ void Editor::init_properties_notebook()
         m_selection_editor->signal_view_changed().connect([this] { CanvasUpdater canvas_updater{*this}; });
         m_selection_editor->set_vexpand(true);
         box->append(*m_selection_editor);
-        auto label = Gtk::make_managed<Gtk::Label>("Commit pending");
+        auto label = Gtk::make_managed<Gtk::Label>("Valider les modifications en attente");
         label->set_margin(3);
         m_selection_commit_pending_revealer = Gtk::make_managed<Gtk::Revealer>();
         m_selection_commit_pending_revealer->set_transition_type(Gtk::RevealerTransitionType::CROSSFADE);
         m_selection_commit_pending_revealer->set_child(*label);
         box->append(*m_selection_commit_pending_revealer);
-        m_properties_notebook->append_page(*box, "Selection");
+        m_properties_notebook->append_page(*box, "Sélection");
     }
     get_canvas().signal_selection_changed().connect(sigc::mem_fun(*this, &Editor::update_selection_editor));
 }
@@ -841,12 +841,12 @@ void Editor::init_header_bar()
         undo_redo_box->add_css_class("linked");
 
         auto undo_button = create_action_button(ActionID::UNDO);
-        undo_button->set_tooltip_text("Undo");
+        undo_button->set_tooltip_text("Annuler");
         undo_button->set_image_from_icon_name("edit-undo-symbolic");
         undo_redo_box->append(*undo_button);
 
         auto redo_button = create_action_button(ActionID::REDO);
-        redo_button->set_tooltip_text("Redo");
+        redo_button->set_tooltip_text("Rétablir");
         redo_button->set_image_from_icon_name("edit-redo-symbolic");
         undo_redo_box->append(*redo_button);
 
@@ -856,9 +856,9 @@ void Editor::init_header_bar()
     {
         auto top = Gio::Menu::create();
 
-        top->append_item(Gio::MenuItem::create("Preferences", "app.preferences"));
-        top->append_item(Gio::MenuItem::create("Logger", "app.logger"));
-        top->append_item(Gio::MenuItem::create("About", "app.about"));
+        top->append_item(Gio::MenuItem::create("Préférences", "app.preferences"));
+        top->append_item(Gio::MenuItem::create("Journal", "app.logger"));
+        top->append_item(Gio::MenuItem::create("À propos", "app.about"));
 
         m_win.get_hamburger_menu_button().set_menu_model(top);
     }
@@ -883,15 +883,15 @@ void Editor::update_view_hints()
         }
     }
     if (m_selection_filter_window->is_active())
-        hints.push_back("selection filtered");
+        hints.push_back("sélection filtrée");
     if (m_core.has_documents()) {
         if (get_current_workspace_view().m_show_construction_entities_from_previous_groups)
-            hints.push_back("prev. construction entities");
+            hints.push_back("entités de constr. précédentes");
         if (get_current_workspace_view().m_hide_irrelevant_workplanes)
-            hints.push_back("no irrelevant workplanes");
+            hints.push_back("sans plans de travail non pertinents");
         auto &wv = m_workspace_views.at(m_current_workspace_view);
         if (wv.m_curvature_comb_scale > 0)
-            hints.push_back("curv. combs");
+            hints.push_back("peignes de courbure");
     }
     m_win.set_view_hints_label(hints);
 }
@@ -910,7 +910,7 @@ void Editor::on_open_document(const ActionConnection &conn)
     auto filters = Gio::ListStore<Gtk::FileFilter>::create();
 
     auto filter_any = Gtk::FileFilter::create();
-    filter_any->set_name("Dune 3D documents");
+    filter_any->set_name("Documents Dune 3D");
     filter_any->add_pattern("*.d3ddoc");
     filters->append(filter_any);
 
@@ -923,14 +923,14 @@ void Editor::on_open_document(const ActionConnection &conn)
             m_win.open_file_view(file);
             // Notice that this is a std::string, not a Glib::ustring.
             auto filename = file->get_path();
-            std::cout << "File selected: " << filename << std::endl;
+            std::cout << "Fichier sélectionné : " << filename << std::endl;
         }
         catch (const Gtk::DialogError &err) {
             // Can be thrown by dialog->open_finish(result).
-            std::cout << "No file selected. " << err.what() << std::endl;
+            std::cout << "Aucun fichier sélectionné. " << err.what() << std::endl;
         }
         catch (const Glib::Error &err) {
-            std::cout << "Unexpected exception. " << err.what() << std::endl;
+            std::cout << "Exception inattendue. " << err.what() << std::endl;
         }
     });
 }
@@ -948,7 +948,7 @@ void Editor::on_save_as(const ActionConnection &conn)
     auto filters = Gio::ListStore<Gtk::FileFilter>::create();
 
     auto filter_any = Gtk::FileFilter::create();
-    filter_any->set_name("Dune 3D documents");
+    filter_any->set_name("Documents Dune 3D");
     filter_any->add_pattern("*.d3ddoc");
     filters->append(filter_any);
 
@@ -974,10 +974,10 @@ void Editor::on_save_as(const ActionConnection &conn)
         }
         catch (const Gtk::DialogError &err) {
             // Can be thrown by dialog->open_finish(result).
-            std::cout << "No file selected. " << err.what() << std::endl;
+            std::cout << "Aucun fichier sélectionné. " << err.what() << std::endl;
         }
         catch (const Glib::Error &err) {
-            std::cout << "Unexpected exception. " << err.what() << std::endl;
+            std::cout << "Exception inattendue. " << err.what() << std::endl;
         }
     });
 }
@@ -1029,11 +1029,11 @@ const Canvas &Editor::get_canvas() const
 void Editor::show_save_dialog(const std::string &doc_name, std::function<void()> save_cb,
                               std::function<void()> no_save_cb)
 {
-    auto dialog = Gtk::AlertDialog::create("Save changes to document \"" + doc_name + "\" before closing?");
+    auto dialog = Gtk::AlertDialog::create("Enregistrer les modifications du document « " + doc_name + " » avant de fermer ?");
     dialog->set_detail(
-            "If you don't save, all your changes will be permanently "
-            "lost.");
-    dialog->set_buttons({"Cancel", "Close without saving", "Save"});
+            "Si vous n'enregistrez pas, toutes vos modifications seront définitivement "
+            "perdues.");
+    dialog->set_buttons({"Annuler", "Fermer sans enregistrer", "Enregistrer"});
     dialog->set_cancel_button(0);
     dialog->set_default_button(0);
     dialog->choose(m_win, [dialog, save_cb, no_save_cb](Glib::RefPtr<Gio::AsyncResult> &result) {
@@ -1125,26 +1125,26 @@ void Editor::commit_from_editor()
     m_delayed_commit_connection.disconnect();
     m_group_commit_pending_revealer->set_reveal_child(false);
     m_selection_commit_pending_revealer->set_reveal_child(false);
-    m_core.rebuild("group/selection edited");
+    m_core.rebuild("modification du groupe/de la sélection");
 }
 
 void Editor::update_workplane_label()
 {
     if (!m_core.has_documents()) {
-        m_win.set_workplane_label("No documents");
+        m_win.set_workplane_label("Aucun document");
         return;
     }
     auto wrkpl_uu = m_core.get_current_workplane();
     if (!wrkpl_uu) {
-        m_win.set_workplane_label("No Workplane");
+        m_win.set_workplane_label("Aucun plan de travail");
     }
     else {
         auto &wrkpl = m_core.get_current_document().get_entity<EntityWorkplane>(wrkpl_uu);
         auto &wrkpl_group = m_core.get_current_document().get_group<Group>(wrkpl.m_group);
-        std::string s = "Workplane ";
+        std::string s = "Plan de travail ";
         if (wrkpl.m_name.size())
             s += wrkpl.m_name + " ";
-        s += "in group " + wrkpl_group.m_name;
+        s += "du groupe " + wrkpl_group.m_name;
         m_win.set_workplane_label(s);
     }
 }
@@ -1437,7 +1437,7 @@ void Editor::reset_key_hint_label()
     if (m_action_connections.count(act)) {
         if (m_action_connections.at(act).key_sequences.size()) {
             const auto keys = key_sequence_to_string(m_action_connections.at(act).key_sequences.front());
-            m_win.set_key_hint_label_text("> " + keys + " for menu");
+            m_win.set_key_hint_label_text("> " + keys + " pour le menu");
             return;
         }
     }
@@ -1607,7 +1607,7 @@ void Editor::open_file(const std::filesystem::path &path)
 
         load_linked_documents(doc_uu);
     }
-    CATCH_LOG(Logger::Level::WARNING, "error opening document" + path_to_string(path), Logger::Domain::DOCUMENT)
+    CATCH_LOG(Logger::Level::WARNING, "erreur à l'ouverture du document" + path_to_string(path), Logger::Domain::DOCUMENT)
 }
 
 void Editor::load_linked_documents(const UUID &uu_doc)
@@ -1693,7 +1693,7 @@ void Editor::update_title()
         if (doc.has_path())
             m_win.set_window_title_from_path(doc.get_path());
         else
-            m_win.set_window_title("New Document");
+            m_win.set_window_title("Nouveau document");
     }
     else {
         m_win.set_window_title("");

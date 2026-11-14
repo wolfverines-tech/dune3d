@@ -8,7 +8,7 @@ EnterTextWindow::EnterTextWindow(Gtk::Window &parent, EditorInterface &intf, con
                                  const std::string &def)
     : ToolWindow(parent, intf)
 {
-    set_title("Enter text");
+    set_title("Saisir le texte");
 
     auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL, 4);
     box->set_margin(6);

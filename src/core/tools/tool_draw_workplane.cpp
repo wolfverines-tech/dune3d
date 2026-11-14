@@ -22,11 +22,11 @@ ToolBase::CanBegin ToolDrawWorkplane::can_begin()
 
 void ToolDrawWorkplane::update_tip()
 {
-    std::string tip = "Orientation: " + quat_to_string(m_wrkpl->m_normal);
+    std::string tip = "Orientation : " + quat_to_string(m_wrkpl->m_normal);
 
     std::vector<ConstraintType> constraint_icons;
     if (m_constrain) {
-        tip += " " + get_constrain_tip("origin");
+        tip += " " + get_constrain_tip("origine");
         update_constraint_icons(constraint_icons);
     }
     if (m_lock_rotation)
@@ -34,26 +34,26 @@ void ToolDrawWorkplane::update_tip()
 
     std::vector<ActionLabelInfo> actions;
     actions.reserve(9);
-    actions.emplace_back(InToolActionID::LMB, "place");
+    actions.emplace_back(InToolActionID::LMB, "placer");
 
-    actions.emplace_back(InToolActionID::RMB, "cancel");
+    actions.emplace_back(InToolActionID::RMB, "annuler");
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la contrainte");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la contrainte");
 
     if (m_lock_rotation)
-        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "unlock rotation");
+        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "déverrouiller la rotation");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "lock rotation");
+        actions.emplace_back(InToolActionID::TOGGLE_LOCK_ROTATION_CONSTRAINT, "verrouiller la rotation");
 
     if (m_auto_normal)
-        actions.emplace_back(InToolActionID::TOGGLE_AUTO_NORMAL, "no auto rotate");
+        actions.emplace_back(InToolActionID::TOGGLE_AUTO_NORMAL, "désactiver la rotation auto");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_AUTO_NORMAL, "auto rotate");
+        actions.emplace_back(InToolActionID::TOGGLE_AUTO_NORMAL, "activer la rotation auto");
 
-    actions.emplace_back(InToolActionID::ROTATE_X, InToolActionID::ROTATE_Y, InToolActionID::ROTATE_Z, "rotate");
+    actions.emplace_back(InToolActionID::ROTATE_X, InToolActionID::ROTATE_Y, InToolActionID::ROTATE_Z, "pivoter");
 
     m_intf.set_constraint_icons(m_intf.get_cursor_pos(), {NAN, NAN, NAN}, constraint_icons);
 

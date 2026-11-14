@@ -151,7 +151,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupP
         auto face_builder = FaceBuilder::from_document(doc, group.m_wrkpl, group.m_source_group, offset);
 
         if (face_builder.get_n_faces() == 0) {
-            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "no faces");
+            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune face");
             return nullptr;
         }
 
@@ -162,7 +162,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupP
             spine_entities.emplace(uu, &doc.get_entity(uu));
         }
         if (spine_entities.size() == 0) {
-            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "no spine entities");
+            group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune entité de trajectoire");
             return nullptr;
         }
 
@@ -186,7 +186,7 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupP
         } while (spine_entities.size() && added_any);
 
         if (auto sz = spine_entities.size()) {
-            std::string msg = std::format("Could not add {} {} to spine", sz,
+            std::string msg = std::format("Impossible d'ajouter {} {} à la trajectoire", sz,
                                           Entity::get_type_name_for_n(Entity::Type::INVALID, sz));
             group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::WARN, msg);
         }
@@ -211,12 +211,12 @@ std::shared_ptr<const SolidModel> SolidModel::create(const Document &doc, GroupP
         group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "unknown exception");
     }
     if (mod->m_shape.IsNull()) {
-        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
 
     if (!mod->update_acc_finish(doc, group)) {
-        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "didn't generate a shape");
+        group.m_sweep_messages.emplace_back(GroupStatusMessage::Status::ERR, "aucune forme générée");
         return nullptr;
     }
     return mod;

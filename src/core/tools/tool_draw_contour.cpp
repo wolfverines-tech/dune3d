@@ -82,10 +82,10 @@ glm::dvec2 ToolDrawContour::get_tangent_for_point(const EntityAndPoint &enp)
         if (en_tangent->is_valid_tangent_point(enp.point))
             return en_tangent->get_tangent_at_point(enp.point);
         else
-            throw std::runtime_error("not a valid tangent point");
+            throw std::runtime_error("point de tangence non valide");
     }
     else {
-        throw std::runtime_error("entity has no tangent");
+        throw std::runtime_error("l'entité n'a pas de tangente");
     }
 }
 glm::dvec2 ToolDrawContour::get_last_tangent()
@@ -875,11 +875,11 @@ void ToolDrawContour::update_tip()
     std::vector<ActionLabelInfo> actions;
 
     if (is_placing_center())
-        actions.emplace_back(InToolActionID::LMB, "place center");
+        actions.emplace_back(InToolActionID::LMB, "placer le centre");
     else
-        actions.emplace_back(InToolActionID::LMB, "place");
+        actions.emplace_back(InToolActionID::LMB, "placer");
 
-    actions.emplace_back(InToolActionID::RMB, "end tool");
+    actions.emplace_back(InToolActionID::RMB, "terminer l'outil");
 
 
     if (auto t = get_temp_entity()) {
@@ -890,15 +890,15 @@ void ToolDrawContour::update_tip()
     }
 
     if (m_constrain)
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "coincident constraint off");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "désactiver la coïncidence");
     else
-        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "coincident constraint on");
+        actions.emplace_back(InToolActionID::TOGGLE_COINCIDENT_CONSTRAINT, "activer la coïncidence");
 
     if (m_temp_line) {
         if (m_constrain_hv)
-            actions.emplace_back(InToolActionID::TOGGLE_HV_CONSTRAINT, "h/v constraint off");
+            actions.emplace_back(InToolActionID::TOGGLE_HV_CONSTRAINT, "désactiver h/v");
         else
-            actions.emplace_back(InToolActionID::TOGGLE_HV_CONSTRAINT, "h/v constraint on");
+            actions.emplace_back(InToolActionID::TOGGLE_HV_CONSTRAINT, "activer h/v");
     }
 
     std::vector<ConstraintType> constraint_icons;
@@ -906,16 +906,16 @@ void ToolDrawContour::update_tip()
     m_has_tangent_head = false;
     std::string constraint_tip;
     if (m_constrain) {
-        std::string what = "to";
+        std::string what = "fin";
         switch (m_state) {
         case State::CENTER:
-            what = "center";
+            what = "centre";
             break;
         case State::BEZIER_C1:
-            what = "from control";
+            what = "point de contrôle de début";
             break;
         case State::BEZIER_C2:
-            what = "to control";
+            what = "point de contrôle de fin";
             break;
         default:;
         }
@@ -952,28 +952,28 @@ void ToolDrawContour::update_tip()
 
     if (m_has_tangent_head) {
         if (m_constrain_tangent_head)
-            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "head tangent constraint off");
+            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "désactiver la tangence en tête");
         else
-            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "head tangent constraint on");
+            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "activer la tangence en tête");
     }
     else if (m_last_tangent_point) {
         if (m_constrain_tangent)
-            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "tangent constraint off");
+            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "désactiver la tangence");
         else
-            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "tangent constraint on");
+            actions.emplace_back(InToolActionID::TOGGLE_TANGENT_CONSTRAINT, "activer la tangence");
     }
 
     if (get_temp_entity() && is_draw_contour() && m_state == State::NORMAL) {
         auto et = get_temp_entity()->get_type();
         if (et == Entity::Type::ARC_2D) {
-            actions.emplace_back(InToolActionID::TOGGLE_ARC, "arc off");
+            actions.emplace_back(InToolActionID::TOGGLE_ARC, "ligne droite");
         }
         else if (et == Entity::Type::BEZIER_2D) {
-            actions.emplace_back(InToolActionID::TOGGLE_BEZIER, "bezier off");
+            actions.emplace_back(InToolActionID::TOGGLE_BEZIER, "ligne droite");
         }
         else {
-            actions.emplace_back(InToolActionID::TOGGLE_ARC, "arc on");
-            actions.emplace_back(InToolActionID::TOGGLE_BEZIER, "bezier on");
+            actions.emplace_back(InToolActionID::TOGGLE_ARC, "passer en arc");
+            actions.emplace_back(InToolActionID::TOGGLE_BEZIER, "passer en Bézier");
         }
     }
 
@@ -983,16 +983,16 @@ void ToolDrawContour::update_tip()
     std::string tip;
 
     if (!m_tangent_valid) {
-        tip += "invalid tangent ";
+        tip += "tangente non valide ";
     }
 
     tip += constraint_tip;
 
     if (auto ct = get_auto_constraint()) {
         if (*ct == Constraint::Type::HORIZONTAL)
-            tip += " horizontal";
+            tip += " horizontale";
         else if (*ct == Constraint::Type::VERTICAL)
-            tip += " vertical";
+            tip += " verticale";
         constraint_icons.push_back(*ct);
     }
     if (!tip.size())

@@ -29,7 +29,7 @@ SelectGroupDialog::SelectGroupDialog(const Document &doc, const UUID &current_gr
     : Gtk::Window(), m_doc(doc)
 {
     set_modal(true);
-    set_title("Select Group");
+    set_title("Sélectionner un groupe");
     set_default_size(-1, 300);
 
     auto headerbar = Gtk::make_managed<Gtk::HeaderBar>();
@@ -39,7 +39,7 @@ SelectGroupDialog::SelectGroupDialog(const Document &doc, const UUID &current_gr
 
     auto sg = Gtk::SizeGroup::create(Gtk::SizeGroup::Mode::HORIZONTAL);
 
-    m_cancel_button = Gtk::make_managed<Gtk::Button>("Cancel");
+    m_cancel_button = Gtk::make_managed<Gtk::Button>("Annuler");
     headerbar->pack_start(*m_cancel_button);
     m_cancel_button->signal_clicked().connect([this] { close(); });
     sg->add_widget(*m_cancel_button);

@@ -36,9 +36,9 @@ ToolResponse ToolSelectSpineEntities::begin(const ToolArgs &args)
     m_intf.enable_hover_selection();
     {
         std::vector<ActionLabelInfo> actions;
-        actions.emplace_back(InToolActionID::LMB, "select/deselect entity");
-        actions.emplace_back(InToolActionID::RMB, "finish");
-        actions.emplace_back(InToolActionID::CANCEL, "cancel");
+        actions.emplace_back(InToolActionID::LMB, "sélectionner/désélectionner l'entité");
+        actions.emplace_back(InToolActionID::RMB, "terminer");
+        actions.emplace_back(InToolActionID::CANCEL, "annuler");
         actions.emplace_back(InToolActionID::CLEAR_SPINE_ENTITIES);
         m_intf.tool_bar_set_actions(actions);
     }
@@ -65,18 +65,18 @@ ToolResponse ToolSelectSpineEntities::update(const ToolArgs &args)
 
             auto &en = get_entity(hsel->item);
             if (!GroupPipe::entity_type_is_supported(en.get_type())) {
-                m_intf.tool_bar_flash("Entity of type " + en.get_type_name() + " is not supported");
+                m_intf.tool_bar_flash("Le type d'entité " + en.get_type_name() + " n'est pas pris en charge");
                 return ToolResponse();
             }
 
 
             if (hsel->point != 0) {
                 if (!any_of(hsel->point, 1u, 2u)) {
-                    m_intf.tool_bar_flash("Click on start/end point");
+                    m_intf.tool_bar_flash("Cliquez sur le point de début/fin");
                     return ToolResponse();
                 }
                 if (!m_group->m_spine_entities.contains(hsel->item)) {
-                    m_intf.tool_bar_flash("Start point must be a spine entity");
+                    m_intf.tool_bar_flash("Le point de départ doit appartenir à la trajectoire");
                     return ToolResponse();
                 }
                 m_group->m_start_point = hsel->get_entity_and_point();

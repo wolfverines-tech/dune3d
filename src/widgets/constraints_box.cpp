@@ -43,7 +43,7 @@ ConstraintsBox::ConstraintsBox(Core &core) : Gtk::Box(Gtk::Orientation::VERTICAL
                             m_core.get_current_document().m_constraints.erase(it->m_uuid);
                             m_core.get_current_document().set_group_solve_pending(m_core.get_current_group());
                             m_core.set_needs_save();
-                            m_core.rebuild("delete constraint");
+                            m_core.rebuild("suppression de la contrainte");
                             m_signal_changed.emit();
                         }
                         return true;
@@ -59,7 +59,7 @@ ConstraintsBox::ConstraintsBox(Core &core) : Gtk::Box(Gtk::Orientation::VERTICAL
         m_signal_constraint_selected.emit(sel->m_uuid);
     });
     m_view->add_css_class("navigation-sidebar");
-    m_redundant_only_cb = Gtk::make_managed<Gtk::CheckButton>("Show only redundant constraints");
+    m_redundant_only_cb = Gtk::make_managed<Gtk::CheckButton>("Afficher uniquement les contraintes redondantes");
     m_redundant_only_cb->set_sensitive(false);
     auto sc = Gtk::make_managed<Gtk::ScrolledWindow>();
     sc->set_vexpand(true);

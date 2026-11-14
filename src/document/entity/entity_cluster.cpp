@@ -98,10 +98,10 @@ std::string EntityCluster::get_point_name(unsigned int point) const
 {
     switch (point) {
     case 1:
-        return "origin";
+        return "origine";
     default:
         if (m_anchors.contains(point))
-            return std::format("anchor {}", point);
+            return std::format("ancre {}", point);
         else
             return "";
     }

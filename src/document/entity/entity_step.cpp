@@ -92,10 +92,10 @@ std::string EntitySTEP::get_point_name(unsigned int point) const
     case 0:
         return "";
     case 1:
-        return "origin";
+        return "origine";
     default:
         if (m_anchors.contains(point))
-            return std::format("anchor {}", point);
+            return std::format("ancre {}", point);
         else
             return "";
     }

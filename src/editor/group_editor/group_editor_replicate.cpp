@@ -12,9 +12,9 @@ void GroupEditorReplicate::add_source_widgets()
 
     auto &group = get_group();
     auto items = Gtk::StringList::create();
-    items->append("Single group");
-    items->append("Body up to group");
-    items->append("Group range");
+    items->append("Groupe unique");
+    items->append("Corps jusqu'au groupe");
+    items->append("Plage de groupes");
 
     m_sources_combo = Gtk::make_managed<Gtk::DropDown>(items);
     m_sources_combo->set_selected(static_cast<guint>(group.m_sources));
@@ -46,7 +46,7 @@ void GroupEditorReplicate::add_source_widgets()
         m_source_group_button->signal_changed().connect(sigc::mem_fun(*this, &GroupEditorReplicate::changed));
         box->append(*m_source_group_button);
 
-        grid_attach_label_and_widget(*this, "Source group", *box, m_top);
+        grid_attach_label_and_widget(*this, "Groupe source", *box, m_top);
     }
     update_replicate();
 }

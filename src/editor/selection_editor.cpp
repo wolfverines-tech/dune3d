@@ -107,7 +107,7 @@ public:
                 m_signal_changed.emit(CommitMode::IMMEDIATE);
             });
         }
-        grid_attach_label_and_widget(*this, "Name", *m_name_entry, top);
+        grid_attach_label_and_widget(*this, "Nom", *m_name_entry, top);
 
 
         m_width_sp = Gtk::make_managed<SpinButtonDim>();
@@ -116,14 +116,14 @@ public:
         m_width_sp->set_value(m_wrkpl.m_size.x);
         connect_spinbutton(*m_width_sp,
                            [this] { return update_if_changed(m_wrkpl.m_size.x, m_width_sp->get_value()); });
-        grid_attach_label_and_widget(*this, "Width", *m_width_sp, top);
+        grid_attach_label_and_widget(*this, "Largeur", *m_width_sp, top);
 
         m_height_sp = Gtk::make_managed<SpinButtonDim>();
         m_height_sp->set_range(1, 1000);
         m_height_sp->set_value(m_wrkpl.m_size.y);
         connect_spinbutton(*m_height_sp,
                            [this] { return update_if_changed(m_wrkpl.m_size.y, m_height_sp->get_value()); });
-        grid_attach_label_and_widget(*this, "Height", *m_height_sp, top);
+        grid_attach_label_and_widget(*this, "Hauteur", *m_height_sp, top);
     }
 
 private:
@@ -200,11 +200,11 @@ public:
         });
 
         int top = 0;
-        grid_attach_label_and_widget(*this, "Path", *box, top);
+        grid_attach_label_and_widget(*this, "Chemin", *box, top);
 
         const bool is_sketch_group = doc.get_group(step.m_group).get_type() == Group::Type::SKETCH;
 
-        auto include_in_solid_model_switch = Gtk::make_managed<Gtk::CheckButton>("In solid model");
+        auto include_in_solid_model_switch = Gtk::make_managed<Gtk::CheckButton>("Dans le modèle solide");
         include_in_solid_model_switch->set_halign(Gtk::Align::START);
         if (is_sketch_group) {
             include_in_solid_model_switch->set_active(step.m_include_in_solid_model);
@@ -216,7 +216,7 @@ public:
         }
         else {
             include_in_solid_model_switch->set_sensitive(false);
-            include_in_solid_model_switch->set_tooltip_text("Only available in Sketch Groups");
+            include_in_solid_model_switch->set_tooltip_text("Disponible uniquement dans les groupes esquisse");
         }
 
         attach(*include_in_solid_model_switch, 1, top++);
@@ -264,7 +264,7 @@ public:
             auto filters = Gio::ListStore<Gtk::FileFilter>::create();
 
             auto filter_any = Gtk::FileFilter::create();
-            filter_any->set_name("Dune 3D document");
+            filter_any->set_name("Document Dune 3D");
             filter_any->add_pattern("*.d3ddoc");
             filters->append(filter_any);
 
@@ -293,7 +293,7 @@ public:
         });
 
         int top = 0;
-        grid_attach_label_and_widget(*this, "Path", *box, top);
+        grid_attach_label_and_widget(*this, "Chemin", *box, top);
     }
 
 private:
@@ -322,10 +322,10 @@ public:
 
         int top = 0;
         auto items = Gtk::StringList::create();
-        items->append("Solid");
-        items->append("Hidden");
-        items->append("Wireframe");
-        items->append("Solid and wireframe");
+        items->append("Solide");
+        items->append("Masqué");
+        items->append("Filaire");
+        items->append("Solide et filaire");
 
         m_display_combo = Gtk::make_managed<Gtk::DropDown>(items);
         m_display_combo->set_hexpand(true);
@@ -341,7 +341,7 @@ public:
             ev->m_display = static_cast<EntityViewSTEP::Display>(m_display_combo->get_selected());
             m_signal_changed.emit();
         });
-        grid_attach_label_and_widget(*this, "Display", *m_display_combo, top);
+        grid_attach_label_and_widget(*this, "Affichage", *m_display_combo, top);
     }
 
 private:
@@ -369,7 +369,7 @@ public:
         grid_attach_label_and_widget(*this, "Angle", *m_angle_sp, top);
 
         m_lock_angle_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_angle_button->set_tooltip_text("Lock angle");
+        m_lock_angle_button->set_tooltip_text("Verrouiller l'angle");
         m_lock_angle_button->set_icon_name("system-lock-screen-symbolic");
         m_lock_angle_button->set_active(m_cluster.m_lock_angle);
         m_lock_angle_button->signal_toggled().connect([this] {
@@ -386,10 +386,10 @@ public:
         m_scale_x_sp->set_value(m_cluster.m_scale_x);
         connect_spinbutton(*m_scale_x_sp,
                            [this] { return update_if_changed(m_cluster.m_scale_x, m_scale_x_sp->get_value()); });
-        grid_attach_label_and_widget(*this, "X scale", *m_scale_x_sp, top);
+        grid_attach_label_and_widget(*this, "Échelle X", *m_scale_x_sp, top);
 
         m_lock_scale_x_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_scale_x_button->set_tooltip_text("Lock X scale");
+        m_lock_scale_x_button->set_tooltip_text("Verrouiller l'échelle X");
         m_lock_scale_x_button->set_icon_name("system-lock-screen-symbolic");
         m_lock_scale_x_button->set_active(m_cluster.m_lock_scale_x);
         m_lock_scale_x_button->signal_toggled().connect([this] {
@@ -406,10 +406,10 @@ public:
         m_scale_y_sp->set_value(m_cluster.m_scale_y);
         connect_spinbutton(*m_scale_y_sp,
                            [this] { return update_if_changed(m_cluster.m_scale_y, m_scale_y_sp->get_value()); });
-        grid_attach_label_and_widget(*this, "Y scale", *m_scale_y_sp, top);
+        grid_attach_label_and_widget(*this, "Échelle Y", *m_scale_y_sp, top);
 
         m_lock_scale_y_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_scale_y_button->set_tooltip_text("Lock Y scale");
+        m_lock_scale_y_button->set_tooltip_text("Verrouiller l'échelle Y");
         m_lock_scale_y_button->set_icon_name("system-lock-screen-symbolic");
         m_lock_scale_y_button->set_active(m_cluster.m_lock_scale_y);
         m_lock_scale_y_button->signal_toggled().connect([this] {
@@ -419,7 +419,7 @@ public:
         attach(*m_lock_scale_y_button, 2, top - 1);
 
         m_lock_aspect_ratio_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_aspect_ratio_button->set_tooltip_text("Lock aspect ratio");
+        m_lock_aspect_ratio_button->set_tooltip_text("Verrouiller les proportions");
         m_lock_aspect_ratio_button->set_icon_name("system-lock-screen-symbolic");
         attach(*m_lock_aspect_ratio_button, 3, top - 2, 1, 2);
         m_lock_aspect_ratio_button->set_active(m_cluster.m_lock_aspect_ratio);
@@ -459,7 +459,7 @@ public:
         grid_attach_label_and_widget(*this, "Angle", *m_angle_sp, top);
 
         m_lock_angle_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_angle_button->set_tooltip_text("Lock angle");
+        m_lock_angle_button->set_tooltip_text("Verrouiller l'angle");
         m_lock_angle_button->set_icon_name("system-lock-screen-symbolic");
         m_lock_angle_button->set_active(m_picture.m_lock_angle);
         m_lock_angle_button->signal_toggled().connect([this] {
@@ -469,7 +469,7 @@ public:
         attach(*m_lock_angle_button, 2, top - 1);
         top++;
 
-        m_lock_aspect_ratio_button = Gtk::make_managed<Gtk::CheckButton>("Lock aspect ratio");
+        m_lock_aspect_ratio_button = Gtk::make_managed<Gtk::CheckButton>("Verrouiller les proportions");
         attach(*m_lock_aspect_ratio_button, 0, top, 2);
         m_lock_aspect_ratio_button->set_active(m_picture.m_lock_aspect_ratio);
         m_lock_aspect_ratio_button->signal_toggled().connect([this] {
@@ -502,7 +502,7 @@ public:
             render_text(m_text, get_pango_context(), m_doc);
             m_signal_changed.emit(CommitMode::IMMEDIATE);
         });
-        grid_attach_label_and_widget(*this, "Text", *m_text_entry, top);
+        grid_attach_label_and_widget(*this, "Texte", *m_text_entry, top);
 
         auto dialog = Gtk::FontDialog::create();
         m_font_button = Gtk::make_managed<Gtk::FontDialogButton>(dialog);
@@ -518,7 +518,7 @@ public:
             render_text(m_text, get_pango_context(), m_doc);
             m_signal_changed.emit(CommitMode::IMMEDIATE);
         });
-        grid_attach_label_and_widget(*this, "Font", *m_font_button, top);
+        grid_attach_label_and_widget(*this, "Police", *m_font_button, top);
 
         m_angle_sp = Gtk::make_managed<SpinButtonAngle>();
         m_angle_sp->set_hexpand(true);
@@ -527,7 +527,7 @@ public:
         grid_attach_label_and_widget(*this, "Angle", *m_angle_sp, top);
 
         m_lock_angle_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_angle_button->set_tooltip_text("Lock angle");
+        m_lock_angle_button->set_tooltip_text("Verrouiller l'angle");
         m_lock_angle_button->set_icon_name("system-lock-screen-symbolic");
         m_lock_angle_button->set_active(m_text.m_lock_angle);
         m_lock_angle_button->signal_toggled().connect([this] {
@@ -543,10 +543,10 @@ public:
         m_scale_sp->set_digits(4);
         m_scale_sp->set_value(m_text.m_scale);
         connect_spinbutton(*m_scale_sp, [this] { return update_if_changed(m_text.m_scale, m_scale_sp->get_value()); });
-        grid_attach_label_and_widget(*this, "Scale", *m_scale_sp, top);
+        grid_attach_label_and_widget(*this, "Échelle", *m_scale_sp, top);
 
         m_lock_scale_button = Gtk::make_managed<Gtk::ToggleButton>();
-        m_lock_scale_button->set_tooltip_text("Lock scale");
+        m_lock_scale_button->set_tooltip_text("Verrouiller l'échelle");
         m_lock_scale_button->set_icon_name("system-lock-screen-symbolic");
         m_lock_scale_button->set_active(m_text.m_lock_scale);
         m_lock_scale_button->signal_toggled().connect([this] {
@@ -582,7 +582,7 @@ void SelectionEditor::set_selection(const std::set<SelectableRef> &sel)
     }
     if (m_core.has_documents()) {
         if (auto wrkpl = point_from_selection(m_core.get_current_document(), sel, Entity::Type::WORKPLANE)) {
-            m_title->set_label("Workplane");
+            m_title->set_label("Plan de travail");
             m_title->set_tooltip_text((std::string)wrkpl->entity);
             auto ed = Gtk::make_managed<WorkplaneEditor>(m_core.get_current_document(), wrkpl->entity);
             m_editor = ed;
@@ -616,7 +616,7 @@ void SelectionEditor::set_selection(const std::set<SelectableRef> &sel)
             ed->signal_changed().connect([this](auto mode) { m_signal_changed.emit(mode); });
         }
         else if (auto cluster = point_from_selection(m_core.get_current_document(), sel, Entity::Type::CLUSTER)) {
-            m_title->set_label("Cluster");
+            m_title->set_label("Bloc");
             m_title->set_tooltip_text((std::string)cluster->entity);
             auto ed = Gtk::make_managed<ClusterEditor>(m_core.get_current_document(), cluster->entity);
             m_editor = ed;
@@ -627,7 +627,7 @@ void SelectionEditor::set_selection(const std::set<SelectableRef> &sel)
             });
         }
         else if (auto picture = point_from_selection(m_core.get_current_document(), sel, Entity::Type::PICTURE)) {
-            m_title->set_label("Picture");
+            m_title->set_label("Image");
             m_title->set_tooltip_text((std::string)picture->entity);
             auto ed = Gtk::make_managed<PictureEditor>(m_core.get_current_document(), picture->entity);
             m_editor = ed;
@@ -638,7 +638,7 @@ void SelectionEditor::set_selection(const std::set<SelectableRef> &sel)
             });
         }
         else if (auto text = point_from_selection(m_core.get_current_document(), sel, Entity::Type::TEXT)) {
-            m_title->set_label("Text");
+            m_title->set_label("Texte");
             m_title->set_tooltip_text((std::string)text->entity);
             auto ed = Gtk::make_managed<TextEditor>(m_core.get_current_document(), text->entity);
             m_editor = ed;
@@ -655,7 +655,7 @@ void SelectionEditor::set_selection(const std::set<SelectableRef> &sel)
     }
 
     if (!m_editor) {
-        m_editor = Gtk::make_managed<Gtk::Label>("No selection");
+        m_editor = Gtk::make_managed<Gtk::Label>("Aucune sélection");
         m_editor->set_vexpand(true);
         m_title->set_label("");
     }

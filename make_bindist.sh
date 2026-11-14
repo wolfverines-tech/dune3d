@@ -45,6 +45,7 @@ LIBS=(
 	libfreetype-6.dll\
 	libfontconfig-1.dll\
 	libpixman-1-0.dll\
+	zlib1.dll\
 	libz-1.dll\
 	libpng16-16.dll\
 	libintl-8.dll\

@@ -9,6 +9,10 @@
 #include "document/document.hpp"
 #include "document/entity/entity.hpp"
 #include "document/group/group.hpp"
+#include "util/action_label.hpp"
+#include "in_tool_action/in_tool_action.hpp"
+#include "in_tool_action/in_tool_action_catalog.hpp"
+#include "core/tool.hpp"
 
 namespace dune3d {
 
@@ -27,6 +31,13 @@ struct PaletteSection {
 const std::vector<PaletteSection> &get_palette()
 {
     static const std::vector<PaletteSection> palette = {
+            {"Fichier",
+             {
+                     {ActionID::SAVE, "d3-save", "Enregistrer"},
+                     {ActionID::EXPORT_SOLID_MODEL_STL, "d3-export_stl", "Exporter STL"},
+                     {ActionID::EXPORT_SOLID_MODEL_OBJ, "d3-export_stl", "Exporter OBJ"},
+                     {ActionID::EXPORT_SOLID_MODEL_STEP, "d3-export_stl", "Exporter STEP"},
+             }},
             {"Dessin",
              {
                      {ToolID::DRAW_CONTOUR, "d3-contour", "Contour"},
@@ -100,11 +111,6 @@ const std::vector<PaletteSection> &get_palette()
                      {ActionID::VIEW_TOP, "d3-view_top", "Dessus"},
                      {ActionID::VIEW_RIGHT, "d3-view_right", "Droite"},
                      {ActionID::TOGGLE_SOLID_MODEL, "d3-toggle_solid", "Volume"},
-             }},
-            {"Fichier",
-             {
-                     {ActionID::SAVE, "d3-save", "Enregistrer"},
-                     {ActionID::EXPORT_SOLID_MODEL_STL, "d3-export_stl", "Exporter STL"},
              }},
     };
     return palette;
@@ -283,6 +289,64 @@ void Editor::create_tool_palette()
     queue_palette_update();
 }
 
+void Editor::send_in_tool_action(InToolActionID action)
+{
+    if (!m_core.tool_is_active())
+        return;
+    ToolArgs args;
+    args.type = ToolEventType::ACTION;
+    args.action = action;
+    ToolResponse r = m_core.tool_update(args);
+    tool_process(r);
+}
+
+void Editor::create_export_menu()
+{
+    auto menu_button = Gtk::make_managed<Gtk::MenuButton>();
+    auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 6);
+    auto img = Gtk::make_managed<Gtk::Image>();
+    img->set_from_icon_name("d3-export");
+    box->append(*img);
+    box->append(*Gtk::make_managed<Gtk::Label>("Exporter"));
+    menu_button->set_child(*box);
+    menu_button->set_tooltip_text("Exporter le modèle (STL, OBJ, STEP, DXF…)");
+    auto popover = Gtk::make_managed<Gtk::Popover>();
+    auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL, 2);
+    const std::vector<std::pair<ActionID, const char *>> items = {
+            {ActionID::EXPORT_SOLID_MODEL_STL, "Volume en STL (impression 3D)"},
+            {ActionID::EXPORT_SOLID_MODEL_OBJ, "Volume en OBJ (maillage)"},
+            {ActionID::EXPORT_SOLID_MODEL_STEP, "Volume en STEP (autre logiciel de CAO)"},
+            {ActionID::EXPORT_ALL_SOLID_MODELS_STEP, "Tous les corps en STEP"},
+            {ActionID::EXPORT_DXF_CURRENT_GROUP, "Esquisse courante en DXF"},
+            {ActionID::EXPORT_PATHS_IN_CURRENT_GROUP, "Tracés du groupe courant (SVG)"},
+            {ActionID::EXPORT_PROJECTION, "Projection du volume (SVG)"},
+    };
+    for (const auto &[act, label] : items) {
+        if (!m_action_connections.contains(act))
+            continue;
+        auto bu = Gtk::make_managed<Gtk::Button>(label);
+        bu->set_has_frame(false);
+        if (auto lbl = dynamic_cast<Gtk::Label *>(bu->get_child()))
+            lbl->set_xalign(0);
+        bu->signal_clicked().connect([this, act, popover] {
+            popover->popdown();
+            if (force_end_tool())
+                trigger_action(act);
+        });
+        attach_action_sensitive(*bu, act);
+        vbox->append(*bu);
+    }
+    auto hint = Gtk::make_managed<Gtk::Label>();
+    hint->set_markup("<small>Sans volume dans le groupe courant, c'est le dernier\nvolume du corps qui est exporté.</small>");
+    hint->add_css_class("dim-label");
+    hint->set_margin_top(6);
+    hint->set_xalign(0);
+    vbox->append(*hint);
+    popover->set_child(*vbox);
+    menu_button->set_popover(*popover);
+    m_win.add_header_end_widget(*menu_button);
+}
+
 void Editor::queue_palette_update()
 {
     if (m_palette_update_conn.connected())
@@ -312,8 +376,12 @@ void Editor::update_suggestions()
 {
     if (!m_suggestion_revealer)
         return;
-    if (!m_core.has_documents() || m_core.tool_is_active()) {
+    if (!m_core.has_documents()) {
         m_suggestion_revealer->set_reveal_child(false);
+        return;
+    }
+    if (m_core.tool_is_active()) {
+        update_tool_action_buttons();
         return;
     }
 
@@ -408,6 +476,7 @@ void Editor::update_suggestions()
         }
     }
 
+    m_tool_buttons_shown = false;
     if (suggestions == m_suggestions_shown && std::string(m_suggestion_title->get_text()) == title) {
         m_suggestion_revealer->set_reveal_child(suggestions.size() > 0);
         return;
@@ -438,6 +507,61 @@ void Editor::update_suggestions()
         m_suggestion_box->append(*bu);
     }
     m_suggestion_revealer->set_reveal_child(suggestions.size() > 0);
+}
+
+void Editor::update_tool_action_buttons()
+{
+    m_suggestions_shown.clear();
+    m_tool_buttons_shown = true;
+    m_suggestion_title->set_text("Outil en cours :");
+    while (auto child = m_suggestion_box->get_first_child())
+        m_suggestion_box->remove(*child);
+
+    size_t n = 0;
+    // « Terminer » et « Annuler » d'abord, puis les autres actions au clavier
+    std::vector<const ActionLabelInfo *> infos;
+    for (const auto &it : m_in_tool_action_label_infos) {
+        if (it.action1 == InToolActionID::RMB)
+            infos.insert(infos.begin(), &it);
+        else if (it.action1 != InToolActionID::LMB && it.action1 != InToolActionID::NONE)
+            infos.push_back(&it);
+    }
+    for (auto it : infos) {
+        if (n >= 6)
+            break;
+        std::string label = it->label;
+        if (label.empty() && in_tool_action_catalog.contains(it->action1))
+            label = in_tool_action_catalog.at(it->action1).name;
+        if (label.empty())
+            continue;
+        if (label.size())
+            label[0] = std::toupper(static_cast<unsigned char>(label[0]));
+        auto bu = Gtk::make_managed<Gtk::Button>();
+        bu->add_css_class("osd");
+        bu->add_css_class("dune3d-suggestion-button");
+        auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 5);
+        if (it->action1 == InToolActionID::RMB) {
+            bu->add_css_class("dune3d-validate-button");
+            auto img = Gtk::make_managed<Gtk::Image>();
+            img->set_from_icon_name("d3-ok");
+            img->set_pixel_size(18);
+            box->append(*img);
+        }
+        else if (it->action1 == InToolActionID::CANCEL) {
+            bu->add_css_class("dune3d-cancel-button");
+            auto img = Gtk::make_managed<Gtk::Image>();
+            img->set_from_icon_name("d3-cancel");
+            img->set_pixel_size(18);
+            box->append(*img);
+        }
+        box->append(*Gtk::make_managed<Gtk::Label>(label));
+        bu->set_child(*box);
+        const auto action = it->action1;
+        bu->signal_clicked().connect([this, action] { send_in_tool_action(action); });
+        m_suggestion_box->append(*bu);
+        n++;
+    }
+    m_suggestion_revealer->set_reveal_child(n > 0);
 }
 
 } // namespace dune3d

@@ -52,6 +52,12 @@ public:
         return *m_save_button;
     }
 
+    void add_header_end_widget(Gtk::Widget &w)
+    {
+        auto linked = m_save_as_button->get_parent();
+        if (auto box = dynamic_cast<Gtk::Box *>(linked ? linked->get_parent() : nullptr))
+            box->insert_child_after(w, *linked);
+    }
     Gtk::Button &get_save_as_button()
     {
         return *m_save_as_button;

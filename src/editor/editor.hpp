@@ -28,6 +28,7 @@ class Canvas;
 class ClippingPlaneWindow;
 class SelectionFilterWindow;
 class Buffer;
+class Group;
 enum class SelectionMode;
 enum class CommitMode;
 enum class WorkspaceBrowserAddGroupMode;
@@ -171,9 +172,14 @@ private:
 
     // barre d'outils à icônes et propositions contextuelles
     void create_tool_palette();
+    const Group *get_export_group();
+    void create_export_menu();
+    void send_in_tool_action(InToolActionID action);
     void queue_palette_update();
     void update_tool_palette();
     void update_suggestions();
+    void update_tool_action_buttons();
+    bool m_tool_buttons_shown = false;
     std::string get_palette_tooltip(ActionToolID id) const;
     bool palette_item_can_begin(ActionToolID id, const std::set<SelectableRef> &sel);
     void palette_trigger(ActionToolID id);

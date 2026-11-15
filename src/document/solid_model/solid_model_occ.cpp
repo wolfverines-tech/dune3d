@@ -1,4 +1,6 @@
 #include "solid_model_occ.hpp"
+#include <fstream>
+#include <TopLoc_Location.hxx>
 #include "preferences/preferences.hpp"
 #include "canvas/color_palette.hpp"
 #include "document/group/group.hpp"
@@ -339,6 +341,41 @@ void SolidModelOcc::export_stl(const std::filesystem::path &path) const
                                    /*isInParallel*/ true);
 #endif
     writer.Write(m_shape_acc, path_to_string(path).c_str());
+}
+
+void SolidModelOcc::export_obj(const std::filesystem::path &path) const
+{
+    // maillage fin, comme pour l'export STL
+    BRepMesh_IncrementalMesh mesh(m_shape_acc, 0.001, Standard_False, 0.5, true);
+    std::ofstream ofs(path);
+    if (!ofs)
+        throw std::runtime_error("impossible d'écrire le fichier");
+    ofs << "# Exporté par Dune 3D\n";
+    ofs << "o " << path.stem().string() << "\n";
+    size_t vertex_offset = 1;
+    for (TopExp_Explorer ex(m_shape_acc, TopAbs_FACE); ex.More(); ex.Next()) {
+        const auto face = TopoDS::Face(ex.Current());
+        TopLoc_Location loc;
+        auto tri = BRep_Tool::Triangulation(face, loc);
+        if (tri.IsNull())
+            continue;
+        const auto trsf = loc.Transformation();
+        const int n_nodes = tri->NbNodes();
+        for (int i = 1; i <= n_nodes; i++) {
+            const auto p = tri->Node(i).Transformed(trsf);
+            ofs << "v " << p.X() << " " << p.Y() << " " << p.Z() << "\n";
+        }
+        const bool reversed = face.Orientation() == TopAbs_REVERSED;
+        for (int i = 1; i <= tri->NbTriangles(); i++) {
+            int a, b, c;
+            tri->Triangle(i).Get(a, b, c);
+            if (reversed)
+                std::swap(b, c);
+            ofs << "f " << (a - 1 + vertex_offset) << " " << (b - 1 + vertex_offset) << " " << (c - 1 + vertex_offset)
+                << "\n";
+        }
+        vertex_offset += n_nodes;
+    }
 }
 
 void SolidModelOcc::add_to_step_exporter(STEPExporter &exporter, const char *name) const

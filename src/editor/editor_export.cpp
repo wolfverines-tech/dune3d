@@ -117,6 +117,32 @@ static void export_all_step(const IDocumentInfo &doc_info, const std::filesystem
     exporter.write(path);
 }
 
+// Groupe à exporter : le groupe courant s'il a un volume, sinon le dernier volume de son corps
+const Group *Editor::get_export_group()
+{
+    if (!m_core.has_documents())
+        return nullptr;
+    auto &doc = m_core.get_current_document();
+    const auto &current = doc.get_group(m_core.get_current_group());
+    if (auto gr = dynamic_cast<const IGroupSolidModel *>(&current)) {
+        if (gr->get_solid_model())
+            return &current;
+    }
+    for (const auto &body_groups : doc.get_groups_by_body()) {
+        if (std::ranges::find(body_groups.groups, &current) == body_groups.groups.end())
+            continue;
+        const Group *last = nullptr;
+        for (auto group : body_groups.groups) {
+            if (auto gr = dynamic_cast<const IGroupSolidModel *>(group)) {
+                if (gr->get_solid_model())
+                    last = group;
+            }
+        }
+        return last;
+    }
+    return nullptr;
+}
+
 void Editor::on_export_solid_model(const ActionConnection &conn)
 {
     const auto action = std::get<ActionID>(conn.id);
@@ -138,6 +164,12 @@ void Editor::on_export_solid_model(const ActionConnection &conn)
         suffix = ".step";
         export_type = &ExPaths::step;
     }
+    else if (action == ActionID::EXPORT_SOLID_MODEL_OBJ) {
+        filter_any->set_name("OBJ");
+        filter_any->add_pattern("*.obj");
+        suffix = ".obj";
+        export_type = &ExPaths::stl;
+    }
     else {
         filter_any->set_name("STL");
         filter_any->add_pattern("*.stl");
@@ -147,7 +179,13 @@ void Editor::on_export_solid_model(const ActionConnection &conn)
     filters->append(filter_any);
 
     // Use all-zeroes UUID for all-groups exports
-    auto group_uuid = (action == ActionID::EXPORT_ALL_SOLID_MODELS_STEP) ? UUID() : m_core.get_current_group();
+    UUID group_uuid;
+    if (action != ActionID::EXPORT_ALL_SOLID_MODELS_STEP) {
+        auto export_group = get_export_group();
+        if (!export_group)
+            return;
+        group_uuid = export_group->m_uuid;
+    }
     if (auto initial_file = get_export_initial_filename(
                 m_win.get_app().m_user_config, m_core.get_current_idocument_info(), group_uuid, suffix, export_type)) {
         dialog->set_initial_file(initial_file);
@@ -173,6 +211,8 @@ void Editor::on_export_solid_model(const ActionConnection &conn)
                     auto model = gr->get_solid_model();
                     if (action == ActionID::EXPORT_SOLID_MODEL_STEP)
                         export_step(doc_info, group, model, path);
+                    else if (action == ActionID::EXPORT_SOLID_MODEL_OBJ)
+                        model->export_obj(path);
                     else
                         model->export_stl(path);
                 }

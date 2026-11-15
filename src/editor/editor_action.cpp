@@ -93,6 +93,7 @@ void Editor::init_actions()
 
 
     connect_action(ActionID::EXPORT_SOLID_MODEL_STL, sigc::mem_fun(*this, &Editor::on_export_solid_model));
+    connect_action(ActionID::EXPORT_SOLID_MODEL_OBJ, sigc::mem_fun(*this, &Editor::on_export_solid_model));
     connect_action(ActionID::EXPORT_SOLID_MODEL_STEP, sigc::mem_fun(*this, &Editor::on_export_solid_model));
     connect_action(ActionID::EXPORT_ALL_SOLID_MODELS_STEP, sigc::mem_fun(*this, &Editor::on_export_solid_model));
 
@@ -562,8 +563,10 @@ void Editor::update_action_sensitivity(const std::set<SelectableRef> &sel)
         m_action_sensitivity[ActionID::GO_TO_SOURCE_GROUP] = false;
     }
 
-    m_action_sensitivity[ActionID::EXPORT_SOLID_MODEL_STEP] = has_solid_model;
-    m_action_sensitivity[ActionID::EXPORT_SOLID_MODEL_STL] = has_solid_model;
+    const bool can_export_solid = get_export_group() != nullptr;
+    m_action_sensitivity[ActionID::EXPORT_SOLID_MODEL_STEP] = can_export_solid;
+    m_action_sensitivity[ActionID::EXPORT_SOLID_MODEL_STL] = can_export_solid;
+    m_action_sensitivity[ActionID::EXPORT_SOLID_MODEL_OBJ] = can_export_solid;
     m_action_sensitivity[ActionID::EXPORT_PROJECTION] = has_solid_model;
     m_action_sensitivity[ActionID::EXPORT_ALL_SOLID_MODELS_STEP] = m_core.has_documents();
 

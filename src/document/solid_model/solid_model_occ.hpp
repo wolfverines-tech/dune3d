@@ -13,6 +13,7 @@ public:
 
 
     void export_stl(const std::filesystem::path &path) const override;
+    void export_obj(const std::filesystem::path &path) const override;
     void add_to_step_exporter(STEPExporter &exporter, const char *name) const override;
 
     bool update_acc_finish(const Document &doc, const Group &group);

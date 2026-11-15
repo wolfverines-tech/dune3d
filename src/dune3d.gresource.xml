@@ -89,6 +89,9 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/d3-revolve.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/d3-rotate.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/d3-save.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/d3-export.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/d3-cancel.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/actions/d3-ok.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/d3-solid_op.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/d3-symmetric.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/d3-tangent.svg</file>

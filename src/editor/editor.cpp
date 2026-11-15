@@ -120,6 +120,7 @@ void Editor::init()
     attach_action_button(m_win.get_welcome_new_button(), ActionID::NEW_DOCUMENT);
 
     create_tool_palette();
+    create_export_menu();
 
     init_view_options();
 
@@ -1454,6 +1455,7 @@ void Editor::tool_bar_set_actions(const std::vector<ActionLabelInfo> &labels)
         }
 
         m_in_tool_action_label_infos = labels;
+        queue_palette_update();
     }
 }
 

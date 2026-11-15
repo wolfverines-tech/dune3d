@@ -141,7 +141,8 @@ Dune3DAppWindow::Dune3DAppWindow(BaseObjectType *cobject, const Glib::RefPtr<Gtk
     m_workspace_add_button->set_icon_name("list-add-symbolic");
     m_workspace_notebook->set_action_widget(m_workspace_add_button, Gtk::PackType::END);
 
-    refBuilder->get_widget<Gtk::Box>("canvas_box")->insert_child_at_start(*m_canvas);
+    m_canvas_box = refBuilder->get_widget<Gtk::Box>("canvas_box");
+    m_canvas_box->insert_child_at_start(*m_canvas);
     get_canvas().set_vexpand(true);
     get_canvas().set_hexpand(true);
     m_key_hint_label = refBuilder->get_widget<Gtk::Label>("key_hint_label");
@@ -355,6 +356,17 @@ void Dune3DAppWindow::set_welcome_box_visible(bool v)
 void Dune3DAppWindow::add_action_button(Gtk::Widget &widget)
 {
     m_action_bar_box->append(widget);
+}
+
+void Dune3DAppWindow::add_tool_palette(Gtk::Widget &widget)
+{
+    m_canvas_box->insert_child_at_start(widget);
+}
+
+void Dune3DAppWindow::add_canvas_overlay(Gtk::Widget &widget)
+{
+    if (auto overlay = dynamic_cast<Gtk::Overlay *>(m_action_bar_revealer->get_parent()))
+        overlay->add_overlay(widget);
 }
 
 void Dune3DAppWindow::set_action_bar_visible(bool v)

@@ -52,3 +52,13 @@ button.osd:disabled:backdrop {background-image: image(rgba(53, 53, 53, 0.7));}
 
 .context-menu-button {padding-left: 11px; padding-top:2px; padding-bottom:2px;}
 .context-menu-button-3d {padding-left: 4px; padding-right: 4px; padding-top:2px; padding-bottom:2px;}
+
+/* barre d'outils à icônes */
+.dune3d-palette {background-color: @theme_bg_color; border-right: 1px solid alpha(@theme_fg_color, 0.15);}
+.dune3d-palette-title {font-size: 0.8em; font-weight: bold; opacity: 0.6; margin-top: 6px; margin-bottom: 1px;}
+.dune3d-palette-button {padding: 3px; min-width: 0; min-height: 0;}
+.dune3d-palette-button:disabled image {opacity: 0.3;}
+/* propositions d'outils */
+.dune3d-suggestion-bar {padding: 4px 6px; border-radius: 8px;}
+.dune3d-suggestion-title {margin: 0 6px; opacity: 0.8;}
+.dune3d-suggestion-button {padding: 3px 8px;}

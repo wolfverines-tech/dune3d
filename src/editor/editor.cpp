@@ -119,12 +119,7 @@ void Editor::init()
     attach_action_button(m_win.get_welcome_open_button(), ActionID::OPEN_DOCUMENT);
     attach_action_button(m_win.get_welcome_new_button(), ActionID::NEW_DOCUMENT);
 
-    create_action_bar_button(ToolID::DRAW_CONTOUR);
-    create_action_bar_button(ToolID::DRAW_RECTANGLE);
-    create_action_bar_button(ToolID::DRAW_CIRCLE_2D);
-    create_action_bar_button(ToolID::DRAW_REGULAR_POLYGON);
-    create_action_bar_button(ToolID::DRAW_TEXT);
-    create_action_bar_button(ToolID::DRAW_WORKPLANE);
+    create_tool_palette();
 
     init_view_options();
 
@@ -1642,6 +1637,7 @@ void Editor::set_current_group(const UUID &uu_group)
     update_action_sensitivity();
     update_action_bar_buttons_sensitivity();
     update_selection_editor();
+    queue_palette_update();
 }
 
 void Editor::tool_bar_set_tool_tip(const std::string &s)

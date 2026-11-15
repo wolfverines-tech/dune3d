@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include "editor_interface.hpp"
 #include "core/core.hpp"
 #include <gtkmm.h>
@@ -167,6 +168,23 @@ private:
     void attach_action_sensitive(Gtk::Widget &widget, ActionToolID action);
 
     Gtk::Button &create_action_bar_button(ActionToolID action);
+
+    // barre d'outils à icônes et propositions contextuelles
+    void create_tool_palette();
+    void queue_palette_update();
+    void update_tool_palette();
+    void update_suggestions();
+    std::string get_palette_tooltip(ActionToolID id) const;
+    bool palette_item_can_begin(ActionToolID id, const std::set<SelectableRef> &sel);
+    void palette_trigger(ActionToolID id);
+    Gtk::Widget *m_palette = nullptr;
+    std::map<ActionToolID, Gtk::Button *> m_palette_buttons;
+    Gtk::Revealer *m_suggestion_revealer = nullptr;
+    Gtk::Box *m_suggestion_box = nullptr;
+    Gtk::Label *m_suggestion_title = nullptr;
+    std::vector<ActionToolID> m_suggestions_shown;
+    std::optional<ToolID> m_suggest_last_tool;
+    sigc::connection m_palette_update_conn;
     std::map<ActionToolID, Gtk::Button *> m_action_bar_buttons;
     void update_action_bar_buttons_sensitivity();
     void update_action_bar_visibility();

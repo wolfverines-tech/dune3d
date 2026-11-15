@@ -140,6 +140,8 @@ public:
 
     void add_action_button(Gtk::Widget &widget);
     void set_action_bar_visible(bool v);
+    void add_tool_palette(Gtk::Widget &widget);
+    void add_canvas_overlay(Gtk::Widget &widget);
 
     void set_view_hints_label(const std::vector<std::string> &s);
     void set_workplane_label(const std::string &s);
@@ -237,6 +239,7 @@ private:
     Gtk::Button *m_welcome_open_button = nullptr;
 
     Gtk::Box *m_action_bar_box = nullptr;
+    Gtk::Box *m_canvas_box = nullptr;
     Gtk::Revealer *m_action_bar_revealer = nullptr;
 
     Gtk::Paned *m_left_bar = nullptr;

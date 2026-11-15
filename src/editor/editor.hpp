@@ -179,6 +179,8 @@ private:
     void update_tool_palette();
     void update_suggestions();
     void update_tool_action_buttons();
+    bool update_workplane_choice();
+    void use_workplane_for_sketch(const UUID &wrkpl);
     bool m_tool_buttons_shown = false;
     std::string get_palette_tooltip(ActionToolID id) const;
     bool palette_item_can_begin(ActionToolID id, const std::set<SelectableRef> &sel);

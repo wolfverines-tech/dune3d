@@ -13,6 +13,9 @@
 #include "in_tool_action/in_tool_action.hpp"
 #include "in_tool_action/in_tool_action_catalog.hpp"
 #include "core/tool.hpp"
+#include "document/group/group_reference.hpp"
+#include "util/selection_util.hpp"
+#include "workspace_browser.hpp"
 
 namespace dune3d {
 
@@ -384,6 +387,8 @@ void Editor::update_suggestions()
         update_tool_action_buttons();
         return;
     }
+    if (update_workplane_choice())
+        return;
 
     constexpr size_t max_suggestions = 6;
     std::vector<ActionToolID> suggestions;
@@ -509,6 +514,92 @@ void Editor::update_suggestions()
     m_suggestion_revealer->set_reveal_child(suggestions.size() > 0);
 }
 
+void Editor::use_workplane_for_sketch(const UUID &wrkpl)
+{
+    if (!force_end_tool())
+        return;
+    get_canvas().set_selection({SelectableRef{SelectableRef::Type::ENTITY, wrkpl, 0}}, false);
+    trigger_action(ToolID::SET_WORKPLANE);
+    get_canvas().set_selection({}, false);
+    trigger_action(ActionID::ALIGN_VIEW_TO_CURRENT_WORKPLANE);
+    queue_palette_update();
+}
+
+// Esquisse sans plan de travail : on propose de choisir le plan (sinon tous les outils de dessin sont grisés)
+bool Editor::update_workplane_choice()
+{
+    auto &doc = m_core.get_current_document();
+    const auto group_uu = m_core.get_current_group();
+    const auto &group = doc.get_group(group_uu);
+    if (group.get_type() != GroupType::SKETCH || group.m_active_wrkpl)
+        return false;
+
+    m_suggestions_shown.clear();
+    m_tool_buttons_shown = false;
+    m_suggestion_title->set_text("Sur quel plan dessiner ?");
+    while (auto child = m_suggestion_box->get_first_child())
+        m_suggestion_box->remove(*child);
+
+    auto add_button = [this](const std::string &label, const std::string &tip, const char *icon,
+                             std::function<void()> fn, bool highlight = false) {
+        auto bu = Gtk::make_managed<Gtk::Button>();
+        bu->add_css_class("osd");
+        bu->add_css_class("dune3d-suggestion-button");
+        if (highlight)
+            bu->add_css_class("dune3d-validate-button");
+        auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 5);
+        auto img = Gtk::make_managed<Gtk::Image>();
+        img->set_from_icon_name(icon);
+        img->set_pixel_size(20);
+        box->append(*img);
+        box->append(*Gtk::make_managed<Gtk::Label>(label));
+        bu->set_child(*box);
+        bu->set_tooltip_text(tip);
+        bu->signal_clicked().connect(fn);
+        m_suggestion_box->append(*bu);
+    };
+
+    // plan de travail sélectionné
+    if (auto wrkpl = point_from_selection(doc, get_canvas().get_selection(), Entity::Type::WORKPLANE)) {
+        const auto uu = wrkpl->entity;
+        add_button("Plan sélectionné", "Dessiner sur le plan de travail sélectionné", "d3-workplane",
+                   [this, uu] { use_workplane_for_sketch(uu); }, true);
+    }
+    // plan de l'esquisse précédente
+    {
+        UUID prev;
+        for (auto gr : doc.get_groups_sorted()) {
+            if (gr->m_uuid == group_uu)
+                break;
+            if (gr->get_type() == GroupType::SKETCH && gr->m_active_wrkpl)
+                prev = gr->m_active_wrkpl;
+        }
+        if (prev)
+            add_button("Plan précédent", "Dessiner sur le même plan que l'esquisse précédente", "d3-grp_sketch",
+                       [this, prev] { use_workplane_for_sketch(prev); });
+    }
+    const auto &ref = doc.get_reference_group();
+    const auto xy = ref.get_workplane_xy_uuid(), yz = ref.get_workplane_yz_uuid(), zx = ref.get_workplane_zx_uuid();
+    add_button("XY", "Plan XY : le sol (vue de dessus)", "d3-view_top", [this, xy] { use_workplane_for_sketch(xy); });
+    add_button("YZ", "Plan YZ : plan vertical (vue de droite)", "d3-view_right",
+               [this, yz] { use_workplane_for_sketch(yz); });
+    add_button("ZX", "Plan ZX : plan vertical (vue de face)", "d3-view_front",
+               [this, zx] { use_workplane_for_sketch(zx); });
+    add_button("Nouveau plan…",
+               "Créer un plan de travail : tournez d'abord la vue face à la surface voulue, puis cliquez sur un "
+               "point (par exemple un coin de la pièce)",
+               "d3-align_wp", [this] {
+                   if (!force_end_tool())
+                       return;
+                   m_workspace_browser->show_toast(
+                           "Nouveau plan : le plan suit l'orientation de la vue.\nTournez la vue face à la surface "
+                           "voulue, puis cliquez sur un point de la pièce.");
+                   trigger_action(ToolID::DRAW_WORKPLANE);
+               });
+    m_suggestion_revealer->set_reveal_child(true);
+    return true;
+}
+
 void Editor::update_tool_action_buttons()
 {
     m_suggestions_shown.clear();
@@ -526,6 +617,7 @@ void Editor::update_tool_action_buttons()
         else if (it.action1 != InToolActionID::LMB && it.action1 != InToolActionID::NONE)
             infos.push_back(&it);
     }
+    std::set<std::string> labels_done;
     for (auto it : infos) {
         if (n >= 6)
             break;
@@ -534,20 +626,24 @@ void Editor::update_tool_action_buttons()
             label = in_tool_action_catalog.at(it->action1).name;
         if (label.empty())
             continue;
+        if (labels_done.contains(label))
+            continue;
+        labels_done.insert(label);
+        const bool rmb_cancels = it->action1 == InToolActionID::RMB && label.starts_with("annuler");
         if (label.size())
             label[0] = std::toupper(static_cast<unsigned char>(label[0]));
         auto bu = Gtk::make_managed<Gtk::Button>();
         bu->add_css_class("osd");
         bu->add_css_class("dune3d-suggestion-button");
         auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 5);
-        if (it->action1 == InToolActionID::RMB) {
+        if (it->action1 == InToolActionID::RMB && !rmb_cancels) {
             bu->add_css_class("dune3d-validate-button");
             auto img = Gtk::make_managed<Gtk::Image>();
             img->set_from_icon_name("d3-ok");
             img->set_pixel_size(18);
             box->append(*img);
         }
-        else if (it->action1 == InToolActionID::CANCEL) {
+        else if (it->action1 == InToolActionID::CANCEL || rmb_cancels) {
             bu->add_css_class("dune3d-cancel-button");
             auto img = Gtk::make_managed<Gtk::Image>();
             img->set_from_icon_name("d3-cancel");

@@ -1,3 +1,4 @@
+#include "document/entity/entity.hpp"
 #include "editor.hpp"
 #include "workspace_browser.hpp"
 #include "dune3d_appwindow.hpp"
@@ -97,6 +98,9 @@ void Editor::on_add_group(Group::Type group_type, WorkspaceBrowserAddGroupMode a
     if (group_type == Group::Type::SKETCH) {
         auto &group = doc.insert_group<GroupSketch>(UUID::random(), current_group.m_uuid);
         new_group = &group;
+        // si un plan de travail est sélectionné, la nouvelle esquisse est dessinée dessus
+        if (auto wrkpl = point_from_selection(doc, get_canvas().get_selection(), Entity::Type::WORKPLANE))
+            group.m_active_wrkpl = wrkpl->entity;
     }
     else if (group_type == Group::Type::EXTRUDE) {
         if (!current_group.m_active_wrkpl) {
